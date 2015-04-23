@@ -1,7 +1,7 @@
 #include <iostream>
 #include <boost/program_options.hpp>
 
-#include "diffusion.hpp"
+#include "grayscott.hpp"
 
 
 bool process_command_line(int argc, char** argv,
@@ -27,8 +27,8 @@ bool process_command_line(int argc, char** argv,
 			("dt", po::value<double>(&dt)->default_value(0.1,"0.1"), "Function number to use")
 			("du,u", po::value<double>(&Du)->default_value(2e-5,"2e-5"), "Diffusion coefficient for u") 
 			("dv,v", po::value<double>(&Dv)->default_value(1e-5,"1e-5"), "Diffusion coefficient for v") 	
-			("F,F", po::value<double>(&F)->default_value(0.03,"0.03"), "Model parameter 1")
-			("k,k", po::value<double>(&k)->default_value(0.062,"0.062"), "Model parameter 2")
+			(",F", po::value<double>(&F)->default_value(0.03,"0.03"), "Model parameter 1")
+			(",k", po::value<double>(&k)->default_value(0.062,"0.062"), "Model parameter 2")
 			("nSteps,s", po::value<int>(&nSteps)->default_value(1e3,"1e3"), "Number of steps");
 
 		po::store(po::command_line_parser(argc, argv).options(desc).run(), vm);
@@ -57,12 +57,6 @@ bool process_command_line(int argc, char** argv,
 //	if (vm.count("msp")) {
 //		stats.mean_squared_disp_ = true;
 //	}
-//	if (vm.count("ergodicity")) {
-//		stats.ergodicity_ = true;
-//	}
-//	if (vm.count("positions")) {
-//	    stats.positions_ = true;
-//	}
 
 	return true; // everything worked correctly
 }
@@ -86,8 +80,8 @@ int main(int argc, char* argv[])
 	    return 1;
 	    
 
-    Diffusion d(N, L, dt, Du, Dv, F, k, nSteps);
-    d.run();
+    GrayScott gs(N, L, dt, Du, Dv, F, k, nSteps);
+    gs.run();
     
     return 0;
 }

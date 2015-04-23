@@ -38,4 +38,4 @@ $(EXE) : $(OBJECTS)
 # === Cleanup ===
 .PHONY: clean
 clean:	
-	rm -f $(EXE) objects/*.o #*.dat
+	rm -f $(EXE) objects/*.o

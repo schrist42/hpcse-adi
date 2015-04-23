@@ -3,10 +3,10 @@
 #include "tridiagmatrix.hpp"
 
 
-class Diffusion
+class GrayScott
 {
 public:
-    Diffusion(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps);
+    GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps);
     
     /**
      * Run the simulation.
@@ -74,7 +74,7 @@ private:
     std::vector<double> v_;
     
     /**
-     * Diffusion coefficients.
+     * GrayScott coefficients.
      */
     const double Du_;
     const double Dv_;
