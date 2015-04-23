@@ -37,6 +37,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
@@ -69,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -88,33 +89,53 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classTriDiagMatrix.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="classTriDiagMatrix.html">TriDiagMatrix</a></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="classTriDiagMatrix.html#a4c98305439bb9fda5a50d2dea41bc1b4">TriDiagMatrix</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">double</span> l, <span class="keywordtype">double</span> m, <span class="keywordtype">double</span> u); <span class="comment">// specific for the case that the diagonals always have the same values everywhere</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">int</span> size()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> n_; }</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    std::vector&lt;double&gt; getL()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> l_; }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    std::vector&lt;double&gt; getM()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_; }</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    std::vector&lt;double&gt; getU()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> u_; }</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> n_;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    std::vector&lt;double&gt; l_; <span class="comment">// lower diagonal</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    std::vector&lt;double&gt; m_; <span class="comment">// middle diagonal</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    std::vector&lt;double&gt; u_; <span class="comment">// upper diagonal</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;};</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="classTriDiagMatrix_html"><div class="ttname"><a href="classTriDiagMatrix.html">TriDiagMatrix</a></div><div class="ttdef"><b>Definition:</b> tridiagmatrix.hpp:7</div></div>
-<div class="ttc" id="classTriDiagMatrix_html_a4c98305439bb9fda5a50d2dea41bc1b4"><div class="ttname"><a href="classTriDiagMatrix.html#a4c98305439bb9fda5a50d2dea41bc1b4">TriDiagMatrix::TriDiagMatrix</a></div><div class="ttdeci">TriDiagMatrix(int n, double l, double m, double u)</div><div class="ttdef"><b>Definition:</b> tridiagmatrix.cpp:3</div></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;ostream&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="classTriDiagMatrix.html">    8</a></span>&#160;<span class="keyword">class </span><a class="code" href="classTriDiagMatrix.html">TriDiagMatrix</a></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="classTriDiagMatrix.html#a089010de74d434cd0c9ca33f9421b898">TriDiagMatrix</a>();</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="classTriDiagMatrix.html#a089010de74d434cd0c9ca33f9421b898">TriDiagMatrix</a>(<span class="keywordtype">int</span> N, <span class="keywordtype">double</span> l, <span class="keywordtype">double</span> m, <span class="keywordtype">double</span> u); <span class="comment">// specific for the case that the diagonals always have the same values everywhere</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    </div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classTriDiagMatrix.html#aa53da203fa736ccceed43a0951b19f9b">   33</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classTriDiagMatrix.html#aa53da203fa736ccceed43a0951b19f9b">size</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> N_; }</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="group__getdiagonals.html#ga1fc79c48a0e508670d9cb446bdb89ac0">   41</a></span>&#160;    std::vector&lt;double&gt; <a class="code" href="group__getdiagonals.html#ga1fc79c48a0e508670d9cb446bdb89ac0">getL</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> l_; } </div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="group__getdiagonals.html#gaef21cbb3555650842cc666112732110e">   42</a></span>&#160;    std::vector&lt;double&gt; <a class="code" href="group__getdiagonals.html#gaef21cbb3555650842cc666112732110e">getM</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_; } </div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="group__getdiagonals.html#ga23e779914d8691b0b9012c4f45e036ca">   43</a></span>&#160;    std::vector&lt;double&gt; <a class="code" href="group__getdiagonals.html#ga23e779914d8691b0b9012c4f45e036ca">getU</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> u_; } </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">friend</span> std::ostream&amp; <a class="code" href="classTriDiagMatrix.html#aa1a851ed9f0913d84926e28860597ac3">operator&lt;&lt;</a>(std::ostream&amp; os, <span class="keyword">const</span> <a class="code" href="classTriDiagMatrix.html">TriDiagMatrix</a>&amp; matrix);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> N_;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    std::vector&lt;double&gt; l_; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    std::vector&lt;double&gt; m_; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    std::vector&lt;double&gt; u_; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="classTriDiagMatrix_html_aa53da203fa736ccceed43a0951b19f9b"><div class="ttname"><a href="classTriDiagMatrix.html#aa53da203fa736ccceed43a0951b19f9b">TriDiagMatrix::size</a></div><div class="ttdeci">int size() const </div><div class="ttdef"><b>Definition:</b> tridiagmatrix.hpp:33</div></div>
+<div class="ttc" id="group__getdiagonals_html_gaef21cbb3555650842cc666112732110e"><div class="ttname"><a href="group__getdiagonals.html#gaef21cbb3555650842cc666112732110e">TriDiagMatrix::getM</a></div><div class="ttdeci">std::vector&lt; double &gt; getM() const </div><div class="ttdef"><b>Definition:</b> tridiagmatrix.hpp:42</div></div>
+<div class="ttc" id="group__getdiagonals_html_ga23e779914d8691b0b9012c4f45e036ca"><div class="ttname"><a href="group__getdiagonals.html#ga23e779914d8691b0b9012c4f45e036ca">TriDiagMatrix::getU</a></div><div class="ttdeci">std::vector&lt; double &gt; getU() const </div><div class="ttdef"><b>Definition:</b> tridiagmatrix.hpp:43</div></div>
+<div class="ttc" id="classTriDiagMatrix_html"><div class="ttname"><a href="classTriDiagMatrix.html">TriDiagMatrix</a></div><div class="ttdef"><b>Definition:</b> tridiagmatrix.hpp:8</div></div>
+<div class="ttc" id="group__getdiagonals_html_ga1fc79c48a0e508670d9cb446bdb89ac0"><div class="ttname"><a href="group__getdiagonals.html#ga1fc79c48a0e508670d9cb446bdb89ac0">TriDiagMatrix::getL</a></div><div class="ttdeci">std::vector&lt; double &gt; getL() const </div><div class="ttdef"><b>Definition:</b> tridiagmatrix.hpp:41</div></div>
+<div class="ttc" id="classTriDiagMatrix_html_a089010de74d434cd0c9ca33f9421b898"><div class="ttname"><a href="classTriDiagMatrix.html#a089010de74d434cd0c9ca33f9421b898">TriDiagMatrix::TriDiagMatrix</a></div><div class="ttdeci">TriDiagMatrix()</div><div class="ttdef"><b>Definition:</b> tridiagmatrix.cpp:7</div></div>
+<div class="ttc" id="classTriDiagMatrix_html_aa1a851ed9f0913d84926e28860597ac3"><div class="ttname"><a href="classTriDiagMatrix.html#aa1a851ed9f0913d84926e28860597ac3">TriDiagMatrix::operator&lt;&lt;</a></div><div class="ttdeci">friend std::ostream &amp; operator&lt;&lt;(std::ostream &amp;os, const TriDiagMatrix &amp;matrix)</div><div class="ttdef"><b>Definition:</b> tridiagmatrix.cpp:28</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 22 2015 14:55:49 for ADI for Reaction-Diffusion Systems by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 15:00:39 for ADI for Reaction-Diffusion Systems by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

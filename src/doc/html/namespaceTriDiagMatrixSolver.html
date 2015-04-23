@@ -37,6 +37,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
@@ -69,7 +70,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Groups</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -89,13 +90,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aebad381d3c65f3fd81f6bb296167c82f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceTriDiagMatrixSolver.html#aebad381d3c65f3fd81f6bb296167c82f">solve</a> (const <a class="el" href="classTriDiagMatrix.html">TriDiagMatrix</a> &amp;mat, const std::vector&lt; double &gt; &amp;rhs, std::vector&lt; double &gt; &amp;result)</td></tr>
-<tr class="separator:aebad381d3c65f3fd81f6bb296167c82f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae675587a7df31415821f563eb5615d0d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceTriDiagMatrixSolver.html#ae675587a7df31415821f563eb5615d0d">solve</a> (const <a class="el" href="classTriDiagMatrix.html">TriDiagMatrix</a> &amp;mat, const std::vector&lt; double &gt; &amp;rhs, double *result, unsigned int inc)</td></tr>
+<tr class="separator:ae675587a7df31415821f563eb5615d0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Solver for a tridiagonal matrix system. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="aebad381d3c65f3fd81f6bb296167c82f"></a>
+<a class="anchor" id="ae675587a7df31415821f563eb5615d0d"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -114,8 +115,14 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; double &gt; &amp;&#160;</td>
-          <td class="paramname"><em>result</em>&#160;</td>
+          <td class="paramtype">double *&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned int&#160;</td>
+          <td class="paramname"><em>inc</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -129,7 +136,8 @@ Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramname">mat</td><td>tridiagonal matrix </td></tr>
     <tr><td class="paramname">rhs</td><td>right-hand side of the system </td></tr>
-    <tr><td class="paramname">result</td><td>data structure for the result of the solver. </td></tr>
+    <tr><td class="paramname">result</td><td>vector for the result, pointer to the first element to store </td></tr>
+    <tr><td class="paramname">inc</td><td>increment for the elements of the result </td></tr>
   </table>
   </dd>
 </dl>
@@ -139,7 +147,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 22 2015 14:55:49 for ADI for Reaction-Diffusion Systems by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2015 15:00:39 for ADI for Reaction-Diffusion Systems by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>

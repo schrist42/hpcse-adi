@@ -7,10 +7,12 @@
 
 var indexSectionsWithContent =
 {
-  0: "dst",
-  1: "dt",
+  0: "dgoprst",
+  1: "gt",
   2: "t",
-  3: "st"
+  3: "gprst",
+  4: "o",
+  5: "drt"
 };
 
 var indexSectionNames =
@@ -18,7 +20,9 @@ var indexSectionNames =
   0: "all",
   1: "classes",
   2: "namespaces",
-  3: "functions"
+  3: "functions",
+  4: "related",
+  5: "groups"
 };
 
 function convertToId(search)

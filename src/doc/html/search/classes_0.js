@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['diffusion',['Diffusion',['../classDiffusion.html',1,'']]]
+  ['grayscott',['GrayScott',['../classGrayScott.html',1,'']]]
 ];
