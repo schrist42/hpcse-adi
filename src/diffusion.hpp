@@ -13,6 +13,14 @@ public:
      */
     void run();
     
+    /**
+     * Print the fields to the specified file.
+     * 
+     * @param uName     filename of the file to print u to
+     * @param vName     filename of the file to print v to
+     */
+    void print_fields(std::string uName, std::string vName);
+    
 private:
     
     /**

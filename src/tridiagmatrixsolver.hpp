@@ -16,7 +16,7 @@ namespace TriDiagMatrixSolver
      * @param rhs       right-hand side of the system
      * @param result    data structure for the result of the solver.
      */
-    void solve(const TriDiagMatrix& mat, const std::vector<double>& rhs, std::vector<double>& result);
+    void solve(const TriDiagMatrix& mat, const std::vector<double>& rhs, std::vector<double>& result, int start, int stride);
 };
 
 

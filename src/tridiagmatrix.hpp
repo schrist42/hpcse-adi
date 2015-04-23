@@ -3,6 +3,7 @@
 
 
 #include <vector>
+#include <ostream>
 
 class TriDiagMatrix
 {
@@ -22,25 +23,28 @@ public:
      * @param m     value on the middle diagonal
      * @param u     value on the upper diagonal
      */
-    TriDiagMatrix(int n, double l, double m, double u); // specific for the case that the diagonals always have the same values everywhere
+    TriDiagMatrix(int N, double l, double m, double u); // specific for the case that the diagonals always have the same values everywhere
     
-    int size() const { return n_; }
+    int size() const { return N_; }
     std::vector<double> getL() const { return l_; }
     std::vector<double> getM() const { return m_; }
     std::vector<double> getU() const { return u_; }
+    
+    
+    friend std::ostream& operator<<(std::ostream& os, const TriDiagMatrix& matrix);
 
 private:
     /**
      * size of the matrix
      */
-    const int n_;
+    const int N_;
     
     
     /**
      * Diagonals of the matrix.
      * 
      * They all have the same length (n_), but have 0 values where they are out of the matrix.
-     * The indices determine the row
+     * The indices determine the row.
      * 
      * | m0 u0 0  |
      * | l1 m1 u1 |
@@ -52,5 +56,12 @@ private:
     std::vector<double> m_; // middle diagonal
     std::vector<double> u_; // upper diagonal
 };
+
+
+
+
+
+
+
 
 #endif
