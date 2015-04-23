@@ -55,8 +55,6 @@ void TriDiagMatrixSolver::solve(const TriDiagMatrix& mat, const std::vector<doub
     
     int n = mat.size();
     
-    //result.resize(n);
-    
     std::vector<double> l = mat.getL();
     std::vector<double> m = mat.getM();
     std::vector<double> u = mat.getU();

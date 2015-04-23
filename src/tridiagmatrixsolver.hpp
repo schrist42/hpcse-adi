@@ -1,5 +1,5 @@
-#ifndef TRI_DIAG_MATRIX_SOLVER
-#define TRI_DIAG_MATRIX_SOLVER
+#ifndef TRI_DIAG_MATRIX_SOLVER_HPP
+#define TRI_DIAG_MATRIX_SOLVER_HPP
 
 #include "tridiagmatrix.hpp"
 

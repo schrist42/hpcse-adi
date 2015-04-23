@@ -1,3 +1,7 @@
+#ifndef GRAYSCOTT_HPP
+#define GRAYSCOTT_HPP
+
+
 #include <vector>
 
 #include "tridiagmatrix.hpp"
@@ -6,6 +10,18 @@
 class GrayScott
 {
 public:
+    /**
+     * Construct a new simulation object.
+     * 
+     * @param N         number of grid cells in one dimension
+     * @param L         length of the domain in one dimension
+     * @param dt        time step
+     * @param Du        diffusion coefficient for u
+     * @param Dv        diffusion coefficient for v
+     * @param F         model parameter
+     * @param k         model parameter
+     * @param nSteps    number of steps in the simulation
+     */
     GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps);
     
     /**
@@ -13,13 +29,7 @@ public:
      */
     void run();
     
-    /**
-     * Print the fields to the specified file.
-     * 
-     * @param uName     filename of the file to print u to
-     * @param vName     filename of the file to print v to
-     */
-    void print_fields(std::string uName, std::string vName);
+
     
 private:
     
@@ -61,6 +71,10 @@ private:
      * Number of simulation steps
      */
     const int nSteps_;
+    /**
+     * Current simulation step
+     */
+    int currStep_;
     
         
         
@@ -86,9 +100,11 @@ private:
     
         
     /**
-     * Tridiagonal matrices.
+     * @defgroup matrices   Tridiagonal matrices.
      * 
      * These matrices don't depend on the time step or the diffusing quantities and are thus constant.
+     * 
+     * @{
      */
      
     TriDiagMatrix matU1_; /**< Matrix for the first step of u. */
@@ -97,11 +113,32 @@ private:
     TriDiagMatrix matV1_;
     TriDiagMatrix matV2_;
     
+    /** @} */
+    
     
     /////////////////////// HELPER FUNCTIONS ///////////////////////////////////
+    /**
+     * Initialize the fields.
+     * 
+     * Initialize the chemical quantities U and V for the simulation.
+     */
     void initialize_fields();
+    
+    /**
+     * Print the fields to the specified file.
+     * 
+     * @param uName     filename of the file to print u to
+     * @param vName     filename of the file to print v to
+     */
+    void print_fields();
+    
+    /**
+     * Directory to save the output to
+     */
+    std::string dirPath_;
 };
 
 
 
+#endif
 

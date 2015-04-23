@@ -9,8 +9,7 @@ TriDiagMatrix::TriDiagMatrix()
     , l_(0)
     , m_(0)
     , u_(0)
-{
-}
+{}
 
 
 TriDiagMatrix::TriDiagMatrix(int N, double l, double m, double u)

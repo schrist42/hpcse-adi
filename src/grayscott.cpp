@@ -2,6 +2,8 @@
 #include <fstream>
 #include <iomanip>
 #include <random>
+#include <ctime>
+#include <boost/filesystem.hpp>
 
 #include "grayscott.hpp"
 #include "tridiagmatrixsolver.hpp"
@@ -14,10 +16,10 @@
 GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps)
     : N_(N)
     , Ntot_(N*N)
-//    , L_(L)
     , dx_((double) L / (double) N)
     , dt_(dt)
     , nSteps_(nSteps)
+    , currStep_(0)
     , Du_(Du)
     , Dv_(Dv)
     , F_(F)
@@ -27,12 +29,25 @@ GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F,
     , matV1_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
     , matV2_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
 {
-//    std::cout << "dx = " << dx_ << "\n";
-//    std::cout << "matU1_ = \n" << matU1_ << "\n";
+    // create directory to save output to
+    time_t rawtime;
+	struct tm * timeinfo;
+	char buffer[80];
+	time (&rawtime);
+	timeinfo = localtime(&rawtime);
+	strftime(buffer,80,"%d-%m-%Y_%I-%M-%S",timeinfo);
+	std::string timeString(buffer);
+	
+	dirPath_ = "data/" + timeString + "/";
+	
+	boost::filesystem::path dir(dirPath_);
+	if (boost::filesystem::create_directory(dir)) {
+//		std::cout << "Success" << "\n";
+	}
     
     initialize_fields();
     
-    print_fields("uInit.dat", "vInit.dat");
+    print_fields();
     
 }
 
@@ -41,13 +56,14 @@ void GrayScott::run()
 {
     for (int i=0; i<nSteps_; ++i) {
         step();
+        
         if (i == 0) {
-            print_fields("u1.dat", "v1.dat");
+            print_fields();
         }
     }
     
     
-    print_fields("u.dat", "v.dat");
+    print_fields();
 }
 
 
@@ -57,6 +73,9 @@ void GrayScott::run()
 
 void GrayScott::step()
 {
+    // update step
+    ++currStep_;
+    
     // u and v at the half step
     std::vector<double> uHalf(Ntot_);
     std::vector<double> vHalf(Ntot_);
@@ -67,30 +86,26 @@ void GrayScott::step()
     // perform the first half-step
     // loop over all rows
     for (int j=0; j<N_; ++j) {
-//        std::cout << "row = " << j << "\n";
-        // create rhs
+        // create right-hand side of the systems
         for (int i=0; i<N_; ++i) {
             uRhs[j] = U(i,j) + Du_*dt_/(2.*dx_*dx_) * ((j+1<N_ ? U(i,j+1) : 0) - 2.*U(i,j) + (j-1>=0 ? U(i,j-1) : 0)) + dt_/2. * (-U(i,j)*V(i,j)*V(i,j) + F_*(1-U(i,j)));
             vRhs[j] = V(i,j) + Dv_*dt_/(2.*dx_*dx_) * ((j+1<N_ ? V(i,j+1) : 0) - 2.*V(i,j) + (j-1>=0 ? V(i,j-1) : 0)) + dt_/2. * (U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j));
-            
-//            std::cout << "Du_*dt_/(2.*dx_*dx_) = " << Du_*dt_/(2.*dx_*dx_) << ", uRhs[j] = " << uRhs[j] << "\n";
-//            std::cout << "U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j) = " << U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j) << ", vRhs[j] = " << vRhs[j] << "\n";
         }
         
         TriDiagMatrixSolver::solve(matU1_, uRhs, &uHalf[j], 1);
         TriDiagMatrixSolver::solve(matV1_, vRhs, &vHalf[j], 1);
-        
     }
     
     
-    // MPI TRANSPOSE MATRIX (ALL-TO-ALL)
+    
+    // MPI TRANSPOSE MATRIX (ALL-TO-ALL) ?
     
     
     
     // perform the second half-step
     // loop over all columns
     for (int i=0; i<N_; ++i) {
-        // create rhs
+        // create right-hand side of the systems
         for (int j=0; j<N_; ++j) {
             uRhs[i] = UHALF(i,j) + Du_*dt_/(2.*dx_*dx_) * ((i+1<N_ ? UHALF(i+1,j) : 0) - 2.*UHALF(i,j) + (i-1>=0 ? UHALF(i-1,j) : 0)) + dt_/2. * (-UHALF(i,j)*VHALF(i,j)*VHALF(i,j) + F_*(1-UHALF(i,j)));
             vRhs[i] = VHALF(i,j) + Dv_*dt_/(2.*dx_*dx_) * ((i+1<N_ ? VHALF(i+1,j) : 0) - 2.*VHALF(i,j) + (i-1>=0 ? VHALF(i-1,j) : 0)) + dt_/2. * (UHALF(i,j)*VHALF(i,j)*VHALF(i,j) - (F_+k_)*VHALF(i,j));
@@ -155,13 +170,17 @@ void GrayScott::initialize_fields()
 }
 
 
-void GrayScott::print_fields(std::string uName, std::string vName)
-{
-    std::string fname("data/" + uName);
+void GrayScott::print_fields()
+{	
+    char stepString[10];
+    std::sprintf(stepString, "%05d_", currStep_);
+    
+    std::string fname(dirPath_ + stepString + "u.dat");
     std::ofstream uOut(fname);
     
-    fname = "data/" + vName;
+    fname = dirPath_ + stepString + "v.dat";
     std::ofstream vOut(fname);
+    
     
     int w = 12;
     
