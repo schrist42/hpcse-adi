@@ -19,7 +19,7 @@ INCLUDE     =
 OPT         = -O3 -march=native -g
 CXXSTD      = -std=c++11
 CXXFLAGS    = $(DEBUG) $(INCLUDE) $(CXXSTD) $(OPT) $(WARNINGS) $(DEFINES)
-LDFLAGS     = -lboost_program_options -lboost_filesystem -lboost_system
+LDFLAGS     = -lboost_program_options -lboost_filesystem -lboost_system -lGL -lGLU -lglut
 
 # === Compilation ===
 .PHONY: all

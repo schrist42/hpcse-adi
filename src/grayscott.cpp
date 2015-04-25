@@ -9,8 +9,12 @@
 #include "tridiagmatrixsolver.hpp"
 
 
-#define U(x,y) u_[(x) + (y)*N_]
-#define V(x,y) v_[(x) + (y)*N_]
+//#define U(x,y) u_[(x) + (y)*N_]
+//#define V(x,y) v_[(x) + (y)*N_]
+
+// periodic boundary conditions
+#define U(x,y) u_[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
+#define V(x,y) v_[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
 
 
 GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps)
@@ -35,7 +39,7 @@ GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F,
 	char buffer[80];
 	time (&rawtime);
 	timeinfo = localtime(&rawtime);
-	strftime(buffer,80,"%d-%m-%Y_%I-%M-%S",timeinfo);
+	strftime(buffer,80,"%d-%m-%Y_%H-%M-%S",timeinfo);
 	std::string timeString(buffer);
 	
 	dirPath_ = "data/" + timeString + "/";
@@ -68,11 +72,16 @@ void GrayScott::run()
 
 
 
-#define UHALF(x,y) uHalf[(x) + (y)*N_]
-#define VHALF(x,y) vHalf[(x) + (y)*N_]
+//#define UHALF(x,y) uHalf[(x) + (y)*N_]
+//#define VHALF(x,y) vHalf[(x) + (y)*N_]
+
+// periodic boundary conditions
+#define UHALF(x,y) uHalf[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
+#define VHALF(x,y) vHalf[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
 
 void GrayScott::step()
 {
+//    std::cout << "step\n";
     // update step
     ++currStep_;
     

@@ -29,14 +29,25 @@ public:
      */
     void run();
     
+        
+    /**
+     * Perform one simulation step.
+     * 
+     * Public because of the visualization
+     */
+    void step();
+    
+    
+    int size() const { return N_; }
+    
+    std::vector<double> getU() const { return u_; }
+    int getCurrStep() const { return currStep_; }
+    double getDt() const { return dt_; }
+    
 
     
 private:
-    
-    /**
-     * Perform one simulation step.
-     */
-    void step();
+
 
 
 
