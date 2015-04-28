@@ -25,11 +25,15 @@ public:
     GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps);
     
     /**
+     * Destructor
+     */
+    ~GrayScott();
+    
+    /**
      * Run the simulation.
      */
     void run();
     
-        
     /**
      * Perform one simulation step.
      * 
@@ -38,11 +42,41 @@ public:
     void step();
     
     
+    
+    /**
+     * Return the size of the system in one dimension.
+     * 
+     * @return  number of grid cells in one dimension.
+     */
     int size() const { return N_; }
     
+    /**
+     * Get the field U of the simulation.
+     * 
+     * @return  the field U
+     */
     std::vector<double> getU() const { return u_; }
+    
+    /**
+     * Get the current step in the simulation.
+     * 
+     * @return  the current step.
+     */
     int getCurrStep() const { return currStep_; }
+    
+    /**
+     * Get the time step for the simulation.
+     * 
+     * @return  the timestep
+     */
     double getDt() const { return dt_; }
+    
+    /**
+     * Get the time that has passed.
+     * 
+     * @return  time
+     */
+    double getTime() const { return (double)currStep_*dt_; }
     
 
     
@@ -68,7 +102,7 @@ private:
      * 
      * Length of the computation domain in each direction. The grid is square.
      */
-//    const double L_;
+    const double L_;
     
     const double dx_;
     
@@ -141,7 +175,7 @@ private:
      * @param uName     filename of the file to print u to
      * @param vName     filename of the file to print v to
      */
-    void print_fields();
+    void save_fields();
     
     /**
      * Directory to save the output to

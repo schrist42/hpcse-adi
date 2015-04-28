@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['return_20the_20diagonals_2e',['Return the diagonals.',['../group__getdiagonals.html',1,'']]],
-  ['run',['run',['../classGrayScott.html#adf11a6024de7c77b1e1aae00fa78d174',1,'GrayScott']]]
+  ['size',['size',['../classTriDiagMatrix.html#aa53da203fa736ccceed43a0951b19f9b',1,'TriDiagMatrix']]],
+  ['solve',['solve',['../namespaceTriDiagMatrixSolver.html#ae675587a7df31415821f563eb5615d0d',1,'TriDiagMatrixSolver']]],
+  ['step',['step',['../classGrayScott.html#a60239e744d4cf6c74fc2af1c45abd8ce',1,'GrayScott']]]
 ];

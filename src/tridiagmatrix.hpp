@@ -73,9 +73,9 @@ private:
      * 
      * @{
      */
-    std::vector<double> l_; /**< Lower diagonal */
-    std::vector<double> m_; /**< Middle diagonal */
-    std::vector<double> u_; /**< Upper diagonal */
+    const std::vector<double> l_; /**< Lower diagonal */
+    const std::vector<double> m_; /**< Middle diagonal */
+    const std::vector<double> u_; /**< Upper diagonal */
     /** @} */
 };
 

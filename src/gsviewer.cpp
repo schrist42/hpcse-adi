@@ -1,4 +1,5 @@
-#include <GL/glut.h>
+//#include <GL/glut.h>
+#include <GL/freeglut.h>
 #include <iostream>
 #include <algorithm>
 
@@ -8,12 +9,15 @@ int width = 640;
 int height = 640;
 
 GrayScott *simulation;
-//int step;
+
+bool pauseFlag = true;
 
 
 // Helper function declaration
 void writeStep();
 void drawText(std::string text, double x, double y);
+void updateTitle();
+
 double red( double gray );
 double green( double gray );
 double blue( double gray );
@@ -30,22 +34,26 @@ GSViewer::GSViewer(int argc, char* argv[])
 void GSViewer::visualize(GrayScott *sim)
 {
     simulation = sim;
-//    step = 0;
     
     glutInitWindowSize(width, height);
     glutInitWindowPosition(10,10);
     
-    glutCreateWindow("Gray-Scott Reaction Diffusion"); 
+    glutCreateWindow("Gray-Scott Reaction Diffusion - PAUSED, press space"); // paused on start
     
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
     glutIdleFunc(display);
     
+    // register GLUT callbacks (e.g. functions to be executed when looping)
+	glutKeyboardFunc(keyDown);
+	glutKeyboardUpFunc(keyUp);
+    
     glClearColor(0,0,0,1);
     
-    glutMainLoop();
+    // Note: glutSetOption is only available with freeglut
+    glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_CONTINUE_EXECUTION);
     
-    delete simulation;
+    glutMainLoop();
 }
 
 
@@ -74,8 +82,9 @@ void GSViewer::display()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // perform simulation step
-    simulation->step();
-//    ++step;
+    if (!pauseFlag) {
+        simulation->step();
+    }
     
     int N = simulation->size(); // number of cells in each direction
     
@@ -83,11 +92,9 @@ void GSViewer::display()
     
     double min = *std::min_element(field.begin(), field.end());
     double max = *std::max_element(field.begin(), field.end());
-//    std::cout << "min = " << *std::min_element(field.begin(), field.end());
-//    std::cout << ", max = " << *std::max_element(field.begin(), field.end()) << "\n";
     
     glPushMatrix();
-    glScalef(2./(double)width,2./(double)height,1);
+    glScalef(2./(double)width, 2./(double)height, 1);
     glTranslatef(-width/2.,-height/2.,0);
     
     
@@ -106,35 +113,31 @@ void GSViewer::display()
 //    glEnd();
     
     
-    // display squares
-    int sw = width/N, sh = height/N; // square width and height respectively
-//    std::cout << "sw = " << sw << ", sh = " << sh << "\n";
-    bool col = true;
+    // draw squares
+    
+    // square width and height respectively
+    int sw = width/N;
+    int sh = height/N;
+
+    // loop over all cells
     for (int i=0; i<N; ++i) {
         for (int j=0; j<N; ++j) {
+            
             double color = F(i,j);
             
-            
             // map color from [min,max] to [-1,1]
-//            To map
-//[A, B] --> [a, b]
-
-//use this formula
-//(val - A)*(b-a)/(B-A) + a
+            //
+            // To map [A, B] --> [a, b]
+            // use this formula: (val - A)*(b-a)/(B-A) + a
+            
             color = (color-min) * (1.-(-1.)) / (max-min) + (-1.);
             
 //            std::cout << color << "\n";
 //            std::cout << red(color) << " " <<  green(color) << " " << blue(color) << "\n";
             
             glColor3f(red(color), green(color), blue(color));
-//            if (col)
-//                glColor3f(1, 1, 1);
-//            else
-//                glColor3f(0, 0, 0);
-//            col = !col;
             
             glRecti(i*sw, j*sh, (i+1)*sw, (j+1)*sh);
-//            glRecti((double)i/(double)N, (double)j/(double)N, (double)(i+1.)/(double)N, (double)(j+1.)/(double)N);
         }
     }
 
@@ -147,6 +150,48 @@ void GSViewer::display()
 }
 
 
+// Keyboard events
+void GSViewer::keyDown(unsigned char key, int x, int y)
+{
+	glutIgnoreKeyRepeat(1);
+	switch(key) 
+	{
+		// quit
+		case 'q':
+			//exit(0);
+			glutLeaveMainLoop();
+			break;
+		
+		case 27: // esc key
+		    //exit(0);
+		    glutLeaveMainLoop();
+		    break;
+
+		// pause
+		case ' ': 
+			pauseFlag = !pauseFlag;
+			updateTitle();
+			break;
+	}
+
+	glutPostRedisplay();
+}
+
+
+void GSViewer::keyUp(unsigned char key, int x, int y)
+{
+	glutIgnoreKeyRepeat(1);
+	switch(key)
+	{
+	}
+
+	glutPostRedisplay();
+}
+
+
+
+
+
 
 void writeStep()
 {
@@ -154,7 +199,7 @@ void writeStep()
 	double y = (double)height-20.;
 
     char text[50];
-    sprintf(text, "Time = %.2fs", (double)simulation->getCurrStep()*simulation->getDt());
+    sprintf(text, "Time = %.2fs", simulation->getTime());
     drawText(text,x,y);
 }
 
@@ -184,6 +229,15 @@ void drawText(std::string text, double x, double y)
 
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
+}
+
+
+void updateTitle()
+{
+	std::string title = "Gray-Scott Reaction Diffusion";
+	if (pauseFlag)
+		title += " - PAUSED, press space";
+	glutSetWindowTitle(title.c_str());
 }
 
 

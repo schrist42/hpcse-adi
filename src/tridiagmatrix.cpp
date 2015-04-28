@@ -14,13 +14,13 @@ TriDiagMatrix::TriDiagMatrix()
 
 TriDiagMatrix::TriDiagMatrix(int N, double l, double m, double u)
     : N_(N)
-    , l_(N,l)
+    , l_(N,l) // size of the vector is N, with element l everywhere
     , m_(N,m)
     , u_(N,u)
 {
     // set values that are outside of the matrix to 0
-    l_[0] = 0;
-    u_[N-1] = 0;
+//    l_[0] = 0;
+//    u_[N-1] = 0;
 }
 
 

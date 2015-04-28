@@ -7,10 +7,10 @@
 
 var indexSectionsWithContent =
 {
-  0: "dgoprst",
+  0: "dgorstv",
   1: "gt",
   2: "t",
-  3: "gprst",
+  3: "grstv",
   4: "o",
   5: "drt"
 };

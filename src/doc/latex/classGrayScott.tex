@@ -8,7 +8,19 @@
 \item 
 void \hyperlink{classGrayScott_adf11a6024de7c77b1e1aae00fa78d174}{run} ()
 \item 
-void \hyperlink{classGrayScott_a7a18bb330ecb61356d1693d408124a7d}{print\-\_\-fields} (std\-::string u\-Name, std\-::string v\-Name)
+void \hyperlink{classGrayScott_a60239e744d4cf6c74fc2af1c45abd8ce}{step} ()
+\item 
+\hypertarget{classGrayScott_a1925a03a32d117d3163e633c57703bcf}{int {\bfseries size} () const }\label{classGrayScott_a1925a03a32d117d3163e633c57703bcf}
+
+\item 
+\hypertarget{classGrayScott_a0704c788a8cdf28a49c0d21ef4ecfda1}{std\-::vector$<$ double $>$ {\bfseries get\-U} () const }\label{classGrayScott_a0704c788a8cdf28a49c0d21ef4ecfda1}
+
+\item 
+\hypertarget{classGrayScott_adbff28843549d47f8b3cda66f3915564}{int {\bfseries get\-Curr\-Step} () const }\label{classGrayScott_adbff28843549d47f8b3cda66f3915564}
+
+\item 
+\hypertarget{classGrayScott_a000f333075534d13d605cb062089aadb}{double {\bfseries get\-Dt} () const }\label{classGrayScott_a000f333075534d13d605cb062089aadb}
+
 \end{DoxyCompactItemize}
 
 
@@ -51,23 +63,6 @@ Construct a new simulation object.
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classGrayScott_a7a18bb330ecb61356d1693d408124a7d}{\index{Gray\-Scott@{Gray\-Scott}!print\-\_\-fields@{print\-\_\-fields}}
-\index{print\-\_\-fields@{print\-\_\-fields}!GrayScott@{Gray\-Scott}}
-\subsubsection[{print\-\_\-fields}]{\setlength{\rightskip}{0pt plus 5cm}void Gray\-Scott\-::print\-\_\-fields (
-\begin{DoxyParamCaption}
-\item[{std\-::string}]{u\-Name, }
-\item[{std\-::string}]{v\-Name}
-\end{DoxyParamCaption}
-)}}\label{classGrayScott_a7a18bb330ecb61356d1693d408124a7d}
-Print the fields to the specified file.
-
-
-\begin{DoxyParams}{Parameters}
-{\em u\-Name} & filename of the file to print u to \\
-\hline
-{\em v\-Name} & filename of the file to print v to \\
-\hline
-\end{DoxyParams}
 \hypertarget{classGrayScott_adf11a6024de7c77b1e1aae00fa78d174}{\index{Gray\-Scott@{Gray\-Scott}!run@{run}}
 \index{run@{run}!GrayScott@{Gray\-Scott}}
 \subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void Gray\-Scott\-::run (
@@ -75,7 +70,16 @@ Print the fields to the specified file.
 {}
 \end{DoxyParamCaption}
 )}}\label{classGrayScott_adf11a6024de7c77b1e1aae00fa78d174}
-Run the simulation. 
+Run the simulation. \hypertarget{classGrayScott_a60239e744d4cf6c74fc2af1c45abd8ce}{\index{Gray\-Scott@{Gray\-Scott}!step@{step}}
+\index{step@{step}!GrayScott@{Gray\-Scott}}
+\subsubsection[{step}]{\setlength{\rightskip}{0pt plus 5cm}void Gray\-Scott\-::step (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGrayScott_a60239e744d4cf6c74fc2af1c45abd8ce}
+Perform one simulation step.
+
+Public because of the visualization 
 
 The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
 \item 

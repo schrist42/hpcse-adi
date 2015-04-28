@@ -21,12 +21,13 @@ namespace TriDiagMatrixSolver
     /**
      * Solve a tridiagonal matrix system.
      * 
+     * @param n         number of elements in the result
      * @param mat       tridiagonal matrix
      * @param rhs       right-hand side of the system
-     * @param result    vector for the result, pointer to the first element to store
+     * @param result    vector for the result, pointer to the first element
      * @param inc       increment for the elements of the result
      */
-    void solve(const TriDiagMatrix& mat, const std::vector<double>& rhs, double *result, unsigned int inc);
+    void solve(int n, const TriDiagMatrix& mat, const std::vector<double>& rhs, double *result, unsigned int inc);
 };
 
 

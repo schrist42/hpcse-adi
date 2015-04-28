@@ -27,6 +27,9 @@ all: $(EXE)
 
 $(OBJECTS) : | objects
 
+objects :
+	mkdir objects
+
 
 # Compile c++
 objects/%.o : %.cpp

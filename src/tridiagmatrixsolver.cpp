@@ -48,13 +48,15 @@
  * inc:     increment in the result matrix
  */
 
-void TriDiagMatrixSolver::solve(const TriDiagMatrix& mat, const std::vector<double>& rhs, double *result, unsigned int inc)
+void TriDiagMatrixSolver::solve(int n, const TriDiagMatrix& mat, const std::vector<double>& rhs, double *result, unsigned int inc)
 {
 //    std::cout << "mat.size = " << mat.size() << ", rhs.size = " << rhs.size() << "\n";
-    assert(mat.size() == rhs.size());
+
+    // will ignore some values, if the matrix and rhs are larger than n
+    assert(mat.size() >= n);
+    assert(rhs.size() >= n);
     
-    int n = mat.size();
-    
+
     std::vector<double> l = mat.getL();
     std::vector<double> m = mat.getM();
     std::vector<double> u = mat.getU();
@@ -66,12 +68,12 @@ void TriDiagMatrixSolver::solve(const TriDiagMatrix& mat, const std::vector<doub
     std::vector<double> r(rhs);
     r[0] /= m[0];
     
-    double temp;
+    double tmp;
 
     for (int i=1; i<n; ++i) {
-        temp = m[i] - l[i]*u[i-1];
-        u[i] /= temp;
-        r[i] = (r[i] - l[i]*r[i-1]) / temp;
+        tmp = m[i] - l[i]*u[i-1];
+        u[i] /= tmp;
+        r[i] = (r[i] - l[i]*r[i-1]) / tmp;
     }
 
     *(result + n*inc) = (r[n] - l[n]*r[n-1]) / (m[n] - l[n]*u[n-1]);
