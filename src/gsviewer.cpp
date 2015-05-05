@@ -5,8 +5,11 @@
 
 #include "gsviewer.hpp"
 
-int width = 640;
-int height = 640;
+
+#define TIMERSECS 1000
+
+int width = 1000;
+int height = 1000;
 
 GrayScott *simulation;
 
@@ -41,8 +44,9 @@ void GSViewer::visualize(GrayScott *sim)
     glutCreateWindow("Gray-Scott Reaction Diffusion - PAUSED, press space"); // paused on start
     
     glutReshapeFunc(resize);
-    glutDisplayFunc(display);
-    glutIdleFunc(display);
+//    glutDisplayFunc(display);
+//    glutIdleFunc(display);
+    glutTimerFunc(TIMERSECS, display, 0);
     
     // register GLUT callbacks (e.g. functions to be executed when looping)
 	glutKeyboardFunc(keyDown);
@@ -77,8 +81,11 @@ void GSViewer::resize(int w, int h)
 
 #define F(x,y) field[(x) + (y)*N]
 
-void GSViewer::display()
+void GSViewer::display(int value)
 {
+    glutTimerFunc(10, &display, 0);
+    
+    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // perform simulation step

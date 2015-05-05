@@ -23,7 +23,7 @@ GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F,
     , Ntot_(N*N)
     , L_(L)
     , dx_((double) L / (double) N)
-    , dt_(dx_*dx_ / (2.*std::max(Du,Dv))-0.001)
+    , dt_(dx_*dx_ / (2.*std::max(Du,Dv)))
     , nSteps_(nSteps)
     , currStep_(0)
     , Du_(Du)
@@ -35,6 +35,7 @@ GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F,
     , matV1_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
     , matV2_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
 {
+    std::cout << "dt = " << dt_ << "\n";
     // create directory to save output to
     time_t rawtime;
 	struct tm * timeinfo;
@@ -105,14 +106,17 @@ void GrayScott::step()
     for (int j=0; j<N_; ++j) {
         // create right-hand side of the systems
         for (int i=0; i<N_; ++i) {
-//            uRhs[j] = U(i,j) + Du_*dt_/(2.*dx_*dx_) * ((j+1<N_ ? U(i,j+1) : 0) - 2.*U(i,j) + (j-1>=0 ? U(i,j-1) : 0)) + dt_/2. * (-U(i,j)*V(i,j)*V(i,j) + F_*(1-U(i,j)));
-//            vRhs[j] = V(i,j) + Dv_*dt_/(2.*dx_*dx_) * ((j+1<N_ ? V(i,j+1) : 0) - 2.*V(i,j) + (j-1>=0 ? V(i,j-1) : 0)) + dt_/2. * (U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j));
-            uRhs[j] = U(i,j) + Du_*dt_/(2.*dx_*dx_) * (U(i,j+1) - 2.*U(i,j) + U(i,j-1)) + dt_/2. * (-U(i,j)*V(i,j)*V(i,j) + F_*(1-U(i,j)));
-            vRhs[j] = V(i,j) + Dv_*dt_/(2.*dx_*dx_) * (V(i,j+1) - 2.*V(i,j) + V(i,j-1)) + dt_/2. * (U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j));
+            uRhs[i] = U(i,j);// + Du_*dt_/(2.*dx_*dx_) * (U(i,j+1) - 2.*U(i,j) + U(i,j-1)) + dt_/2. * (-U(i,j)*V(i,j)*V(i,j) + F_*(1-U(i,j)));
+            vRhs[i] = V(i,j);// + Dv_*dt_/(2.*dx_*dx_) * (V(i,j+1) - 2.*V(i,j) + V(i,j-1)) + dt_/2. * (U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j));
         }
         
         PeriodicTriDiagMatrixSolver::solve(N_, matU1_, uRhs, &uHalf[j], 1);
         PeriodicTriDiagMatrixSolver::solve(N_, matV1_, vRhs, &vHalf[j], 1);
+        
+        for (int i=0; i<N_; ++i) {
+            UHALF(i,j) += Du_*dt_/(2.*dx_*dx_) * (U(i,j+1) - 2.*U(i,j) + U(i,j-1)) + dt_/2. * (-U(i,j)*V(i,j)*V(i,j) + F_*(1-U(i,j)));
+            VHALF(i,j) += Dv_*dt_/(2.*dx_*dx_) * (V(i,j+1) - 2.*V(i,j) + V(i,j-1)) + dt_/2. * (U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j));
+        }
     }
     
     
@@ -127,15 +131,20 @@ void GrayScott::step()
     for (int i=0; i<N_; ++i) {
         // create right-hand side of the systems
         for (int j=0; j<N_; ++j) {
-            uRhs[i] = UHALF(i,j) + Du_*dt_/(2.*dx_*dx_) * (UHALF(i+1,j) - 2.*UHALF(i,j) + UHALF(i-1,j)) + dt_/2. * (-UHALF(i,j)*VHALF(i,j)*VHALF(i,j) + F_*(1-UHALF(i,j)));
-            vRhs[i] = VHALF(i,j) + Dv_*dt_/(2.*dx_*dx_) * (VHALF(i+1,j) - 2.*VHALF(i,j) + VHALF(i-1,j)) + dt_/2. * (UHALF(i,j)*VHALF(i,j)*VHALF(i,j) - (F_+k_)*VHALF(i,j));
+            uRhs[j] = UHALF(i,j);// + Du_*dt_/(2.*dx_*dx_) * (UHALF(i+1,j) - 2.*UHALF(i,j) + UHALF(i-1,j)) + dt_/2. * (-UHALF(i,j)*VHALF(i,j)*VHALF(i,j) + F_*(1-UHALF(i,j)));
+            vRhs[j] = VHALF(i,j);// + Dv_*dt_/(2.*dx_*dx_) * (VHALF(i+1,j) - 2.*VHALF(i,j) + VHALF(i-1,j)) + dt_/2. * (UHALF(i,j)*VHALF(i,j)*VHALF(i,j) - (F_+k_)*VHALF(i,j));
         }
         
         PeriodicTriDiagMatrixSolver::solve(N_, matU2_, uRhs, &u_[i], N_);
         PeriodicTriDiagMatrixSolver::solve(N_, matV2_, vRhs, &v_[i], N_);
+        
+        for (int j=0; j<N_; ++j) {
+            U(i,j) += Du_*dt_/(2.*dx_*dx_) * (UHALF(i+1,j) - 2.*UHALF(i,j) + UHALF(i-1,j)) + dt_/2. * (-UHALF(i,j)*VHALF(i,j)*VHALF(i,j) + F_*(1-UHALF(i,j)));
+            V(i,j) += Dv_*dt_/(2.*dx_*dx_) * (VHALF(i+1,j) - 2.*VHALF(i,j) + VHALF(i-1,j)) + dt_/2. * (UHALF(i,j)*VHALF(i,j)*VHALF(i,j) - (F_+k_)*VHALF(i,j));
+        }
     }
     
-    std::cout << "step done\n";
+//    std::cout << "step done\n";
 }
 
 

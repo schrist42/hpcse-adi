@@ -54,7 +54,7 @@ private:
      * It gets called by glutDisplayFunc in the glutMainLoop.
      * The function has to be static for glut.
      */
-    static void display();
+    static void display(int value);
     
     /**
      * glutKeyboardFunc
