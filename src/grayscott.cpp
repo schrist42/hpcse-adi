@@ -8,6 +8,7 @@
 #include "grayscott.hpp"
 #include "tridiagmatrixsolver.hpp"
 #include "periodictridiagmatrixsolver.hpp"
+#include "lodepng.h" // NOT loadpng
 
 
 #define U(x,y) u_[(x) + (y)*N_]
@@ -18,7 +19,7 @@
 //#define V(x,y) v_[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
 
 
-GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps)
+GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname)
     : N_(N)
     , Ntot_(N*N)
 //    , L_(L)
@@ -34,6 +35,7 @@ GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F,
     , matU2_(N, -Du*dt/(2.*dx_*dx_), 1.+Du*dt/(dx_*dx_), -Du*dt/(2.*dx_*dx_)) // equal to matU1_, since we have a square grid (dx==dy)
     , matV1_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
     , matV2_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
+    , pngName_(pngname)
 {
     // create directory to save output to
     time_t rawtime;
@@ -70,12 +72,13 @@ void GrayScott::run()
         step();
         
         if (i == 0) {
-            save_fields();
+//            save_fields();
         }
     }
     
     
-    save_fields();
+//    save_fields();
+    save_png();
 }
 
 
@@ -265,6 +268,62 @@ void GrayScott::save_fields()
     uOut.close();
     vOut.close();
 }
+
+
+
+
+namespace png {
+double red( double gray ) {
+    if (gray < 0.6)
+        return 637.5 * std::max(gray-0.2, 0.);
+    else
+        return 255;
+}
+double green( double gray ) {
+    if (gray < 0.6)
+        return 637.5 * std::max(gray-0.2, 0.);
+    else
+        return -637.5 * (gray-1.);
+}
+double blue( double gray ) {
+    if (gray < 0.6)
+        return -637.5 * (gray-0.6);
+    else
+        return 0.;
+}
+}
+
+
+void GrayScott::save_png()
+{
+    char parameters[50];
+    std::sprintf(parameters, "_k_%1.03f_F_%1.03f_step_%06d", k_, F_, currStep_);
+    std::string fname = "images/" + pngName_ + parameters + ".png";
+    
+    char filename[1024];
+    strncpy(filename, fname.c_str(), sizeof(filename));
+    filename[sizeof(filename) - 1] = 0;
+    
+    // 4 values per pixel: RGBA
+    std::vector<unsigned char> data(4*N_*N_);
+    
+    int idx = 0;
+    for (int i=0; i<N_; ++i) {
+        for (int j=0; j<N_; ++j) {
+            double color = U(i,j);
+            
+            data[idx] = png::red(color); ++idx;
+            data[idx] = png::green(color); ++idx;
+            data[idx] = png::blue(color); ++idx;
+            data[idx] = 0xFFu; ++idx;
+        }
+    }
+    
+    lodepng::encode(filename, data, N_, N_);
+}
+
+
+
 
 
 

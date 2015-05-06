@@ -17,7 +17,8 @@ bool process_command_line(int argc, char** argv,
                           double& F,
                           double& k,
                           int&    nSteps,
-                          bool&   visualize)
+                          bool&   visualize,
+                          std::string& pngName)
 {
 	// Define and parse the program options
 	namespace po = boost::program_options; 
@@ -34,8 +35,9 @@ bool process_command_line(int argc, char** argv,
 			("dv,v",     po::value<double>(&Dv)->default_value(1e-5,"1e-5"),  "Diffusion coefficient for v"          ) 	
 			(",F",       po::value<double>(&F)->default_value(0.03,"0.03"),   "Model parameter 1"                    )
 			(",k",       po::value<double>(&k)->default_value(0.062,"0.062"), "Model parameter 2"                    )
-			("nSteps,s", po::value<int>(&nSteps)->default_value(1e3,"1e3"),   "Number of steps"                      )
-			("visualize",                                                     "Visualize the simulation"             );
+			("nsteps,s", po::value<int>(&nSteps)->default_value(1e3,"1e3"),   "Number of steps"                      )
+			("visualize",                                                     "Visualize the simulation"             )
+			("pngname",  po::value<std::string>(&pngName)->default_value("test"), "Name for output png"              );
 
 		po::store(po::command_line_parser(argc, argv).options(desc).run(), vm);
 
@@ -80,13 +82,14 @@ int main(int argc, char* argv[])
     double k;
     int    nSteps;
 	bool   visualize = false;
+	std::string pngname;
 	
-	bool result = process_command_line(argc, argv, N, L, dt, Du, Dv, F, k, nSteps, visualize);
+	bool result = process_command_line(argc, argv, N, L, dt, Du, Dv, F, k, nSteps, visualize, pngname);
 	if (!result)
 	    return 1;
 	    
 
-    GrayScott* simulation = new GrayScott(N, L, dt, Du, Dv, F, k, nSteps);
+    GrayScott* simulation = new GrayScott(N, L, dt, Du, Dv, F, k, nSteps, pngname);
     
     if (visualize) {
         GSViewer viewer(argc, argv);

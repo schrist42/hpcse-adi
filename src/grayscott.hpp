@@ -22,7 +22,7 @@ public:
      * @param k         model parameter
      * @param nSteps    number of steps in the simulation
      */
-    GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps);
+    GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname);
     
     /**
      * Destructor
@@ -181,6 +181,10 @@ private:
      * Directory to save the output to
      */
     std::string dirPath_;
+    
+    std::string pngName_;
+    
+    void save_png();
 };
 
 
