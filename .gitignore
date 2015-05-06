@@ -32,6 +32,7 @@
 
 # Directories for object files
 */objects/
+*/images/
 
 # Executable from this project
 src/main
