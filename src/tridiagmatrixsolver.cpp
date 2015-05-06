@@ -64,27 +64,29 @@ void TriDiagMatrixSolver::solve(int n, const TriDiagMatrix& mat, const std::vect
     std::vector<double> c = mat.getU(); // upper diagonal, indexed 0..n-2
     
     
-//    n--; // since we start from x0 (not x1) (n now denotes the max index)
-//    u[0] /= m[0];
+    n--; // since we start from x0 (not x1) (n now denotes the max index)
+    c[0] /= b[0];
     
     std::vector<double> r(rhs);
-//    r[0] /= m[0];
+    r[0] /= b[0];
     
     double tmp;
 
     for (int i=1; i<n; ++i) {
-//        tmp = m[i] - l[i]*u[i-1];
-//        u[i] /= tmp;
-//        r[i] = (r[i] - l[i]*r[i-1]) / tmp;
-        tmp = a[i]/b[i-1];
-        b[i] = b[i] - tmp*c[i-1];
-        r[i] = rhs[i] - tmp*rhs[i-1];
+        tmp = b[i] - a[i]*c[i-1];
+        c[i] /= tmp;
+        r[i] = (r[i] - a[i]*r[i-1]) / tmp;
+//        tmp = a[i]/b[i-1];
+//        b[i] = b[i] - tmp*c[i-1];
+//        r[i] = rhs[i] - tmp*rhs[i-1];
     }
 
-    *(result + (n-1)*inc) = r[n-1]/b[n-1]; //(r[n] - l[n]*r[n-1]) / (m[n] - l[n]*u[n-1]);
+    *(result + (n)*inc) = (r[n] - a[n]*r[n-1]) / (b[n] - a[n]*c[n-1]);
+//    *(result + (n-1)*inc) = r[n-1]/b[n-1];
 
-    for (int i=n-2; i>=0; --i) {
-        *(result + i*inc) = ( r[i] - c[i]*(*(result + (i+1)*inc)) ) / b[i];
+    for (int i=n-1; i>=0; --i) {
+        *(result + i*inc) = r[i] - c[i] * (*(result + (i+1)*inc));
+//        *(result + i*inc) = ( r[i] - c[i]*(*(result + (i+1)*inc)) ) / b[i];
     }
 }
 

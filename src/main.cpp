@@ -27,7 +27,7 @@ bool process_command_line(int argc, char** argv,
 	try {
 		desc.add_options() 
 			("help,h",                                                        "Print help message"                   ) 
-			("ncells,N", po::value<int>(&N)->default_value(400),              "Number of cells in one dimension"     )
+			("ncells,N", po::value<int>(&N)->default_value(256),              "Number of cells in one dimension"     )
 			("lenght,L", po::value<double>(&L)->default_value(2.),            "Length of the domain in one dimension")
 			("dt",       po::value<double>(&dt)->default_value(0.01,"0.01"),  "Function number to use"               )
 			("du,u",     po::value<double>(&Du)->default_value(2e-5,"2e-5"),  "Diffusion coefficient for u"          ) 

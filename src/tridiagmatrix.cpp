@@ -18,9 +18,9 @@ TriDiagMatrix::TriDiagMatrix(int N, double l, double m, double u)
     , m_(N,m)
     , u_(N,u)
 {
-    // set values that are outside of the matrix to 0
-//    l_[0] = 0;
-//    u_[N-1] = 0;
+    // flux boundary conditions
+    u_[0] *= 2;
+    l_[N-1] *= 2;
 }
 
 

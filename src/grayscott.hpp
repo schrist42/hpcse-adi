@@ -102,7 +102,7 @@ private:
      * 
      * Length of the computation domain in each direction. The grid is square.
      */
-    const double L_;
+//    const double L_;
     
     const double dx_;
     

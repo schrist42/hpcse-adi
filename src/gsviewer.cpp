@@ -6,10 +6,10 @@
 #include "gsviewer.hpp"
 
 
-#define TIMERSECS 1000
+#define TIMERSECS 1
 
-int width = 1000;
-int height = 1000;
+int width = 256*2;
+int height = 256*2;
 
 GrayScott *simulation;
 
@@ -97,28 +97,12 @@ void GSViewer::display(int value)
     
     std::vector<double> field = simulation->getU();
     
-    double min = *std::min_element(field.begin(), field.end());
-    double max = *std::max_element(field.begin(), field.end());
+//    double min = 0;
+//    double max = 1;
     
     glPushMatrix();
     glScalef(2./(double)width, 2./(double)height, 1);
     glTranslatef(-width/2.,-height/2.,0);
-    
-    
-    // to test coordinate system
-//    glColor3f(1,1,1);
-//    glRecti(0.25*width,0.25*height,width,height);
-
-//    // bottom left corner is (0,0), top right corner is (width,height)
-//    glPointSize(50);
-//    glBegin( GL_POINTS );
-//        glColor3d(1,0,0);
-//        glVertex2d(0,0);
-//        
-//        glColor3d(0,1,0);
-//        glVertex2d(width,height);
-//    glEnd();
-    
     
     // draw squares
     
@@ -137,10 +121,12 @@ void GSViewer::display(int value)
             // To map [A, B] --> [a, b]
             // use this formula: (val - A)*(b-a)/(B-A) + a
             
-            color = (color-min) * (1.-(-1.)) / (max-min) + (-1.);
+//            color = (color-min) * (1.-(-1.)) / (max-min) + (-1.);
             
-//            std::cout << color << "\n";
-//            std::cout << red(color) << " " <<  green(color) << " " << blue(color) << "\n";
+//            if (i == N/2 && j==N/2) {
+//                std::cout << color << "\n";
+//                std::cout << red(color) << " " <<  green(color) << " " << blue(color) << "\n";
+//            }
             
             glColor3f(red(color), green(color), blue(color));
             
@@ -265,14 +251,43 @@ double base( double val ) {
 }
 
 double red( double gray ) {
-    return base( gray + 0.5 );
+//    return base( gray + 0.5 );
+    if (gray < 0.6)
+        return (637.5 * std::max(gray-0.2, 0.)) / 255.;
+    else
+        return 1;
 }
 double green( double gray ) {
-    return base( gray );
+//    return base( gray );
+    if (gray < 0.6)
+        return ( 637.5 * std::max(gray-0.2, 0.) ) / 255.;
+    else
+        return ( -637.5 * (gray-1.) ) / 255.;
 }
 double blue( double gray ) {
-    return base( gray - 0.5 );
+//    return base( gray - 0.5 );
+    if (gray < 0.6)
+        return ( -637.5 * (gray-0.6) ) / 255.;
+    else
+        return 0.;
 }
+
+
+            //   1.0 <-> 255,  0,  0
+			//   0.6 <-> 255,255,  0
+			// <=0.2 <->   0,  0,255
+//			if( g(i, j) < 0.6 ) {
+//				// 637.5 = 2.5 * 255 = 1/0.4 * 255
+//				data[c++] = 637.5 * max(g(i,j) - 0.2, 0.);
+//				data[c++] = 637.5 * max(g(i,j) - 0.2, 0.);
+//				data[c++] = -637.5 * (g(i,j) - 0.6);
+//				data[c++] = 0xFFu;
+//			} else {
+//				data[c++] = 255;
+//				data[c++] = -637.5 * (g(i, j) - 1.);
+//				data[c++] = 0;
+//				data[c++] = 0xFFu;
+//			}
 
 
 

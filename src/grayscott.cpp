@@ -10,20 +10,20 @@
 #include "periodictridiagmatrixsolver.hpp"
 
 
-//#define U(x,y) u_[(x) + (y)*N_]
-//#define V(x,y) v_[(x) + (y)*N_]
+#define U(x,y) u_[(x) + (y)*N_]
+#define V(x,y) v_[(x) + (y)*N_]
 
 // periodic boundary conditions
-#define U(x,y) u_[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
-#define V(x,y) v_[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
+//#define U(x,y) u_[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
+//#define V(x,y) v_[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
 
 
 GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps)
     : N_(N)
     , Ntot_(N*N)
-    , L_(L)
+//    , L_(L)
     , dx_((double) L / (double) N)
-    , dt_(dx_*dx_ / (2.*std::max(Du,Dv)))
+    , dt_(dt)//(dx_*dx_ / (2.*std::max(Du,Dv)))
     , nSteps_(nSteps)
     , currStep_(0)
     , Du_(Du)
@@ -35,7 +35,6 @@ GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F,
     , matV1_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
     , matV2_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
 {
-    std::cout << "dt = " << dt_ << "\n";
     // create directory to save output to
     time_t rawtime;
 	struct tm * timeinfo;
@@ -81,16 +80,15 @@ void GrayScott::run()
 
 
 
-//#define UHALF(x,y) uHalf[(x) + (y)*N_]
-//#define VHALF(x,y) vHalf[(x) + (y)*N_]
+#define UHALF(x,y) uHalf[(x) + (y)*N_]
+#define VHALF(x,y) vHalf[(x) + (y)*N_]
 
 // periodic boundary conditions
-#define UHALF(x,y) uHalf[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
-#define VHALF(x,y) vHalf[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
+//#define UHALF(x,y) uHalf[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
+//#define VHALF(x,y) vHalf[((x)+N_)%N_ + (((y)+N_)%N_)*N_]
 
 void GrayScott::step()
 {
-//    std::cout << "step\n";
     // update step
     ++currStep_;
     
@@ -98,26 +96,53 @@ void GrayScott::step()
     std::vector<double> uHalf(Ntot_);
     std::vector<double> vHalf(Ntot_);
     
+    // right hand sides for u and for v
     std::vector<double> uRhs(N_);
     std::vector<double> vRhs(N_);
     
+    double uCoeff = Du_*dt_/(2.*dx_*dx_);
+    double vCoeff = Dv_*dt_/(2.*dx_*dx_);
+    
+    
+    /****************** DIFFUSION (ADI) ***************************************/
+    
     // perform the first half-step
     // loop over all rows
-    for (int j=0; j<N_; ++j) {
+    
+    // j=0
+    for (int i=0; i<N_; ++i) {
+        uRhs[i] = U(i,0) + uCoeff * (U(i,1) - U(i,0));
+        vRhs[i] = V(i,0) + vCoeff * (V(i,1) - V(i,0));
+    }
+    TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,0), 1);
+    TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,0), 1);
+    
+    // inner grid points
+    for (int j=1; j<N_-1; ++j) {
         // create right-hand side of the systems
         for (int i=0; i<N_; ++i) {
-            uRhs[i] = U(i,j);// + Du_*dt_/(2.*dx_*dx_) * (U(i,j+1) - 2.*U(i,j) + U(i,j-1)) + dt_/2. * (-U(i,j)*V(i,j)*V(i,j) + F_*(1-U(i,j)));
-            vRhs[i] = V(i,j);// + Dv_*dt_/(2.*dx_*dx_) * (V(i,j+1) - 2.*V(i,j) + V(i,j-1)) + dt_/2. * (U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j));
+//            uRhs[i] = U(i,j);// + Du_*dt_/(2.*dx_*dx_) * (U(i,j+1) - 2.*U(i,j) + U(i,j-1)) + dt_/2. * (-U(i,j)*V(i,j)*V(i,j) + F_*(1-U(i,j)));
+//            vRhs[i] = V(i,j);// + Dv_*dt_/(2.*dx_*dx_) * (V(i,j+1) - 2.*V(i,j) + V(i,j-1)) + dt_/2. * (U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j));
+            uRhs[i] = U(i,j) + uCoeff * (U(i,j+1) - 2.*U(i,j) + U(i,j-1));// + dt_/2. * (-U(i,j)*V(i,j)*V(i,j) + F_*(1-U(i,j)));
+            vRhs[i] = V(i,j) + vCoeff * (V(i,j+1) - 2.*V(i,j) + V(i,j-1));// + dt_/2. * (U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j));
         }
         
-        PeriodicTriDiagMatrixSolver::solve(N_, matU1_, uRhs, &uHalf[j], 1);
-        PeriodicTriDiagMatrixSolver::solve(N_, matV1_, vRhs, &vHalf[j], 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,j), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,j), 1);
         
-        for (int i=0; i<N_; ++i) {
-            UHALF(i,j) += Du_*dt_/(2.*dx_*dx_) * (U(i,j+1) - 2.*U(i,j) + U(i,j-1)) + dt_/2. * (-U(i,j)*V(i,j)*V(i,j) + F_*(1-U(i,j)));
-            VHALF(i,j) += Dv_*dt_/(2.*dx_*dx_) * (V(i,j+1) - 2.*V(i,j) + V(i,j-1)) + dt_/2. * (U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j));
-        }
+//        for (int i=0; i<N_; ++i) {
+//            UHALF(i,j) += Du_*dt_/(2.*dx_*dx_) * (U(i,j+1) - 2.*U(i,j) + U(i,j-1)) + dt_/2. * (-U(i,j)*V(i,j)*V(i,j) + F_*(1-U(i,j)));
+//            VHALF(i,j) += Dv_*dt_/(2.*dx_*dx_) * (V(i,j+1) - 2.*V(i,j) + V(i,j-1)) + dt_/2. * (U(i,j)*V(i,j)*V(i,j) - (F_+k_)*V(i,j));
+//        }
     }
+    
+    // j=N_-1
+    for (int i=0; i<N_; ++i) {
+        uRhs[i] = U(i,N_-1) + uCoeff * (- U(i,N_-1) + U(i,N_-2));
+        vRhs[i] = V(i,N_-1) + vCoeff * (- V(i,N_-1) + V(i,N_-2));
+    }
+    TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,N_-1), 1);
+    TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,N_-1), 1);
     
     
     
@@ -128,23 +153,55 @@ void GrayScott::step()
     
     // perform the second half-step
     // loop over all columns
-    for (int i=0; i<N_; ++i) {
+    
+    // i=0
+    for (int j=0; j<N_; ++j) {
+        uRhs[j] = U(0,j) + uCoeff * (U(1,j) - U(0,j));
+        vRhs[j] = V(0,j) + vCoeff * (V(1,j) - V(0,j));
+    }
+    TriDiagMatrixSolver::solve(N_, matU2_, uRhs, &U(0,0), N_);
+    TriDiagMatrixSolver::solve(N_, matV2_, vRhs, &V(0,0), N_);
+    
+    // inner grid points
+    for (int i=1; i<N_-1; ++i) {
         // create right-hand side of the systems
         for (int j=0; j<N_; ++j) {
-            uRhs[j] = UHALF(i,j);// + Du_*dt_/(2.*dx_*dx_) * (UHALF(i+1,j) - 2.*UHALF(i,j) + UHALF(i-1,j)) + dt_/2. * (-UHALF(i,j)*VHALF(i,j)*VHALF(i,j) + F_*(1-UHALF(i,j)));
-            vRhs[j] = VHALF(i,j);// + Dv_*dt_/(2.*dx_*dx_) * (VHALF(i+1,j) - 2.*VHALF(i,j) + VHALF(i-1,j)) + dt_/2. * (UHALF(i,j)*VHALF(i,j)*VHALF(i,j) - (F_+k_)*VHALF(i,j));
+//            uRhs[j] = UHALF(i,j);// + Du_*dt_/(2.*dx_*dx_) * (UHALF(i+1,j) - 2.*UHALF(i,j) + UHALF(i-1,j)) + dt_/2. * (-UHALF(i,j)*VHALF(i,j)*VHALF(i,j) + F_*(1-UHALF(i,j)));
+//            vRhs[j] = VHALF(i,j);// + Dv_*dt_/(2.*dx_*dx_) * (VHALF(i+1,j) - 2.*VHALF(i,j) + VHALF(i-1,j)) + dt_/2. * (UHALF(i,j)*VHALF(i,j)*VHALF(i,j) - (F_+k_)*VHALF(i,j));
+            uRhs[j] = UHALF(i,j) + uCoeff * (UHALF(i+1,j) - 2.*UHALF(i,j) + UHALF(i-1,j));// + dt_/2. * (-UHALF(i,j)*VHALF(i,j)*VHALF(i,j) + F_*(1-UHALF(i,j)));
+            vRhs[j] = VHALF(i,j) + vCoeff * (VHALF(i+1,j) - 2.*VHALF(i,j) + VHALF(i-1,j));// + dt_/2. * (UHALF(i,j)*VHALF(i,j)*VHALF(i,j) - (F_+k_)*VHALF(i,j));
         }
         
-        PeriodicTriDiagMatrixSolver::solve(N_, matU2_, uRhs, &u_[i], N_);
-        PeriodicTriDiagMatrixSolver::solve(N_, matV2_, vRhs, &v_[i], N_);
+        TriDiagMatrixSolver::solve(N_, matU2_, uRhs, &U(i,0), N_);
+        TriDiagMatrixSolver::solve(N_, matV2_, vRhs, &V(i,0), N_);
         
-        for (int j=0; j<N_; ++j) {
-            U(i,j) += Du_*dt_/(2.*dx_*dx_) * (UHALF(i+1,j) - 2.*UHALF(i,j) + UHALF(i-1,j)) + dt_/2. * (-UHALF(i,j)*VHALF(i,j)*VHALF(i,j) + F_*(1-UHALF(i,j)));
-            V(i,j) += Dv_*dt_/(2.*dx_*dx_) * (VHALF(i+1,j) - 2.*VHALF(i,j) + VHALF(i-1,j)) + dt_/2. * (UHALF(i,j)*VHALF(i,j)*VHALF(i,j) - (F_+k_)*VHALF(i,j));
-        }
+//        for (int j=0; j<N_; ++j) {
+//            U(i,j) += Du_*dt_/(2.*dx_*dx_) * (UHALF(i+1,j) - 2.*UHALF(i,j) + UHALF(i-1,j)) + dt_/2. * (-UHALF(i,j)*VHALF(i,j)*VHALF(i,j) + F_*(1-UHALF(i,j)));
+//            V(i,j) += Dv_*dt_/(2.*dx_*dx_) * (VHALF(i+1,j) - 2.*VHALF(i,j) + VHALF(i-1,j)) + dt_/2. * (UHALF(i,j)*VHALF(i,j)*VHALF(i,j) - (F_+k_)*VHALF(i,j));
+//        }
     }
     
-//    std::cout << "step done\n";
+    // i=N_-1
+    for (int j=0; j<N_; ++j) {
+        uRhs[j] = U(N_-1,j) + uCoeff * (- U(N_-1,j) + U(N_-2,j));
+        vRhs[j] = V(N_-1,j) + vCoeff * (- V(N_-1,j) + V(N_-2,j));
+    }
+    TriDiagMatrixSolver::solve(N_, matU2_, uRhs, &U(N_-1,0), N_);
+    TriDiagMatrixSolver::solve(N_, matV2_, vRhs, &V(N_-1,0), N_);
+    
+    
+    
+    /****************** REACTION **********************************************/
+
+    double tmp;
+    for (int i=0; i<N_; ++i) {
+        for (int j=0; j<N_; ++j) {
+            tmp = U(i,j);
+//            std::cout << "tmp = " << tmp << "\n";
+            U(i,j) += dt_ * ( -U(i,j)*V(i,j)*V(i,j) + F_*(1.-U(i,j)) );
+            V(i,j) += dt_ * ( tmp*V(i,j)*V(i,j) - (F_+k_)*V(i,j) );
+        }
+    }
 }
 
 
@@ -179,48 +236,6 @@ void GrayScott::initialize_fields()
             V(i,j) = chi * (0.25 + dist(rng)/100.);
         }
     }
-    
-    
-//    
-//    // Source: https://github.com/derekrb/gray-scott/blob/master/main.py
-//    std::mt19937 rng(42);
-//    std::uniform_real_distribution<double> dist(0,1);
-
-//    int perturbNum = 1;
-//    double perturbU = 0.5;
-//    double perturbV = 0.25;
-//    double perturbMag = 0.5; // how much of the domain has perturbations? (in each dimension)
-//    
-//    // Apply the specified number of randomly-sized perturbations
-//    for (int i=0; i<perturbNum; ++i) {
-
-//        int xStart = dist(rng) * N_ * 0.9;
-//        int yStart = dist(rng) * N_ * 0.9;
-//        int xEnd = xStart + (dist(rng)*N_ + N_) * perturbMag;
-//        int yEnd = yStart + (dist(rng)*N_ + N_) * perturbMag;
-//        
-//        // Apply perturbations
-//        for (int x=xStart; x<xEnd; ++x) {
-//            for (int y=yStart; y<yEnd; ++y) {
-
-//                // Constant perturbation
-//                U(x,y) = perturbU;
-//                V(x,y) = perturbV;
-
-//                // Random perturbation
-//                double perturb = 0.01 * dist(rng);
-//                U(x,y) -= perturb;
-//                V(x,y) += perturb;
-//            }
-//        }
-//   }
-    
-//    for (int y=0; y<N_/3; ++y) {
-//        for (int x=0; x<N_/3; ++x) {
-//            U(x,y) = 2.;
-//            V(x,y) = 4.;
-//        }
-//    }
 }
 
 
