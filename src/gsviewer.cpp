@@ -6,8 +6,6 @@
 #include "gsviewer.hpp"
 
 
-#define TIMERSECS 1
-
 int width = 256*2;
 int height = 256*2;
 
@@ -44,9 +42,8 @@ void GSViewer::visualize(GrayScott *sim)
     glutCreateWindow("Gray-Scott Reaction Diffusion - PAUSED, press space"); // paused on start
     
     glutReshapeFunc(resize);
-//    glutDisplayFunc(display);
-//    glutIdleFunc(display);
-    glutTimerFunc(TIMERSECS, display, 0);
+    glutDisplayFunc(display);
+    glutIdleFunc(display);
     
     // register GLUT callbacks (e.g. functions to be executed when looping)
 	glutKeyboardFunc(keyDown);
@@ -81,11 +78,8 @@ void GSViewer::resize(int w, int h)
 
 #define F(x,y) field[(x) + (y)*N]
 
-void GSViewer::display(int value)
+void GSViewer::display()
 {
-    glutTimerFunc(10, &display, 0);
-    
-    
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     // perform simulation step
@@ -97,8 +91,6 @@ void GSViewer::display(int value)
     
     std::vector<double> field = simulation->getU();
     
-//    double min = 0;
-//    double max = 1;
     
     glPushMatrix();
     glScalef(2./(double)width, 2./(double)height, 1);
@@ -115,19 +107,7 @@ void GSViewer::display(int value)
         for (int j=0; j<N; ++j) {
             
             double color = F(i,j);
-            
-            // map color from [min,max] to [-1,1]
-            //
-            // To map [A, B] --> [a, b]
-            // use this formula: (val - A)*(b-a)/(B-A) + a
-            
-//            color = (color-min) * (1.-(-1.)) / (max-min) + (-1.);
-            
-//            if (i == N/2 && j==N/2) {
-//                std::cout << color << "\n";
-//                std::cout << red(color) << " " <<  green(color) << " " << blue(color) << "\n";
-//            }
-            
+
             glColor3f(red(color), green(color), blue(color));
             
             glRecti(i*sw, j*sh, (i+1)*sw, (j+1)*sh);
@@ -238,56 +218,24 @@ void updateTitle()
 /////////////////// HELPER FUNCTIONS FOR COLOR /////////////////////////////////
 // Source: http://stackoverflow.com/a/7706668
 
-double interpolate( double val, double y0, double x0, double y1, double x1 ) {
-    return (val-x0)*(y1-y0)/(x1-x0) + y0;
-}
-
-double base( double val ) {
-    if ( val <= -0.75 ) return 0;
-    else if ( val <= -0.25 ) return interpolate( val, 0.0, -0.75, 1.0, -0.25 );
-    else if ( val <= 0.25 ) return 1.0;
-    else if ( val <= 0.75 ) return interpolate( val, 1.0, 0.25, 0.0, 0.75 );
-    else return 0.0;
-}
-
 double red( double gray ) {
-//    return base( gray + 0.5 );
     if (gray < 0.6)
         return (637.5 * std::max(gray-0.2, 0.)) / 255.;
     else
         return 1;
 }
 double green( double gray ) {
-//    return base( gray );
     if (gray < 0.6)
         return ( 637.5 * std::max(gray-0.2, 0.) ) / 255.;
     else
         return ( -637.5 * (gray-1.) ) / 255.;
 }
 double blue( double gray ) {
-//    return base( gray - 0.5 );
     if (gray < 0.6)
         return ( -637.5 * (gray-0.6) ) / 255.;
     else
         return 0.;
 }
-
-
-            //   1.0 <-> 255,  0,  0
-			//   0.6 <-> 255,255,  0
-			// <=0.2 <->   0,  0,255
-//			if( g(i, j) < 0.6 ) {
-//				// 637.5 = 2.5 * 255 = 1/0.4 * 255
-//				data[c++] = 637.5 * max(g(i,j) - 0.2, 0.);
-//				data[c++] = 637.5 * max(g(i,j) - 0.2, 0.);
-//				data[c++] = -637.5 * (g(i,j) - 0.6);
-//				data[c++] = 0xFFu;
-//			} else {
-//				data[c++] = 255;
-//				data[c++] = -637.5 * (g(i, j) - 1.);
-//				data[c++] = 0;
-//				data[c++] = 0xFFu;
-//			}
 
 
 
