@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['grayscott',['GrayScott',['../classGrayScott.html',1,'']]],
-  ['gsviewer',['GSViewer',['../classGSViewer.html',1,'']]]
+  ['coin',['Coin',['../structCoin.html',1,'']]],
+  ['colorprofile',['ColorProfile',['../structColorProfile.html',1,'']]],
+  ['colortree',['ColorTree',['../structColorTree.html',1,'']]]
 ];

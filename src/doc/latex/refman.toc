@@ -5,20 +5,65 @@
 \contentsline {chapter}{\numberline {3}Class Index}{5}{chapter.3}
 \contentsline {section}{\numberline {3.1}Class List}{5}{section.3.1}
 \contentsline {chapter}{\numberline {4}Module Documentation}{7}{chapter.4}
-\contentsline {section}{\numberline {4.1}Diagonals of the matrix.}{7}{section.4.1}
+\contentsline {section}{\numberline {4.1}Tridiagonal matrices.}{7}{section.4.1}
 \contentsline {subsection}{\numberline {4.1.1}Detailed Description}{7}{subsection.4.1.1}
-\contentsline {chapter}{\numberline {5}Namespace Documentation}{9}{chapter.5}
-\contentsline {section}{\numberline {5.1}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver Namespace Reference}{9}{section.5.1}
-\contentsline {subsection}{\numberline {5.1.1}Detailed Description}{9}{subsection.5.1.1}
-\contentsline {subsection}{\numberline {5.1.2}Function Documentation}{9}{subsection.5.1.2}
-\contentsline {subsubsection}{\numberline {5.1.2.1}solve}{9}{subsubsection.5.1.2.1}
-\contentsline {chapter}{\numberline {6}Class Documentation}{11}{chapter.6}
-\contentsline {section}{\numberline {6.1}Gray\discretionary {-}{}{}Scott Class Reference}{11}{section.6.1}
-\contentsline {subsection}{\numberline {6.1.1}Member Function Documentation}{11}{subsection.6.1.1}
-\contentsline {subsubsection}{\numberline {6.1.1.1}print\discretionary {-}{}{}\_\discretionary {-}{}{}fields}{11}{subsubsection.6.1.1.1}
-\contentsline {subsubsection}{\numberline {6.1.1.2}run}{11}{subsubsection.6.1.1.2}
-\contentsline {section}{\numberline {6.2}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix Class Reference}{11}{section.6.2}
-\contentsline {subsection}{\numberline {6.2.1}Constructor \& Destructor Documentation}{12}{subsection.6.2.1}
-\contentsline {subsubsection}{\numberline {6.2.1.1}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}{12}{subsubsection.6.2.1.1}
-\contentsline {subsubsection}{\numberline {6.2.1.2}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}{12}{subsubsection.6.2.1.2}
-\contentsline {chapter}{Index}{13}{section*.6}
+\contentsline {section}{\numberline {4.2}Return the diagonals.}{8}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}Detailed Description}{8}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Function Documentation}{8}{subsection.4.2.2}
+\contentsline {subsubsection}{\numberline {4.2.2.1}get\discretionary {-}{}{}L}{8}{subsubsection.4.2.2.1}
+\contentsline {subsubsection}{\numberline {4.2.2.2}get\discretionary {-}{}{}M}{8}{subsubsection.4.2.2.2}
+\contentsline {subsubsection}{\numberline {4.2.2.3}get\discretionary {-}{}{}U}{8}{subsubsection.4.2.2.3}
+\contentsline {section}{\numberline {4.3}Diagonals of the tridiagonal matrix.}{9}{section.4.3}
+\contentsline {subsection}{\numberline {4.3.1}Detailed Description}{9}{subsection.4.3.1}
+\contentsline {chapter}{\numberline {5}Namespace Documentation}{11}{chapter.5}
+\contentsline {section}{\numberline {5.1}Periodic\discretionary {-}{}{}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver Namespace Reference}{11}{section.5.1}
+\contentsline {subsection}{\numberline {5.1.1}Detailed Description}{11}{subsection.5.1.1}
+\contentsline {subsection}{\numberline {5.1.2}Function Documentation}{11}{subsection.5.1.2}
+\contentsline {subsubsection}{\numberline {5.1.2.1}solve}{11}{subsubsection.5.1.2.1}
+\contentsline {section}{\numberline {5.2}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver Namespace Reference}{11}{section.5.2}
+\contentsline {subsection}{\numberline {5.2.1}Detailed Description}{11}{subsection.5.2.1}
+\contentsline {subsection}{\numberline {5.2.2}Function Documentation}{12}{subsection.5.2.2}
+\contentsline {subsubsection}{\numberline {5.2.2.1}solve}{12}{subsubsection.5.2.2.1}
+\contentsline {chapter}{\numberline {6}Class Documentation}{13}{chapter.6}
+\contentsline {section}{\numberline {6.1}Coin Struct Reference}{13}{section.6.1}
+\contentsline {section}{\numberline {6.2}Color\discretionary {-}{}{}Profile Struct Reference}{13}{section.6.2}
+\contentsline {section}{\numberline {6.3}Color\discretionary {-}{}{}Tree Struct Reference}{14}{section.6.3}
+\contentsline {section}{\numberline {6.4}Gray\discretionary {-}{}{}Scott Class Reference}{14}{section.6.4}
+\contentsline {subsection}{\numberline {6.4.1}Constructor \& Destructor Documentation}{14}{subsection.6.4.1}
+\contentsline {subsubsection}{\numberline {6.4.1.1}Gray\discretionary {-}{}{}Scott}{14}{subsubsection.6.4.1.1}
+\contentsline {subsubsection}{\numberline {6.4.1.2}$\sim $\discretionary {-}{}{}Gray\discretionary {-}{}{}Scott}{14}{subsubsection.6.4.1.2}
+\contentsline {subsection}{\numberline {6.4.2}Member Function Documentation}{14}{subsection.6.4.2}
+\contentsline {subsubsection}{\numberline {6.4.2.1}get\discretionary {-}{}{}Curr\discretionary {-}{}{}Step}{14}{subsubsection.6.4.2.1}
+\contentsline {subsubsection}{\numberline {6.4.2.2}get\discretionary {-}{}{}Dt}{15}{subsubsection.6.4.2.2}
+\contentsline {subsubsection}{\numberline {6.4.2.3}get\discretionary {-}{}{}Time}{15}{subsubsection.6.4.2.3}
+\contentsline {subsubsection}{\numberline {6.4.2.4}get\discretionary {-}{}{}U}{15}{subsubsection.6.4.2.4}
+\contentsline {subsubsection}{\numberline {6.4.2.5}run}{15}{subsubsection.6.4.2.5}
+\contentsline {subsubsection}{\numberline {6.4.2.6}size}{15}{subsubsection.6.4.2.6}
+\contentsline {subsubsection}{\numberline {6.4.2.7}step}{15}{subsubsection.6.4.2.7}
+\contentsline {section}{\numberline {6.5}G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer Class Reference}{16}{section.6.5}
+\contentsline {subsection}{\numberline {6.5.1}Detailed Description}{16}{subsection.6.5.1}
+\contentsline {subsection}{\numberline {6.5.2}Constructor \& Destructor Documentation}{16}{subsection.6.5.2}
+\contentsline {subsubsection}{\numberline {6.5.2.1}G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}{16}{subsubsection.6.5.2.1}
+\contentsline {subsection}{\numberline {6.5.3}Member Function Documentation}{16}{subsection.6.5.3}
+\contentsline {subsubsection}{\numberline {6.5.3.1}visualize}{16}{subsubsection.6.5.3.1}
+\contentsline {section}{\numberline {6.6}Hash Struct Reference}{16}{section.6.6}
+\contentsline {section}{\numberline {6.7}Huffman\discretionary {-}{}{}Tree Struct Reference}{17}{section.6.7}
+\contentsline {section}{\numberline {6.8}Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Color\discretionary {-}{}{}Mode Struct Reference}{17}{section.6.8}
+\contentsline {section}{\numberline {6.9}Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Compress\discretionary {-}{}{}Settings Struct Reference}{17}{section.6.9}
+\contentsline {section}{\numberline {6.10}Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Decoder\discretionary {-}{}{}Settings Struct Reference}{18}{section.6.10}
+\contentsline {section}{\numberline {6.11}Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Decompress\discretionary {-}{}{}Settings Struct Reference}{18}{section.6.11}
+\contentsline {section}{\numberline {6.12}Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Encoder\discretionary {-}{}{}Settings Struct Reference}{18}{section.6.12}
+\contentsline {section}{\numberline {6.13}Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Info Struct Reference}{19}{section.6.13}
+\contentsline {section}{\numberline {6.14}Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}State Struct Reference}{19}{section.6.14}
+\contentsline {section}{\numberline {6.15}Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Time Struct Reference}{20}{section.6.15}
+\contentsline {section}{\numberline {6.16}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix Class Reference}{20}{section.6.16}
+\contentsline {subsection}{\numberline {6.16.1}Constructor \& Destructor Documentation}{20}{subsection.6.16.1}
+\contentsline {subsubsection}{\numberline {6.16.1.1}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}{20}{subsubsection.6.16.1.1}
+\contentsline {subsubsection}{\numberline {6.16.1.2}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}{20}{subsubsection.6.16.1.2}
+\contentsline {subsection}{\numberline {6.16.2}Member Function Documentation}{20}{subsection.6.16.2}
+\contentsline {subsubsection}{\numberline {6.16.2.1}size}{20}{subsubsection.6.16.2.1}
+\contentsline {subsection}{\numberline {6.16.3}Friends And Related Function Documentation}{21}{subsection.6.16.3}
+\contentsline {subsubsection}{\numberline {6.16.3.1}operator$<$$<$}{21}{subsubsection.6.16.3.1}
+\contentsline {section}{\numberline {6.17}ucvector Struct Reference}{21}{section.6.17}
+\contentsline {section}{\numberline {6.18}uivector Struct Reference}{21}{section.6.18}
+\contentsline {chapter}{Index}{22}{section*.24}

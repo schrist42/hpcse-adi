@@ -1,14 +1,63 @@
-\indexentry{Diagonals of the matrix.@{Diagonals of the matrix.}|hyperpage}{7}
-\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}|hyperpage}{9}
-\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}!solve@{solve}|hyperpage}{9}
-\indexentry{solve@{solve}!TriDiagMatrixSolver@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}|hyperpage}{9}
-\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{11}
-\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!print\discretionary {-}{}{}\_\discretionary {-}{}{}fields@{print\discretionary {-}{}{}\_\discretionary {-}{}{}fields}|hyperpage}{11}
-\indexentry{print\discretionary {-}{}{}\_\discretionary {-}{}{}fields@{print\discretionary {-}{}{}\_\discretionary {-}{}{}fields}!GrayScott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{11}
-\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!run@{run}|hyperpage}{11}
-\indexentry{run@{run}!GrayScott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{11}
-\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{11}
-\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}!Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{12}
-\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}!TriDiagMatrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{12}
-\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}!Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{12}
-\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}!TriDiagMatrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{12}
+\indexentry{Tridiagonal matrices.@{Tridiagonal matrices.}|hyperpage}{7}
+\indexentry{Return the diagonals.@{Return the diagonals.}|hyperpage}{8}
+\indexentry{Return the diagonals.@{Return the diagonals.}!get\discretionary {-}{}{}L@{get\discretionary {-}{}{}L}|hyperpage}{8}
+\indexentry{get\discretionary {-}{}{}L@{get\discretionary {-}{}{}L}!Return the diagonals.@{Return the diagonals.}|hyperpage}{8}
+\indexentry{Return the diagonals.@{Return the diagonals.}!get\discretionary {-}{}{}M@{get\discretionary {-}{}{}M}|hyperpage}{8}
+\indexentry{get\discretionary {-}{}{}M@{get\discretionary {-}{}{}M}!Return the diagonals.@{Return the diagonals.}|hyperpage}{8}
+\indexentry{Return the diagonals.@{Return the diagonals.}!get\discretionary {-}{}{}U@{get\discretionary {-}{}{}U}|hyperpage}{8}
+\indexentry{get\discretionary {-}{}{}U@{get\discretionary {-}{}{}U}!Return the diagonals.@{Return the diagonals.}|hyperpage}{8}
+\indexentry{Diagonals of the tridiagonal matrix.@{Diagonals of the tridiagonal matrix.}|hyperpage}{9}
+\indexentry{Periodic\discretionary {-}{}{}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver@{Periodic\discretionary {-}{}{}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}|hyperpage}{11}
+\indexentry{Periodic\discretionary {-}{}{}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver@{Periodic\discretionary {-}{}{}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}!solve@{solve}|hyperpage}{11}
+\indexentry{solve@{solve}!PeriodicTriDiagMatrixSolver@{Periodic\discretionary {-}{}{}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}|hyperpage}{11}
+\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}|hyperpage}{11}
+\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}!solve@{solve}|hyperpage}{12}
+\indexentry{solve@{solve}!TriDiagMatrixSolver@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}|hyperpage}{12}
+\indexentry{Coin@{Coin}|hyperpage}{13}
+\indexentry{Color\discretionary {-}{}{}Profile@{Color\discretionary {-}{}{}Profile}|hyperpage}{13}
+\indexentry{Color\discretionary {-}{}{}Tree@{Color\discretionary {-}{}{}Tree}|hyperpage}{14}
+\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{14}
+\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{14}
+\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!GrayScott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{14}
+\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!$\sim $\discretionary {-}{}{}Gray\discretionary {-}{}{}Scott@{$\sim $\discretionary {-}{}{}Gray\discretionary {-}{}{}Scott}|hyperpage}{14}
+\indexentry{$\sim $\discretionary {-}{}{}Gray\discretionary {-}{}{}Scott@{$\sim $\discretionary {-}{}{}Gray\discretionary {-}{}{}Scott}!GrayScott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{14}
+\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!get\discretionary {-}{}{}Curr\discretionary {-}{}{}Step@{get\discretionary {-}{}{}Curr\discretionary {-}{}{}Step}|hyperpage}{14}
+\indexentry{get\discretionary {-}{}{}Curr\discretionary {-}{}{}Step@{get\discretionary {-}{}{}Curr\discretionary {-}{}{}Step}!GrayScott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{14}
+\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!get\discretionary {-}{}{}Dt@{get\discretionary {-}{}{}Dt}|hyperpage}{15}
+\indexentry{get\discretionary {-}{}{}Dt@{get\discretionary {-}{}{}Dt}!GrayScott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{15}
+\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!get\discretionary {-}{}{}Time@{get\discretionary {-}{}{}Time}|hyperpage}{15}
+\indexentry{get\discretionary {-}{}{}Time@{get\discretionary {-}{}{}Time}!GrayScott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{15}
+\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!get\discretionary {-}{}{}U@{get\discretionary {-}{}{}U}|hyperpage}{15}
+\indexentry{get\discretionary {-}{}{}U@{get\discretionary {-}{}{}U}!GrayScott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{15}
+\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!run@{run}|hyperpage}{15}
+\indexentry{run@{run}!GrayScott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{15}
+\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!size@{size}|hyperpage}{15}
+\indexentry{size@{size}!GrayScott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{15}
+\indexentry{Gray\discretionary {-}{}{}Scott@{Gray\discretionary {-}{}{}Scott}!step@{step}|hyperpage}{15}
+\indexentry{step@{step}!GrayScott@{Gray\discretionary {-}{}{}Scott}|hyperpage}{15}
+\indexentry{G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer@{G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}|hyperpage}{16}
+\indexentry{G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer@{G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}!G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer@{G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}|hyperpage}{16}
+\indexentry{G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer@{G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}!GSViewer@{G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}|hyperpage}{16}
+\indexentry{G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer@{G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}!visualize@{visualize}|hyperpage}{16}
+\indexentry{visualize@{visualize}!GSViewer@{G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}|hyperpage}{16}
+\indexentry{Hash@{Hash}|hyperpage}{16}
+\indexentry{Huffman\discretionary {-}{}{}Tree@{Huffman\discretionary {-}{}{}Tree}|hyperpage}{17}
+\indexentry{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Color\discretionary {-}{}{}Mode@{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Color\discretionary {-}{}{}Mode}|hyperpage}{17}
+\indexentry{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Compress\discretionary {-}{}{}Settings@{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Compress\discretionary {-}{}{}Settings}|hyperpage}{17}
+\indexentry{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Decoder\discretionary {-}{}{}Settings@{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Decoder\discretionary {-}{}{}Settings}|hyperpage}{18}
+\indexentry{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Decompress\discretionary {-}{}{}Settings@{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Decompress\discretionary {-}{}{}Settings}|hyperpage}{18}
+\indexentry{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Encoder\discretionary {-}{}{}Settings@{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Encoder\discretionary {-}{}{}Settings}|hyperpage}{18}
+\indexentry{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Info@{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Info}|hyperpage}{19}
+\indexentry{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}State@{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}State}|hyperpage}{19}
+\indexentry{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Time@{Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Time}|hyperpage}{20}
+\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{20}
+\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}!Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{20}
+\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}!TriDiagMatrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{20}
+\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}!Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{20}
+\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}!TriDiagMatrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{20}
+\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}!size@{size}|hyperpage}{20}
+\indexentry{size@{size}!TriDiagMatrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{20}
+\indexentry{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}!operator$<$$<$@{operator$<$$<$}|hyperpage}{21}
+\indexentry{operator$<$$<$@{operator$<$$<$}!TriDiagMatrix@{Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}|hyperpage}{21}
+\indexentry{ucvector@{ucvector}|hyperpage}{21}
+\indexentry{uivector@{uivector}|hyperpage}{21}

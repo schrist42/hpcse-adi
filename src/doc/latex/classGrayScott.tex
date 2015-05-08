@@ -4,28 +4,28 @@
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\hyperlink{classGrayScott_aea6ca9ee2a59a337730a787c400a858d}{Gray\-Scott} (int N, double L, double dt, double Du, double Dv, double F, double k, int n\-Steps)
+\hyperlink{classGrayScott_accea127aa0001c35c226a59112b612b2}{Gray\-Scott} (int N, double L, double dt, double Du, double Dv, double F, double k, int n\-Steps, std\-::string pngname)
+\item 
+\hyperlink{classGrayScott_a0a745a867985c39e3df22de89a0292d0}{$\sim$\-Gray\-Scott} ()
 \item 
 void \hyperlink{classGrayScott_adf11a6024de7c77b1e1aae00fa78d174}{run} ()
 \item 
 void \hyperlink{classGrayScott_a60239e744d4cf6c74fc2af1c45abd8ce}{step} ()
 \item 
-\hypertarget{classGrayScott_a1925a03a32d117d3163e633c57703bcf}{int {\bfseries size} () const }\label{classGrayScott_a1925a03a32d117d3163e633c57703bcf}
-
+int \hyperlink{classGrayScott_a1925a03a32d117d3163e633c57703bcf}{size} () const 
 \item 
-\hypertarget{classGrayScott_a0704c788a8cdf28a49c0d21ef4ecfda1}{std\-::vector$<$ double $>$ {\bfseries get\-U} () const }\label{classGrayScott_a0704c788a8cdf28a49c0d21ef4ecfda1}
-
+std\-::vector$<$ double $>$ \hyperlink{classGrayScott_a0704c788a8cdf28a49c0d21ef4ecfda1}{get\-U} () const 
 \item 
-\hypertarget{classGrayScott_adbff28843549d47f8b3cda66f3915564}{int {\bfseries get\-Curr\-Step} () const }\label{classGrayScott_adbff28843549d47f8b3cda66f3915564}
-
+int \hyperlink{classGrayScott_adbff28843549d47f8b3cda66f3915564}{get\-Curr\-Step} () const 
 \item 
-\hypertarget{classGrayScott_a000f333075534d13d605cb062089aadb}{double {\bfseries get\-Dt} () const }\label{classGrayScott_a000f333075534d13d605cb062089aadb}
-
+double \hyperlink{classGrayScott_a000f333075534d13d605cb062089aadb}{get\-Dt} () const 
+\item 
+double \hyperlink{classGrayScott_a1cd54e9f326da74408e4acff2e6e0ae5}{get\-Time} () const 
 \end{DoxyCompactItemize}
 
 
 \subsection{Constructor \& Destructor Documentation}
-\hypertarget{classGrayScott_aea6ca9ee2a59a337730a787c400a858d}{\index{Gray\-Scott@{Gray\-Scott}!Gray\-Scott@{Gray\-Scott}}
+\hypertarget{classGrayScott_accea127aa0001c35c226a59112b612b2}{\index{Gray\-Scott@{Gray\-Scott}!Gray\-Scott@{Gray\-Scott}}
 \index{Gray\-Scott@{Gray\-Scott}!GrayScott@{Gray\-Scott}}
 \subsubsection[{Gray\-Scott}]{\setlength{\rightskip}{0pt plus 5cm}Gray\-Scott\-::\-Gray\-Scott (
 \begin{DoxyParamCaption}
@@ -36,9 +36,10 @@ void \hyperlink{classGrayScott_a60239e744d4cf6c74fc2af1c45abd8ce}{step} ()
 \item[{double}]{Dv, }
 \item[{double}]{F, }
 \item[{double}]{k, }
-\item[{int}]{n\-Steps}
+\item[{int}]{n\-Steps, }
+\item[{std\-::string}]{pngname}
 \end{DoxyParamCaption}
-)}}\label{classGrayScott_aea6ca9ee2a59a337730a787c400a858d}
+)}}\label{classGrayScott_accea127aa0001c35c226a59112b612b2}
 Construct a new simulation object.
 
 
@@ -60,9 +61,64 @@ Construct a new simulation object.
 {\em n\-Steps} & number of steps in the simulation \\
 \hline
 \end{DoxyParams}
-
+\hypertarget{classGrayScott_a0a745a867985c39e3df22de89a0292d0}{\index{Gray\-Scott@{Gray\-Scott}!$\sim$\-Gray\-Scott@{$\sim$\-Gray\-Scott}}
+\index{$\sim$\-Gray\-Scott@{$\sim$\-Gray\-Scott}!GrayScott@{Gray\-Scott}}
+\subsubsection[{$\sim$\-Gray\-Scott}]{\setlength{\rightskip}{0pt plus 5cm}Gray\-Scott\-::$\sim$\-Gray\-Scott (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classGrayScott_a0a745a867985c39e3df22de89a0292d0}
+Destructor 
 
 \subsection{Member Function Documentation}
+\hypertarget{classGrayScott_adbff28843549d47f8b3cda66f3915564}{\index{Gray\-Scott@{Gray\-Scott}!get\-Curr\-Step@{get\-Curr\-Step}}
+\index{get\-Curr\-Step@{get\-Curr\-Step}!GrayScott@{Gray\-Scott}}
+\subsubsection[{get\-Curr\-Step}]{\setlength{\rightskip}{0pt plus 5cm}int Gray\-Scott\-::get\-Curr\-Step (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classGrayScott_adbff28843549d47f8b3cda66f3915564}
+Get the current step in the simulation.
+
+\begin{DoxyReturn}{Returns}
+the current step. 
+\end{DoxyReturn}
+\hypertarget{classGrayScott_a000f333075534d13d605cb062089aadb}{\index{Gray\-Scott@{Gray\-Scott}!get\-Dt@{get\-Dt}}
+\index{get\-Dt@{get\-Dt}!GrayScott@{Gray\-Scott}}
+\subsubsection[{get\-Dt}]{\setlength{\rightskip}{0pt plus 5cm}double Gray\-Scott\-::get\-Dt (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classGrayScott_a000f333075534d13d605cb062089aadb}
+Get the time step for the simulation.
+
+\begin{DoxyReturn}{Returns}
+the timestep 
+\end{DoxyReturn}
+\hypertarget{classGrayScott_a1cd54e9f326da74408e4acff2e6e0ae5}{\index{Gray\-Scott@{Gray\-Scott}!get\-Time@{get\-Time}}
+\index{get\-Time@{get\-Time}!GrayScott@{Gray\-Scott}}
+\subsubsection[{get\-Time}]{\setlength{\rightskip}{0pt plus 5cm}double Gray\-Scott\-::get\-Time (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classGrayScott_a1cd54e9f326da74408e4acff2e6e0ae5}
+Get the time that has passed.
+
+\begin{DoxyReturn}{Returns}
+time 
+\end{DoxyReturn}
+\hypertarget{classGrayScott_a0704c788a8cdf28a49c0d21ef4ecfda1}{\index{Gray\-Scott@{Gray\-Scott}!get\-U@{get\-U}}
+\index{get\-U@{get\-U}!GrayScott@{Gray\-Scott}}
+\subsubsection[{get\-U}]{\setlength{\rightskip}{0pt plus 5cm}std\-::vector$<$double$>$ Gray\-Scott\-::get\-U (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classGrayScott_a0704c788a8cdf28a49c0d21ef4ecfda1}
+Get the field U of the simulation.
+
+\begin{DoxyReturn}{Returns}
+the field U 
+\end{DoxyReturn}
 \hypertarget{classGrayScott_adf11a6024de7c77b1e1aae00fa78d174}{\index{Gray\-Scott@{Gray\-Scott}!run@{run}}
 \index{run@{run}!GrayScott@{Gray\-Scott}}
 \subsubsection[{run}]{\setlength{\rightskip}{0pt plus 5cm}void Gray\-Scott\-::run (
@@ -70,7 +126,19 @@ Construct a new simulation object.
 {}
 \end{DoxyParamCaption}
 )}}\label{classGrayScott_adf11a6024de7c77b1e1aae00fa78d174}
-Run the simulation. \hypertarget{classGrayScott_a60239e744d4cf6c74fc2af1c45abd8ce}{\index{Gray\-Scott@{Gray\-Scott}!step@{step}}
+Run the simulation. \hypertarget{classGrayScott_a1925a03a32d117d3163e633c57703bcf}{\index{Gray\-Scott@{Gray\-Scott}!size@{size}}
+\index{size@{size}!GrayScott@{Gray\-Scott}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}int Gray\-Scott\-::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classGrayScott_a1925a03a32d117d3163e633c57703bcf}
+Return the size of the system in one dimension.
+
+\begin{DoxyReturn}{Returns}
+number of grid cells in one dimension. 
+\end{DoxyReturn}
+\hypertarget{classGrayScott_a60239e744d4cf6c74fc2af1c45abd8ce}{\index{Gray\-Scott@{Gray\-Scott}!step@{step}}
 \index{step@{step}!GrayScott@{Gray\-Scott}}
 \subsubsection[{step}]{\setlength{\rightskip}{0pt plus 5cm}void Gray\-Scott\-::step (
 \begin{DoxyParamCaption}

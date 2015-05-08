@@ -1,40 +1,137 @@
 \begin{theindex}
 
-  \item {Diagonals of the matrix.}, \hyperpage{7}
+  \item {$\sim $\discretionary {-}{}{}Gray\discretionary {-}{}{}Scott}
+    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{14}
 
   \indexspace
 
-  \item {Gray\discretionary {-}{}{}Scott}, \hyperpage{11}
-    \subitem {print\discretionary {-}{}{}\_\discretionary {-}{}{}fields}, 
+  \item {Coin}, \hyperpage{13}
+  \item {Color\discretionary {-}{}{}Profile}, \hyperpage{13}
+  \item {Color\discretionary {-}{}{}Tree}, \hyperpage{14}
+
+  \indexspace
+
+  \item {Diagonals of the tridiagonal matrix.}, \hyperpage{9}
+
+  \indexspace
+
+  \item {G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}, 
+		\hyperpage{16}
+    \subitem {G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}, 
+		\hyperpage{16}
+    \subitem {G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}, 
+		\hyperpage{16}
+    \subitem {visualize}, \hyperpage{16}
+  \item {get\discretionary {-}{}{}Curr\discretionary {-}{}{}Step}
+    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{14}
+  \item {get\discretionary {-}{}{}Dt}
+    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{15}
+  \item {get\discretionary {-}{}{}L}
+    \subitem {Return the diagonals.}, \hyperpage{8}
+  \item {get\discretionary {-}{}{}M}
+    \subitem {Return the diagonals.}, \hyperpage{8}
+  \item {get\discretionary {-}{}{}Time}
+    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{15}
+  \item {get\discretionary {-}{}{}U}
+    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{15}
+    \subitem {Return the diagonals.}, \hyperpage{8}
+  \item {Gray\discretionary {-}{}{}Scott}, \hyperpage{14}
+    \subitem {$\sim $\discretionary {-}{}{}Gray\discretionary {-}{}{}Scott}, 
+		\hyperpage{14}
+    \subitem {get\discretionary {-}{}{}Curr\discretionary {-}{}{}Step}, 
+		\hyperpage{14}
+    \subitem {get\discretionary {-}{}{}Dt}, \hyperpage{15}
+    \subitem {get\discretionary {-}{}{}Time}, \hyperpage{15}
+    \subitem {get\discretionary {-}{}{}U}, \hyperpage{15}
+    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{14}
+    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{14}
+    \subitem {run}, \hyperpage{15}
+    \subitem {size}, \hyperpage{15}
+    \subitem {step}, \hyperpage{15}
+
+  \indexspace
+
+  \item {Hash}, \hyperpage{16}
+  \item {Huffman\discretionary {-}{}{}Tree}, \hyperpage{17}
+
+  \indexspace
+
+  \item {Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Color\discretionary {-}{}{}Mode}, 
+		\hyperpage{17}
+  \item {Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Compress\discretionary {-}{}{}Settings}, 
+		\hyperpage{17}
+  \item {Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Decoder\discretionary {-}{}{}Settings}, 
+		\hyperpage{18}
+  \item {Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Decompress\discretionary {-}{}{}Settings}, 
+		\hyperpage{18}
+  \item {Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Encoder\discretionary {-}{}{}Settings}, 
+		\hyperpage{18}
+  \item {Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Info}, 
+		\hyperpage{19}
+  \item {Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}State}, 
+		\hyperpage{19}
+  \item {Lode\discretionary {-}{}{}P\discretionary {-}{}{}N\discretionary {-}{}{}G\discretionary {-}{}{}Time}, 
+		\hyperpage{20}
+
+  \indexspace
+
+  \item {operator$<$$<$}
+    \subitem {Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}, 
+		\hyperpage{21}
+
+  \indexspace
+
+  \item {Periodic\discretionary {-}{}{}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}, 
 		\hyperpage{11}
-    \subitem {run}, \hyperpage{11}
+    \subitem {solve}, \hyperpage{11}
 
   \indexspace
 
-  \item {print\discretionary {-}{}{}\_\discretionary {-}{}{}fields}
-    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{11}
-
-  \indexspace
-
+  \item {Return the diagonals.}, \hyperpage{8}
+    \subitem {get\discretionary {-}{}{}L}, \hyperpage{8}
+    \subitem {get\discretionary {-}{}{}M}, \hyperpage{8}
+    \subitem {get\discretionary {-}{}{}U}, \hyperpage{8}
   \item {run}
-    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{11}
+    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{15}
 
   \indexspace
 
+  \item {size}
+    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{15}
+    \subitem {Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}, 
+		\hyperpage{20}
   \item {solve}
+    \subitem {Periodic\discretionary {-}{}{}Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}, 
+		\hyperpage{11}
     \subitem {Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}, 
-		\hyperpage{9}
+		\hyperpage{12}
+  \item {step}
+    \subitem {Gray\discretionary {-}{}{}Scott}, \hyperpage{15}
 
   \indexspace
 
   \item {Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}, 
-		\hyperpage{11}
+		\hyperpage{20}
+    \subitem {operator$<$$<$}, \hyperpage{21}
+    \subitem {size}, \hyperpage{20}
     \subitem {Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}, 
-		\hyperpage{12}
+		\hyperpage{20}
     \subitem {Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix}, 
-		\hyperpage{12}
+		\hyperpage{20}
   \item {Tri\discretionary {-}{}{}Diag\discretionary {-}{}{}Matrix\discretionary {-}{}{}Solver}, 
-		\hyperpage{9}
-    \subitem {solve}, \hyperpage{9}
+		\hyperpage{11}
+    \subitem {solve}, \hyperpage{12}
+  \item {Tridiagonal matrices.}, \hyperpage{7}
+
+  \indexspace
+
+  \item {ucvector}, \hyperpage{21}
+  \item {uivector}, \hyperpage{21}
+
+  \indexspace
+
+  \item {visualize}
+    \subitem {G\discretionary {-}{}{}S\discretionary {-}{}{}Viewer}, 
+		\hyperpage{16}
 
 \end{theindex}

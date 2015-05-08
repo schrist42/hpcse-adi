@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['tridiagmatrixsolver',['TriDiagMatrixSolver',['../namespaceTriDiagMatrixSolver.html',1,'']]]
+  ['periodictridiagmatrixsolver',['PeriodicTriDiagMatrixSolver',['../namespacePeriodicTriDiagMatrixSolver.html',1,'']]]
 ];

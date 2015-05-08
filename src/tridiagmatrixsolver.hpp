@@ -10,7 +10,7 @@
 namespace TriDiagMatrixSolver
 {
     /**
-     * Solve a tridiagonal matrix system.
+     * Solve a tridiagonal matrix system using the Thomas algorithm.
      * 
      * @param n         number of elements in the result
      * @param mat       tridiagonal matrix

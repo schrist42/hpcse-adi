@@ -96,79 +96,95 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="classGrayScott.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="classGrayScott.html">GrayScott</a></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;{</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <a class="code" href="classGrayScott.html#aea6ca9ee2a59a337730a787c400a858d">GrayScott</a>(<span class="keywordtype">int</span> N, <span class="keywordtype">double</span> L, <span class="keywordtype">double</span> dt, <span class="keywordtype">double</span> Du, <span class="keywordtype">double</span> Dv, <span class="keywordtype">double</span> F, <span class="keywordtype">double</span> k, <span class="keywordtype">int</span> nSteps);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <a class="code" href="classGrayScott.html#accea127aa0001c35c226a59112b612b2">GrayScott</a>(<span class="keywordtype">int</span> N, <span class="keywordtype">double</span> L, <span class="keywordtype">double</span> dt, <span class="keywordtype">double</span> Du, <span class="keywordtype">double</span> Dv, <span class="keywordtype">double</span> F, <span class="keywordtype">double</span> k, <span class="keywordtype">int</span> nSteps, std::string pngname);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGrayScott.html#adf11a6024de7c77b1e1aae00fa78d174">run</a>();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="classGrayScott.html#a0a745a867985c39e3df22de89a0292d0">~GrayScott</a>();</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGrayScott.html#a60239e744d4cf6c74fc2af1c45abd8ce">step</a>();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">int</span> size()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> N_; }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    std::vector&lt;double&gt; getU()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> u_; }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">int</span> getCurrStep()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> currStep_; }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">double</span> getDt()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> dt_; }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> N_;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">int</span> Ntot_;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">//    const double L_;</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> dx_;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> dt_;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGrayScott.html#adf11a6024de7c77b1e1aae00fa78d174">run</a>();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classGrayScott.html#a60239e744d4cf6c74fc2af1c45abd8ce">step</a>();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    </div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classGrayScott.html#a1925a03a32d117d3163e633c57703bcf">   51</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classGrayScott.html#a1925a03a32d117d3163e633c57703bcf">size</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> N_; }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    </div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="classGrayScott.html#a0704c788a8cdf28a49c0d21ef4ecfda1">   58</a></span>&#160;    std::vector&lt;double&gt; <a class="code" href="classGrayScott.html#a0704c788a8cdf28a49c0d21ef4ecfda1">getU</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> u_; }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    </div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="classGrayScott.html#adbff28843549d47f8b3cda66f3915564">   65</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classGrayScott.html#adbff28843549d47f8b3cda66f3915564">getCurrStep</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> currStep_; }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    </div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="classGrayScott.html#a000f333075534d13d605cb062089aadb">   72</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classGrayScott.html#a000f333075534d13d605cb062089aadb">getDt</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> dt_; }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    </div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classGrayScott.html#a1cd54e9f326da74408e4acff2e6e0ae5">   79</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classGrayScott.html#a1cd54e9f326da74408e4acff2e6e0ae5">getTime</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> (<span class="keywordtype">double</span>)currStep_*dt_; }</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> nSteps_;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">int</span> currStep_;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    std::vector&lt;double&gt; u_;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    std::vector&lt;double&gt; v_;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> Du_;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> Dv_;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> F_;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> k_;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <a class="code" href="classTriDiagMatrix.html">TriDiagMatrix</a> matU1_; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <a class="code" href="classTriDiagMatrix.html">TriDiagMatrix</a> matU2_; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <a class="code" href="classTriDiagMatrix.html">TriDiagMatrix</a> matV1_;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <a class="code" href="classTriDiagMatrix.html">TriDiagMatrix</a> matV2_;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordtype">void</span> initialize_fields();</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    </div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordtype">void</span> print_fields();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> N_;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">int</span> Ntot_;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment">//    const double L_;</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> dx_;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> dt_;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">int</span> nSteps_;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordtype">int</span> currStep_;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    </div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    std::vector&lt;double&gt; u_;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    std::vector&lt;double&gt; v_;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> Du_;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> Dv_;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> F_;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">double</span> k_;</div>
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    </div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    std::string dirPath_;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;};</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="preprocessor"></span></div>
-<div class="ttc" id="classGrayScott_html_a60239e744d4cf6c74fc2af1c45abd8ce"><div class="ttname"><a href="classGrayScott.html#a60239e744d4cf6c74fc2af1c45abd8ce">GrayScott::step</a></div><div class="ttdeci">void step()</div><div class="ttdef"><b>Definition:</b> grayscott.cpp:81</div></div>
-<div class="ttc" id="classGrayScott_html_aea6ca9ee2a59a337730a787c400a858d"><div class="ttname"><a href="classGrayScott.html#aea6ca9ee2a59a337730a787c400a858d">GrayScott::GrayScott</a></div><div class="ttdeci">GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps)</div><div class="ttdef"><b>Definition:</b> grayscott.cpp:20</div></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        </div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <a class="code" href="classTriDiagMatrix.html">TriDiagMatrix</a> matU1_; </div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <a class="code" href="classTriDiagMatrix.html">TriDiagMatrix</a> matU2_; </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <a class="code" href="classTriDiagMatrix.html">TriDiagMatrix</a> matV1_;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <a class="code" href="classTriDiagMatrix.html">TriDiagMatrix</a> matV2_;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    </div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordtype">void</span> initialize_fields();</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    </div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordtype">void</span> save_fields();</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    std::string dirPath_;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    </div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    std::string pngName_;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    </div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keywordtype">void</span> save_png();</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;};</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="preprocessor"></span></div>
+<div class="ttc" id="classGrayScott_html_a000f333075534d13d605cb062089aadb"><div class="ttname"><a href="classGrayScott.html#a000f333075534d13d605cb062089aadb">GrayScott::getDt</a></div><div class="ttdeci">double getDt() const </div><div class="ttdef"><b>Definition:</b> grayscott.hpp:72</div></div>
+<div class="ttc" id="classGrayScott_html_a60239e744d4cf6c74fc2af1c45abd8ce"><div class="ttname"><a href="classGrayScott.html#a60239e744d4cf6c74fc2af1c45abd8ce">GrayScott::step</a></div><div class="ttdeci">void step()</div><div class="ttdef"><b>Definition:</b> grayscott.cpp:85</div></div>
+<div class="ttc" id="classGrayScott_html_a0a745a867985c39e3df22de89a0292d0"><div class="ttname"><a href="classGrayScott.html#a0a745a867985c39e3df22de89a0292d0">GrayScott::~GrayScott</a></div><div class="ttdeci">~GrayScott()</div><div class="ttdef"><b>Definition:</b> grayscott.cpp:54</div></div>
+<div class="ttc" id="classGrayScott_html_a1925a03a32d117d3163e633c57703bcf"><div class="ttname"><a href="classGrayScott.html#a1925a03a32d117d3163e633c57703bcf">GrayScott::size</a></div><div class="ttdeci">int size() const </div><div class="ttdef"><b>Definition:</b> grayscott.hpp:51</div></div>
 <div class="ttc" id="classTriDiagMatrix_html"><div class="ttname"><a href="classTriDiagMatrix.html">TriDiagMatrix</a></div><div class="ttdef"><b>Definition:</b> tridiagmatrix.hpp:8</div></div>
-<div class="ttc" id="classGrayScott_html_adf11a6024de7c77b1e1aae00fa78d174"><div class="ttname"><a href="classGrayScott.html#adf11a6024de7c77b1e1aae00fa78d174">GrayScott::run</a></div><div class="ttdeci">void run()</div><div class="ttdef"><b>Definition:</b> grayscott.cpp:56</div></div>
+<div class="ttc" id="classGrayScott_html_a0704c788a8cdf28a49c0d21ef4ecfda1"><div class="ttname"><a href="classGrayScott.html#a0704c788a8cdf28a49c0d21ef4ecfda1">GrayScott::getU</a></div><div class="ttdeci">std::vector&lt; double &gt; getU() const </div><div class="ttdef"><b>Definition:</b> grayscott.hpp:58</div></div>
+<div class="ttc" id="classGrayScott_html_adf11a6024de7c77b1e1aae00fa78d174"><div class="ttname"><a href="classGrayScott.html#adf11a6024de7c77b1e1aae00fa78d174">GrayScott::run</a></div><div class="ttdeci">void run()</div><div class="ttdef"><b>Definition:</b> grayscott.cpp:63</div></div>
+<div class="ttc" id="classGrayScott_html_adbff28843549d47f8b3cda66f3915564"><div class="ttname"><a href="classGrayScott.html#adbff28843549d47f8b3cda66f3915564">GrayScott::getCurrStep</a></div><div class="ttdeci">int getCurrStep() const </div><div class="ttdef"><b>Definition:</b> grayscott.hpp:65</div></div>
 <div class="ttc" id="classGrayScott_html"><div class="ttname"><a href="classGrayScott.html">GrayScott</a></div><div class="ttdef"><b>Definition:</b> grayscott.hpp:10</div></div>
+<div class="ttc" id="classGrayScott_html_accea127aa0001c35c226a59112b612b2"><div class="ttname"><a href="classGrayScott.html#accea127aa0001c35c226a59112b612b2">GrayScott::GrayScott</a></div><div class="ttdeci">GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname)</div><div class="ttdef"><b>Definition:</b> grayscott.cpp:18</div></div>
+<div class="ttc" id="classGrayScott_html_a1cd54e9f326da74408e4acff2e6e0ae5"><div class="ttname"><a href="classGrayScott.html#a1cd54e9f326da74408e4acff2e6e0ae5">GrayScott::getTime</a></div><div class="ttdeci">double getTime() const </div><div class="ttdef"><b>Definition:</b> grayscott.hpp:79</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 25 2015 17:40:44 for ADI for Reaction-Diffusion Systems by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 6 2015 14:49:04 for ADI for Reaction-Diffusion Systems by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
