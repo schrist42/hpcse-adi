@@ -4,6 +4,8 @@
 #include <random>
 #include <ctime>
 #include <boost/filesystem.hpp>
+#include <omp.h>
+#include <chrono>
 
 #include "grayscott.hpp"
 #include "tridiagmatrixsolver.hpp"
@@ -11,11 +13,12 @@
 #include "lodepng.h" // NOT loadpng
 
 
+
 #define U(x,y) u_[(x) + (y)*N_]
 #define V(x,y) v_[(x) + (y)*N_]
 
 
-GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname)
+GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname, unsigned int nthreads)
     : N_(N)
     , Ntot_(N*N)
 //    , L_(L)
@@ -32,6 +35,7 @@ GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F,
     , matV1_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
     , matV2_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
     , pngName_(pngname)
+    , nthreads_(nthreads)
 {
     // create directory to save output to
     time_t rawtime;
@@ -62,16 +66,24 @@ GrayScott::~GrayScott()
 
 void GrayScott::run()
 {
-    save_fields();
+    //save_fields();
+	// timer init and start
+	std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
+	start = std::chrono::high_resolution_clock::now();
     
     for (int i=0; i<nSteps_; ++i) {
         step();
         
-        if (i == 0) {
+        //if (i == 0) {
 //            save_fields();
-        }
+        // }
     }
-    
+    	// timer end and output of time
+	end = std::chrono::high_resolution_clock::now();
+	double elapsed = std::chrono::duration<double>(end-start).count();    
+    std::cout << "\n";
+    std::cout << "exec time: " << '\t' << nthreads_ << '\t' << elapsed << std::endl;
+    std::cout << "\n";
     
 //    save_fields();
     save_png();
@@ -105,6 +117,7 @@ void GrayScott::step()
     // loop over all rows
     
     // j=0
+	#pragma omp parallel for num_threads(nthreads_)
     for (int i=0; i<N_; ++i) {
         uRhs[i] = U(i,0) + uCoeff * (U(i,1) - U(i,0));
         vRhs[i] = V(i,0) + vCoeff * (V(i,1) - V(i,0));
@@ -115,6 +128,7 @@ void GrayScott::step()
     // inner grid points
     for (int j=1; j<N_-1; ++j) {
         // create right-hand side of the systems
+	#pragma omp parallel for num_threads(nthreads_)
         for (int i=0; i<N_; ++i) {
             uRhs[i] = U(i,j) + uCoeff * (U(i,j+1) - 2.*U(i,j) + U(i,j-1));
             vRhs[i] = V(i,j) + vCoeff * (V(i,j+1) - 2.*V(i,j) + V(i,j-1));
@@ -125,6 +139,7 @@ void GrayScott::step()
     }
     
     // j=N_-1
+    #pragma omp parallel for num_threads(nthreads_)
     for (int i=0; i<N_; ++i) {
         uRhs[i] = U(i,N_-1) + uCoeff * (- U(i,N_-1) + U(i,N_-2));
         vRhs[i] = V(i,N_-1) + vCoeff * (- V(i,N_-1) + V(i,N_-2));
@@ -143,6 +158,7 @@ void GrayScott::step()
     // loop over all columns
     
     // i=0
+    #pragma omp parallel for num_threads(nthreads_)
     for (int j=0; j<N_; ++j) {
         uRhs[j] = U(0,j) + uCoeff * (U(1,j) - U(0,j));
         vRhs[j] = V(0,j) + vCoeff * (V(1,j) - V(0,j));
@@ -153,6 +169,7 @@ void GrayScott::step()
     // inner grid points
     for (int i=1; i<N_-1; ++i) {
         // create right-hand side of the systems
+	#pragma omp parallel for num_threads(nthreads_)
         for (int j=0; j<N_; ++j) {
             uRhs[j] = UHALF(i,j) + uCoeff * (UHALF(i+1,j) - 2.*UHALF(i,j) + UHALF(i-1,j));
             vRhs[j] = VHALF(i,j) + vCoeff * (VHALF(i+1,j) - 2.*VHALF(i,j) + VHALF(i-1,j));
@@ -163,6 +180,7 @@ void GrayScott::step()
     }
     
     // i=N_-1
+	#pragma omp parallel for num_threads(nthreads_)
     for (int j=0; j<N_; ++j) {
         uRhs[j] = U(N_-1,j) + uCoeff * (- U(N_-1,j) + U(N_-2,j));
         vRhs[j] = V(N_-1,j) + vCoeff * (- V(N_-1,j) + V(N_-2,j));
@@ -175,6 +193,7 @@ void GrayScott::step()
     /****************** REACTION **********************************************/
 
     double tmp;
+#pragma omp parallel for private(tmp) num_threads(nthreads_)    
     for (int i=0; i<N_; ++i) {
         for (int j=0; j<N_; ++j) {
             tmp = U(i,j);
@@ -201,7 +220,7 @@ void GrayScott::initialize_fields()
     
     double chi;
     double x, y;
-    
+    #pragma omp parallel for num_threads(nthreads_)
     for (int i=0; i<N_; ++i) {
         for (int j=0; j<N_; ++j) {
             x = -1 + (double)i*dx_;
