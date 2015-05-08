@@ -4,7 +4,7 @@
  #	[DESCRIPTION]
  #	Makefile to build the exercise
  
-CXX         = clang++
+CXX         = g++ #clang++
 
 # === Sources ===
 EXE         = main
