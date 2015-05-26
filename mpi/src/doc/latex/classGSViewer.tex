@@ -1,0 +1,66 @@
+\hypertarget{classGSViewer}{\section{G\-S\-Viewer Class Reference}
+\label{classGSViewer}\index{G\-S\-Viewer@{G\-S\-Viewer}}
+}
+
+
+{\ttfamily \#include $<$gsviewer.\-hpp$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classGSViewer_ab88d43b4279ded01eff0a896a10dad4e}{G\-S\-Viewer} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\item 
+void \hyperlink{classGSViewer_abbdfc5da615e497d0de2b2eacc3317d1}{visualize} (\hyperlink{classGrayScott}{Gray\-Scott} $\ast$simulation)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Viewer for the Gray-\/\-Scott Reaction Diffusion simulation.
+
+This class implements a viewer for the Gray-\/\-Scott Reaction Diffusion simulation. It visualizes the field U as the simulation is running using Open\-G\-L. 
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classGSViewer_ab88d43b4279ded01eff0a896a10dad4e}{\index{G\-S\-Viewer@{G\-S\-Viewer}!G\-S\-Viewer@{G\-S\-Viewer}}
+\index{G\-S\-Viewer@{G\-S\-Viewer}!GSViewer@{G\-S\-Viewer}}
+\subsubsection[{G\-S\-Viewer}]{\setlength{\rightskip}{0pt plus 5cm}G\-S\-Viewer\-::\-G\-S\-Viewer (
+\begin{DoxyParamCaption}
+\item[{int}]{argc, }
+\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]}}
+\end{DoxyParamCaption}
+)}}\label{classGSViewer_ab88d43b4279ded01eff0a896a10dad4e}
+Construct a Gray-\/\-Scott viewer.
+
+The constructor initializes glut.
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & argument from the main function \\
+\hline
+{\em argv} & argument from the main function \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classGSViewer_abbdfc5da615e497d0de2b2eacc3317d1}{\index{G\-S\-Viewer@{G\-S\-Viewer}!visualize@{visualize}}
+\index{visualize@{visualize}!GSViewer@{G\-S\-Viewer}}
+\subsubsection[{visualize}]{\setlength{\rightskip}{0pt plus 5cm}void G\-S\-Viewer\-::visualize (
+\begin{DoxyParamCaption}
+\item[{{\bf Gray\-Scott} $\ast$}]{simulation}
+\end{DoxyParamCaption}
+)}}\label{classGSViewer_abbdfc5da615e497d0de2b2eacc3317d1}
+Run the visualization.
+
+The visualization function will run the the simulation and visualize the field U. It initializes the window and will run the glut\-Main\-Loop.
+
+
+\begin{DoxyParams}{Parameters}
+{\em simulation} & the simulation that has to be run and visualized \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+gsviewer.\-hpp\item 
+gsviewer.\-cpp\end{DoxyCompactItemize}
