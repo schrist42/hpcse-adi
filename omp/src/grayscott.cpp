@@ -4,14 +4,12 @@
 #include <random>
 #include <ctime>
 #include <boost/filesystem.hpp>
-#include <omp.h>
 #include <chrono>
+#include <omp.h>
 
 #include "grayscott.hpp"
 #include "tridiagmatrixsolver.hpp"
-#include "periodictridiagmatrixsolver.hpp"
 #include "lodepng.h" // NOT loadpng
-
 
 
 #define U(x,y) u_[(x) + (y)*N_]
@@ -81,14 +79,16 @@ void GrayScott::run()
     	// timer end and output of time
 	end = std::chrono::high_resolution_clock::now();
 	double elapsed = std::chrono::duration<double>(end-start).count();    
+    #pragma omp parallel num_threads(nthreads_)
+    #pragma omp single
+    std::cout << "# omp threads = " << omp_get_num_threads() << std::endl;    
     std::cout << "\n";
-    std::cout << "exec time: " << '\t' << nthreads_ << '\t' << elapsed << std::endl;
+    std::cout << "exec time: " << '\t' << elapsed << std::endl;
     std::cout << "\n";
     
 //    save_fields();
     save_png();
 }
-
 
 
 #define UHALF(x,y) uHalf[(x) + (y)*N_]
@@ -117,7 +117,6 @@ void GrayScott::step()
     // loop over all rows
     
     // j=0
-	#pragma omp parallel for num_threads(nthreads_)
     for (int i=0; i<N_; ++i) {
         uRhs[i] = U(i,0) + uCoeff * (U(i,1) - U(i,0));
         vRhs[i] = V(i,0) + vCoeff * (V(i,1) - V(i,0));
@@ -126,20 +125,26 @@ void GrayScott::step()
     TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,0), 1);
     
     // inner grid points
+
+  #pragma omp parallel num_threads(nthreads_)
+    { // PARALLEL REGION BEGIN
+    // right hand sides for u and for v
+    std::vector<double> puRhs(N_);
+    std::vector<double> pvRhs(N_);
+
+    #pragma omp for
     for (int j=1; j<N_-1; ++j) {
         // create right-hand side of the systems
-	#pragma omp parallel for num_threads(nthreads_)
         for (int i=0; i<N_; ++i) {
-            uRhs[i] = U(i,j) + uCoeff * (U(i,j+1) - 2.*U(i,j) + U(i,j-1));
-            vRhs[i] = V(i,j) + vCoeff * (V(i,j+1) - 2.*V(i,j) + V(i,j-1));
+            puRhs[i] = U(i,j) + uCoeff * (U(i,j+1) - 2.*U(i,j) + U(i,j-1));
+            pvRhs[i] = V(i,j) + vCoeff * (V(i,j+1) - 2.*V(i,j) + V(i,j-1));
         }
         
-        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,j), 1);
-        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,j), 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, puRhs, &UHALF(0,j), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, pvRhs, &VHALF(0,j), 1);
     }
-    
+    } // PARALLEL REGION END
     // j=N_-1
-    #pragma omp parallel for num_threads(nthreads_)
     for (int i=0; i<N_; ++i) {
         uRhs[i] = U(i,N_-1) + uCoeff * (- U(i,N_-1) + U(i,N_-2));
         vRhs[i] = V(i,N_-1) + vCoeff * (- V(i,N_-1) + V(i,N_-2));
@@ -147,18 +152,10 @@ void GrayScott::step()
     TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,N_-1), 1);
     TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,N_-1), 1);
     
-    
-    
-    
-    // MPI TRANSPOSE MATRIX (ALL-TO-ALL) ?
-    
-    
-    
     // perform the second half-step
     // loop over all columns
     
     // i=0
-    #pragma omp parallel for num_threads(nthreads_)
     for (int j=0; j<N_; ++j) {
         uRhs[j] = U(0,j) + uCoeff * (U(1,j) - U(0,j));
         vRhs[j] = V(0,j) + vCoeff * (V(1,j) - V(0,j));
@@ -167,20 +164,27 @@ void GrayScott::step()
     TriDiagMatrixSolver::solve(N_, matV2_, vRhs, &V(0,0), N_);
     
     // inner grid points
+
+    #pragma omp parallel num_threads(nthreads_)
+    {  // PARALLEL REGION BEGIN
+    // right hand sides for u and for v
+    std::vector<double> puRhs(N_);
+    std::vector<double> pvRhs(N_);
+
+    #pragma omp for
     for (int i=1; i<N_-1; ++i) {
         // create right-hand side of the systems
-	#pragma omp parallel for num_threads(nthreads_)
+
         for (int j=0; j<N_; ++j) {
-            uRhs[j] = UHALF(i,j) + uCoeff * (UHALF(i+1,j) - 2.*UHALF(i,j) + UHALF(i-1,j));
-            vRhs[j] = VHALF(i,j) + vCoeff * (VHALF(i+1,j) - 2.*VHALF(i,j) + VHALF(i-1,j));
+            puRhs[j] = UHALF(i,j) + uCoeff * (UHALF(i+1,j) - 2.*UHALF(i,j) + UHALF(i-1,j));
+            pvRhs[j] = VHALF(i,j) + vCoeff * (VHALF(i+1,j) - 2.*VHALF(i,j) + VHALF(i-1,j));
         }
         
-        TriDiagMatrixSolver::solve(N_, matU2_, uRhs, &U(i,0), N_);
-        TriDiagMatrixSolver::solve(N_, matV2_, vRhs, &V(i,0), N_);
+        TriDiagMatrixSolver::solve(N_, matU2_, puRhs, &U(i,0), N_);
+        TriDiagMatrixSolver::solve(N_, matV2_, pvRhs, &V(i,0), N_);
     }
-    
+    } // PARALLEL REGION END
     // i=N_-1
-	#pragma omp parallel for num_threads(nthreads_)
     for (int j=0; j<N_; ++j) {
         uRhs[j] = U(N_-1,j) + uCoeff * (- U(N_-1,j) + U(N_-2,j));
         vRhs[j] = V(N_-1,j) + vCoeff * (- V(N_-1,j) + V(N_-2,j));
@@ -191,16 +195,18 @@ void GrayScott::step()
     
     
     /****************** REACTION **********************************************/
-
+    #pragma omp parallel num_threads(nthreads_)
+    { // PARALLEL REGION BEGIN
     double tmp;
-#pragma omp parallel for private(tmp) num_threads(nthreads_)    
+    #pragma omp for
     for (int i=0; i<N_; ++i) {
         for (int j=0; j<N_; ++j) {
             tmp = U(i,j);
-            U(i,j) += dt_ * ( -U(i,j)*V(i,j)*V(i,j) + F_*(1.-U(i,j)) );
+            U(i,j) += dt_ * ( -tmp*V(i,j)*V(i,j) + F_*(1.-tmp) );
             V(i,j) += dt_ * ( tmp*V(i,j)*V(i,j) - (F_+k_)*V(i,j) );
         }
     }
+    } // PARALLEL REGION END
 }
 
 
@@ -220,7 +226,7 @@ void GrayScott::initialize_fields()
     
     double chi;
     double x, y;
-    #pragma omp parallel for num_threads(nthreads_)
+    
     for (int i=0; i<N_; ++i) {
         for (int j=0; j<N_; ++j) {
             x = -1 + (double)i*dx_;
