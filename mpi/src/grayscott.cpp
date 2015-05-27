@@ -30,12 +30,14 @@ GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, doub
     , currStep_(0)
     , Du_(Du)
     , Dv_(Dv)
+    , uCoeff(Du_*dt_/(2.*dx_*dx_))
+    , vCoeff(Dv_*dt_/(2.*dx_*dx_))
     , F_(F)
     , k_(k)
     , matU1_(N, -Du*dt/(2.*dx_*dx_), 1.+Du*dt/(dx_*dx_), -Du*dt/(2.*dx_*dx_))
-    , matU2_(N, -Du*dt/(2.*dx_*dx_), 1.+Du*dt/(dx_*dx_), -Du*dt/(2.*dx_*dx_)) // equal to matU1_, since we have a square grid (dx==dy)
+//    , matU2_(N, -Du*dt/(2.*dx_*dx_), 1.+Du*dt/(dx_*dx_), -Du*dt/(2.*dx_*dx_)) // equal to matU1_, since we have a square grid (dx==dy)
     , matV1_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
-    , matV2_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
+//    , matV2_(N, -Dv*dt/(2.*dx_*dx_), 1.+Dv*dt/(dx_*dx_), -Dv*dt/(2.*dx_*dx_))
     , pngName_(pngname)
     , world(w)
     , rmin_(rmin)
@@ -54,7 +56,7 @@ GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, doub
         dirPath_ = "data/" + timeString + "/";
 	
         boost::filesystem::path dir(dirPath_);
-        boost::filesystem::create_directory(dir);
+//        boost::filesystem::create_directory(dir);
     }
     
     
@@ -70,9 +72,11 @@ GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, doub
     Ny_loc = Ny_glo / world.dims_y;
     NN_loc = Nx_loc * Ny_loc;
     
+    Nb_loc = Ny_loc/Nx_loc;
     
     
-    // build periodic process geometry with cartesian communicator
+    
+    // build process geometry with cartesian communicator
     int periods[2] = {false, false};
     int dims[2] = {world.dims_x, world.dims_y};
     
@@ -80,7 +84,7 @@ GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, doub
     
     MPI_Comm_rank(cart_comm, &world.cart_rank);
     
-    MPI_Cart_shift(cart_comm, 1, 1, &world.top_proc, &world.bottom_proc);
+    MPI_Cart_shift(cart_comm, 0, 1, &world.top_proc, &world.bottom_proc);
     
     int coords[2];
     MPI_Cart_coords(cart_comm, world.cart_rank, 2, coords);
@@ -101,19 +105,34 @@ GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, doub
     MPI_Type_commit(&top_boundary);
     
     
-    // build datatype for transpose
+    // build datatypes for transpose
+    MPI_Datatype block_send, block_col, block_recv;
+    
+    // send datatype
     int sizes[2]    = {Nx_loc, Ny_loc}; // size of global array
     int subsizes[2] = {Nx_loc, Nx_loc}; // size of sub-region (square)
-    int starts[2]   = {0,0};            // let's say we're looking at region "0", which begins at index [0,0]
+    int starts[2]   = {0,0};            // where does the first subarray begin (which index)
     
-    MPI_Type_create_subarray(2, sizes, subsizes, starts, MPI_ORDER_C, MPI_DOUBLE, &block);
-//    MPI_Type_vector(Ny_loc, Nx_loc, Ny_loc, MPI_INT, &block);
-    MPI_Type_commit(&block);
+    MPI_Type_create_subarray(2, sizes, subsizes, starts, MPI_ORDER_C, MPI_DOUBLE, &block_send);
+    MPI_Type_commit(&block_send);
 
     // resize -> make contiguous
-    MPI_Type_create_resized(block, 0, Nx_loc*sizeof(double), &block_resized);
-//    MPI_Type_free(&block);
-    MPI_Type_commit(&block_resized);
+    MPI_Type_create_resized(block_send, 0, Nx_loc*sizeof(double), &block_resized_send);
+    MPI_Type_free(&block_send);
+    MPI_Type_commit(&block_resized_send);
+    
+    
+    // receive datatype
+    MPI_Type_vector(Nx_loc, 1, Ny_loc, MPI_DOUBLE, &block_col);
+    MPI_Type_commit(&block_col);
+    MPI_Type_hvector(Nx_loc, 1, sizeof(double), block_col, &block_recv);
+    MPI_Type_free(&block_col);
+    MPI_Type_commit(&block_recv);
+
+    // resize data structure, so that it is contigious (for alltoall)
+    MPI_Type_create_resized(block_recv, 0, 1*sizeof(double), &block_resized_recv);
+    MPI_Type_free(&block_recv);
+    MPI_Type_commit(&block_resized_recv);
     
     
     
@@ -133,17 +152,17 @@ GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, doub
 
 GrayScott::~GrayScott()
 {
-    if (world.rank == 0) {
-        boost::filesystem::path dir(dirPath_);
-        if (boost::filesystem::exists(dir) && boost::filesystem::is_empty(dir)) {
-            boost::filesystem::remove(dir);
-        }
-    }
+//    if (world.rank == 0) {
+//        boost::filesystem::path dir(dirPath_);
+//        if (boost::filesystem::exists(dir) && boost::filesystem::is_empty(dir)) {
+//            boost::filesystem::remove(dir);
+//        }
+//    }
     
     MPI_Type_free(&bottom_boundary);
     MPI_Type_free(&top_boundary);
-    MPI_Type_free(&block);
-    MPI_Type_free(&block_resized);
+    MPI_Type_free(&block_resized_send);
+    MPI_Type_free(&block_resized_recv);
     
     MPI_Comm_free(&cart_comm);
 }
@@ -151,29 +170,17 @@ GrayScott::~GrayScott()
 
 void GrayScott::run()
 {
-    //save_fields();
 	// timer init and start
-//	std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
-//	start = std::chrono::high_resolution_clock::now();
 
     double start = MPI_Wtime();
     
     for (int i=0; i<nSteps_; ++i) {
-//        if (world.rank == 0) std::cout << "starting step " << i << "\n";
         step();
-//        if (world.rank == 0)
-//            std::cout << "Step " << i << " done!\n";
     }
     
-    
     // timer end and output of time
-//	end = std::chrono::high_resolution_clock::now();
-//	double elapsed = std::chrono::duration<double>(end-start).count();    
-	
 	double end = MPI_Wtime();
     double elapsed = end-start;
-    
-//    save_png();
     
     if (world.rank == 0) {
         std::string sep = "_";
@@ -188,19 +195,10 @@ void GrayScott::run()
     }
     
     save_png();
-        
-
-//    if (world.rank == 0) {
-//        std::cout << "\n";
-//        std::cout << "exec time: " << '\t' << elapsed << std::endl;
-//        std::cout << "\n";
-//        
-//        save_png();
-//    }
 }
 
-#define UHALF(x,y) uHalf[((x)+1)*Ny_loc + (y)]
-#define VHALF(x,y) vHalf[((x)+1)*Ny_loc + (y)]
+#define UTEMP(x,y) uTemp[((x)+1)*Ny_loc + (y)]
+#define VTEMP(x,y) vTemp[((x)+1)*Ny_loc + (y)]
 
 void GrayScott::step()
 {
@@ -243,15 +241,14 @@ void GrayScott::step()
     
     
     // u and v at the half step
-    std::vector<double> uHalf(u_.size());
-    std::vector<double> vHalf(v_.size());
+    std::vector<double> uTemp(u_.size());
+    std::vector<double> vTemp(v_.size());
     
     // right hand sides for u and for v
     std::vector<double> uRhs(N_);
     std::vector<double> vRhs(N_);
     
-    double uCoeff = Du_*dt_/(2.*dx_*dx_);
-    double vCoeff = Dv_*dt_/(2.*dx_*dx_);
+    
     
     
     /****************** DIFFUSION (ADI) ***************************************/
@@ -270,8 +267,8 @@ void GrayScott::step()
             vRhs[j] = V(i,j) + vCoeff * (V(i+1,j) - 2.*V(i,j) + V(i-1,j));
         }
         
-        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(i,0), 1);
-        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(i,0), 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UTEMP(i,0), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VTEMP(i,0), 1);
     }
     
     
@@ -288,8 +285,8 @@ void GrayScott::step()
             uRhs[j] = U(0,j) + uCoeff * (U(1,j) - U(0,j));
             vRhs[j] = V(0,j) + vCoeff * (V(1,j) - V(0,j));
         }
-        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,0), 1);
-        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,0), 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UTEMP(0,0), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VTEMP(0,0), 1);
     }
     else {
         // i=0 local
@@ -298,8 +295,8 @@ void GrayScott::step()
             vRhs[j] = V(0,j) + vCoeff * (V(0+1,j) - 2.*V(0,j) + V(0-1,j));
         }
         
-        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,0), 1);
-        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,0), 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UTEMP(0,0), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VTEMP(0,0), 1);
     }
     
     
@@ -309,18 +306,18 @@ void GrayScott::step()
             uRhs[j] = U(Nx_loc-1,j) + uCoeff * (- U(Nx_loc-1,j) + U(Nx_loc-2,j));
             vRhs[j] = V(Nx_loc-1,j) + vCoeff * (- V(Nx_loc-1,j) + V(Nx_loc-2,j));
         }
-        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(Nx_loc-1,0), 1);
-        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(Nx_loc-1,0), 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UTEMP(Nx_loc-1,0), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VTEMP(Nx_loc-1,0), 1);
     }
     else {
-        // i=Nx_loc-1 local and global
+        // i=Nx_loc-1 local
         for (int j=0; j<N_; ++j) {
             uRhs[j] = U(Nx_loc-1,j) + uCoeff * (U(Nx_loc-1+1,j) - 2.*U(Nx_loc-1,j) + U(Nx_loc-1-1,j));
             vRhs[j] = V(Nx_loc-1,j) + vCoeff * (V(Nx_loc-1+1,j) - 2.*V(Nx_loc-1,j) + V(Nx_loc-1-1,j));
         }
         
-        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(Nx_loc-1,0), 1);
-        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(Nx_loc-1,0), 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UTEMP(Nx_loc-1,0), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VTEMP(Nx_loc-1,0), 1);
     }
     
     
@@ -329,14 +326,16 @@ void GrayScott::step()
     
     // transpose matrix
     
-    // transpose global blocks (send from uHalf to u_)
+    // TODO either send-datatype also for recieve and then local transpose, or recv-datatype
+    // -> test which faster
+    
+    // transpose global blocks (send from uTemp to u_)
     // start at Ny_loc, because we ignore the ghost cells
-    MPI_Alltoall(&uHalf[Ny_loc], 1, block_resized, &u_[Ny_loc], 1, block_resized, MPI_COMM_WORLD);
-    MPI_Alltoall(&vHalf[Ny_loc], 1, block_resized, &v_[Ny_loc], 1, block_resized, MPI_COMM_WORLD);
+    MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+    MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
     
     // locally transpose blocks
     // loop over blocks TODO parallelize block loop with openmp
-    int Nb_loc = Ny_loc/Nx_loc;
     int ind1, ind2;
 //    int tmp2;
     for (int b=0; b<Nb_loc; ++b) {
@@ -356,7 +355,7 @@ void GrayScott::step()
     
     
     // exchange new boundaries
-    if (world.coord_x % 2 == 0) { // first send top, then botton
+    if (world.coord_x % 2 == 0) { // first send top, then bottom
         
         MPI_Isend(&u_[(Nx_loc)*(Ny_loc)],   1, bottom_boundary, world.bottom_proc, TAG, cart_comm, &request[0]);
         MPI_Irecv(&u_[(Nx_loc+1)*(Ny_loc)], 1, bottom_boundary, world.bottom_proc, TAG, cart_comm, &request[1]);
@@ -368,7 +367,7 @@ void GrayScott::step()
         MPI_Isend(&v_[(Ny_loc)],            1, top_boundary,    world.top_proc,    TAG, cart_comm, &request[6]);
         MPI_Irecv(&v_[0],                   1, top_boundary,    world.top_proc,    TAG, cart_comm, &request[7]);
     }
-    else { // first send botton, then top
+    else { // first send bottom, then top
         
         MPI_Irecv(&u_[0],                   1, top_boundary,    world.top_proc,    TAG, cart_comm, &request[0]);
         MPI_Isend(&u_[(Ny_loc)],            1, top_boundary,    world.top_proc,    TAG, cart_comm, &request[1]);
@@ -391,8 +390,8 @@ void GrayScott::step()
             vRhs[j] = V(i,j) + vCoeff * (V(i+1,j) - 2.*V(i,j) + V(i-1,j));
         }
         
-        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(i,0), 1);
-        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(i,0), 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UTEMP(i,0), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VTEMP(i,0), 1);
     }
     
     
@@ -409,8 +408,8 @@ void GrayScott::step()
             uRhs[j] = U(0,j) + uCoeff * (U(1,j) - U(0,j));
             vRhs[j] = V(0,j) + vCoeff * (V(1,j) - V(0,j));
         }
-        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,0), 1);
-        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,0), 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UTEMP(0,0), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VTEMP(0,0), 1);
     }
     else {
         // i=0 local, but not globally
@@ -419,8 +418,8 @@ void GrayScott::step()
             vRhs[j] = V(0,j) + vCoeff * (V(0+1,j) - 2.*V(0,j) + V(0-1,j));
         }
         
-        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,0), 1);
-        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,0), 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UTEMP(0,0), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VTEMP(0,0), 1);
     }
     
     // bottom
@@ -430,8 +429,8 @@ void GrayScott::step()
             uRhs[j] = U(Nx_loc-1,j) + uCoeff * (- U(Nx_loc-1,j) + U(Nx_loc-2,j));
             vRhs[j] = V(Nx_loc-1,j) + vCoeff * (- V(Nx_loc-1,j) + V(Nx_loc-2,j));
         }
-        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(Nx_loc-1,0), 1);
-        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(Nx_loc-1,0), 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UTEMP(Nx_loc-1,0), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VTEMP(Nx_loc-1,0), 1);
     }
     else {
         // i=Nx_loc-1 local
@@ -440,8 +439,8 @@ void GrayScott::step()
             vRhs[j] = V(Nx_loc-1,j) + vCoeff * (V(Nx_loc-1+1,j) - 2.*V(Nx_loc-1,j) + V(Nx_loc-1-1,j));
         }
         
-        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(Nx_loc-1,0), 1);
-        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(Nx_loc-1,0), 1);
+        TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UTEMP(Nx_loc-1,0), 1);
+        TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VTEMP(Nx_loc-1,0), 1);
     }
     
     
@@ -450,16 +449,13 @@ void GrayScott::step()
     
     // transpose back
     
-    // transpose global blocks (send from uHalf to u_)
+    // transpose global blocks (send from uTemp to u_)
     // start at Ny_loc, because we ignore the ghost cells
-    MPI_Alltoall(&uHalf[Ny_loc], 1, block_resized, &u_[Ny_loc], 1, block_resized, MPI_COMM_WORLD);
-    MPI_Alltoall(&vHalf[Ny_loc], 1, block_resized, &v_[Ny_loc], 1, block_resized, MPI_COMM_WORLD);
+    MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+    MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
     
     // locally transpose blocks
     // loop over blocks TODO parallelize block loop with openmp
-//    int Nb_loc = Ny_loc/Nx_loc;
-//    int ind1, ind2;
-//    int tmp2;
     for (int b=0; b<Nb_loc; ++b) {
         for (int i=0; i<Nx_loc; ++i) {
             for (int j=0; j<i; ++j) {
@@ -500,32 +496,50 @@ void GrayScott::initialize_fields()
 {
     // domain [-1,1]²
     
-    // initialize with all U
     u_.clear();
     u_.resize((Nx_loc+2) * (Ny_loc), 0.);
     v_.clear();
     v_.resize((Nx_loc+2) * (Ny_loc), 0.);
     
     
+    std::vector<double> rand_glo(N_*N_*2);
+    std::vector<double> rand(Nx_loc*Ny_loc*2);
     
-    std::mt19937 rng(world.rank+1); // different rng for each processor -> problem?
-    std::normal_distribution<double> dist(0,1);
+    if (world.rank == 0) {
+        std::mt19937 rng(42);
+        std::normal_distribution<double> dist(0,1);
+        
+        for (int i=0; i<Nx_loc*Ny_loc*2; ++i) {
+            rand_glo[i] = dist(rng);
+        }
+    }
+    
+    MPI_Datatype rands;
+    MPI_Type_contiguous(Nx_loc*Ny_loc*2, MPI_DOUBLE, &rands);
+    MPI_Type_commit(&rands);
+    
+    MPI_Scatter(&rand_glo[0], 1, rands, &rand[0], 1, rands, 0, MPI_COMM_WORLD);
+    
+    MPI_Type_free(&rands);
     
     double chi;
     double x, y;
+    int ind = 0;
     
     for (int i=0; i<Nx_loc; ++i) {
         for (int j=0; j<Ny_loc; ++j) {
-            x = -1. + (double)i*dx_ + xmin_loc;
-            y = -1. + (double)j*dx_ + ymin_loc;
+            x = xmin_loc + (double)i*dx_;
+            y = ymin_loc + (double)j*dx_;
             
             chi = 0.;
             if (x>=-0.2 && x<=0.2 && y>=-0.2 && y<=0.2) {
                 chi = 1.;
             }
             
-            U(i,j) = (1.-chi) + chi*(0.5 + dist(rng)/100.);
-            V(i,j) = chi * (0.25 + dist(rng)/100.);
+            assert(rand[ind] == rand_glo[ind]);
+            
+            U(i,j) = (1.-chi) + chi*(0.5 + rand[ind++]/100.);
+            V(i,j) = chi * (0.25 + rand[ind++]/100.);
         }
     }
 }

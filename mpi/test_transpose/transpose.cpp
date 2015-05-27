@@ -5,6 +5,8 @@
 #include <iomanip>
 
 
+
+
 struct world_info
 {
     int size;
@@ -110,7 +112,7 @@ int main(int argc, char* argv[])
     
     
     // datatypes
-    MPI_Datatype bottom_boundary, top_boundary, block, block_resized;
+    MPI_Datatype bottom_boundary, top_boundary, block_send, block_recv, block_resized_send, block_resized_recv;
     
     // build contiguous vectors for boundaries (rows)
     // each process has multiple rows in the grid
@@ -125,16 +127,31 @@ int main(int argc, char* argv[])
     int subsizes[2] = {Nx_loc, Nx_loc}; // size of sub-region (square)
     int starts[2]   = {0,0};
     
-    MPI_Type_create_subarray(2, sizes, subsizes, starts, MPI_ORDER_C, MPI_INT, &block);
+    MPI_Type_create_subarray(2, sizes, subsizes, starts, MPI_ORDER_C, MPI_INT, &block_send);
     // or use vector -> test
 //    MPI_Type_vector(Ny_loc, Nx_loc, Ny_loc, MPI_INT, &block);
     
-    MPI_Type_commit(&block);
+    MPI_Type_commit(&block_send);
 
-    // resize data structure, so that it is contagious (for alltoall)
-    MPI_Type_create_resized(block, 0, Nx_loc*sizeof(int), &block_resized);
-    MPI_Type_free(&block);
-    MPI_Type_commit(&block_resized);
+    // resize data structure, so that it is contiguous (for alltoall)
+    MPI_Type_create_resized(block_send, 0, Nx_loc*sizeof(int), &block_resized_send);
+    MPI_Type_free(&block_send);
+    MPI_Type_commit(&block_resized_send);
+    
+    
+    
+    // or use vector -> test
+    MPI_Datatype block_col;
+    MPI_Type_vector(Nx_loc, 1, Ny_loc, MPI_INT, &block_col);
+    MPI_Type_commit(&block_col);
+    MPI_Type_hvector(Nx_loc, 1, sizeof(int), block_col, &block_recv);
+    MPI_Type_free(&block_col);
+    MPI_Type_commit(&block_recv);
+
+    // resize data structure, so that it is contigious (for alltoall)
+    MPI_Type_create_resized(block_recv, 0, 1*sizeof(int), &block_resized_recv);
+    MPI_Type_free(&block_recv);
+    MPI_Type_commit(&block_resized_recv);
     
     
 
@@ -159,26 +176,26 @@ int main(int argc, char* argv[])
 
 
     // transpose globally block-wise
-    MPI_Alltoall(&send[Ny_loc], 1, block_resized, &recv[Ny_loc], 1, block_resized, MPI_COMM_WORLD);
+    MPI_Alltoall(&send[Ny_loc], 1, block_resized_send, &recv[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
     
     // transpose globally block-wise
 //    MPI_Alltoall(&send[0], 1, block_resized, &recv[0], 1, block_resized, MPI_COMM_WORLD);
     
     // locally transpose blocks, WORKS as expected
     // loop over blocks TODO parallelize block loop with openmp
-    int Nb_loc = Ny_loc/Nx_loc;
-    int ind1, ind2;
-    int tmp2;
-    for (int b=0; b<Nb_loc; ++b) {
-        for (int i=0; i<Nx_loc; ++i) {
-            for (int j=0; j<i; ++j) {
-                ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
-                ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
-                
-                std::swap(recv[ind1], recv[ind2]);
-            }
-        }
-    }
+//    int Nb_loc = Ny_loc/Nx_loc;
+//    int ind1, ind2;
+//    int tmp2;
+//    for (int b=0; b<Nb_loc; ++b) {
+//        for (int i=0; i<Nx_loc; ++i) {
+//            for (int j=0; j<i; ++j) {
+//                ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
+//                ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
+//                
+//                std::swap(recv[ind1], recv[ind2]);
+//            }
+//        }
+//    }
     
     
     MPI_Barrier(MPI_COMM_WORLD);
@@ -207,14 +224,15 @@ int main(int argc, char* argv[])
     
     // print result
     for (int i=0; i<world.dims_x; ++i) {
-        if (world.rank != i) continue;
         MPI_Barrier(MPI_COMM_WORLD);
+        if (world.rank != i) continue;
         std::cout << "\nSend - Proc " << i << "\n";
         printvec2d(send,Nx_loc,Ny_loc);
     }
+    MPI_Barrier(MPI_COMM_WORLD);
     for (int i=0; i<world.dims_x; ++i) {
-        if (world.rank != i) continue;
         MPI_Barrier(MPI_COMM_WORLD);
+        if (world.rank != i) continue;
         std::cout << "\nRecv - Proc " << i << "\n";
         printvec2d(recv,Nx_loc,Ny_loc);
     }

@@ -113,8 +113,8 @@ int main(int argc, char* argv[])
         
     /// make gridpoints multiple of procs in y-direction
     const int tmp = N;
-    N = tmp % world.dims_y == 0 ? tmp : tmp + (world.dims_y - tmp % world.dims_y);
-    assert(N % world.dims_y == 0);
+    N = tmp % world.dims_x == 0 ? tmp : tmp + (world.dims_x - tmp % world.dims_x);
+    assert(N % world.dims_x == 0);
     
     
     GrayScott* simulation = new GrayScott(N, -1., 1., dt, Du, Dv, F, k, nSteps, pngname, world);

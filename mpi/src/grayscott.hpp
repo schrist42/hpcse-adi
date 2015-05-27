@@ -161,6 +161,10 @@ private:
      */
     const double Du_;
     const double Dv_;
+    
+    const double uCoeff;
+    const double vCoeff;
+    
     /**
      * Model parameters.
      */
@@ -177,10 +181,10 @@ private:
      */
      
     TriDiagMatrix matU1_; /**< Matrix for the first step of u. */
-    TriDiagMatrix matU2_; /**< Matrix for the second step of u. */
+//    TriDiagMatrix matU2_; /**< Matrix for the second step of u. */
     
     TriDiagMatrix matV1_;
-    TriDiagMatrix matV2_;
+//    TriDiagMatrix matV2_;
     
     /** @} */
     
@@ -222,10 +226,10 @@ private:
     double xmin_loc, ymin_loc;
     double xmax_loc, ymax_loc;
     
-    int NN_loc, Nx_loc, Ny_loc;
+    int NN_loc, Nx_loc, Ny_loc, Nb_loc;
     int NN_glo, Nx_glo, Ny_glo;
     
-    MPI_Datatype bottom_boundary, top_boundary, block, block_resized;
+    MPI_Datatype bottom_boundary, top_boundary, block_resized_send, block_resized_recv;
     
     MPI_Comm cart_comm;
 };
