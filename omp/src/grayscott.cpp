@@ -226,7 +226,16 @@ void GrayScott::initialize_fields()
     
     double chi;
     double x, y;
-    
+/* NUMA INIT ON MY MACHINE & ON EULER NO SIGNIFICANT IMPROVEMENT
+   #pragma omp parallel for num_threads(nthreads_)
+	for (int i=0; i<N_; ++i) {
+     	   for (int j=0; j<N_; ++j) {
+      		U(i,j) = 1.0;
+		V(i,j) = 0.0;
+		}
+    	}
+*/
+    // Real init cannot be done in parallel so that random noise is same as in the serial version
     for (int i=0; i<N_; ++i) {
         for (int j=0; j<N_; ++j) {
             x = -1 + (double)i*dx_;

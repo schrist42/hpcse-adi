@@ -1,7 +1,7 @@
 #make clean
 #make 
 
-N=256
+N=512
 dt=1
 steps=5000
 
