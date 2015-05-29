@@ -3,36 +3,30 @@ import matplotlib.pyplot as plt
 import sys
 
 # get filename
-#if len(sys.argv) < 2:
-#	filename = raw_input('Data-file name: ')
-#else:
-#	filename = sys.argv[1]
-
-filename1 = 'daint_mpi_localtranspose_256.dat'
-filename2 = 'daint_mpi_localtranspose_512.dat'
-#filename2 = 'daint_mpi_datatype.dat'
+if len(sys.argv) < 2:
+	filename = raw_input('Data-file name: ')
+else:
+	filename = sys.argv[1]
 
 
 # load data
-data1 = np.loadtxt(filename1) # number of cpus, time, size
-data2 = np.loadtxt(filename2) # number of cpus, time, size
-#data2 = np.loadtxt(filename2)
+data = np.loadtxt(filename) # number of mpi tasks, time, size
 
-plt.plot(data1[:,0], data1[:,1], '-o', label='N = %d' % data1[0,2])
-plt.plot(data2[:,0], data2[:,1], '-o', label='N = %d' % data2[0,2])
-#plt.plot(data2[:,0], data2[:,1], 'o', label='Datatype')
+
+plt.plot(data[:,0], data[:,1], '-o')#, label='%d mpi-tasks, N = %d' % (data[i*count,0], data[i*count,3]))
 
 # annotate with size
-for i in range(0,len(data1)):
-	plt.annotate('%d' % data1[i,2], xy=(data1[i,0],data1[i,1]))
-	plt.annotate('%d' % data2[i,2], xy=(data2[i,0],data2[i,1]))
+for i in range(0,len(data)):
+	plt.annotate('%d' % data[i,2], xy=(data[i,0],data[i,1]))
 
+size = filename.split('_')[-1].split('.',1)[0]
 
 plt.xlabel('number of CPUs')
 plt.ylabel('time')
-plt.title('MPI on Piz Daint')
-plt.legend()
-plt.xlim(xmin=0, xmax=18)
+plt.title('MPI on Piz Daint, N = %s' % size)
+#plt.legend()
+plt.xlim(xmin=0, xmax=data[-1,0]+1) #, xmax=18)
 
-plt.savefig('daint_mpi_sizes.pdf')
+#plt.savefig('daint_hybrid_%s.pdf' % size)
+plt.savefig(filename.split('.',1)[0] + '.pdf')
 plt.show()
