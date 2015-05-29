@@ -187,12 +187,12 @@ void GrayScott::run()
         std::string sep = "_";
         
         std::cout
-        << "performance: " << '\t'
+//        << "performance: " << '\t'
         << world.size << '\t'
         << nthreads_ << '\t'
         << elapsed << '\t'
         << N_ << '\t'
-        << "\n*********\n"
+//        << "\n*********\n"
         << std::endl;
     }
     

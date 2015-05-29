@@ -103,12 +103,12 @@ int main(int argc, char* argv[])
     world.dims_x = dims[0];
     world.dims_y = dims[1];
     
-    if (world.rank == 0)
-        std::cout
-        << "processes: " << world.size << "\n"
-        << "dims_x: " << world.dims_x << "\n"
-        << "dims_y: " << world.dims_y << "\n"
-        << std::endl;
+//    if (world.rank == 0)
+//        std::cout
+//        << "processes: " << world.size << "\n"
+//        << "dims_x: " << world.dims_x << "\n"
+//        << "dims_y: " << world.dims_y << "\n"
+//        << std::endl;
     
         
     /// make gridpoints multiple of procs in y-direction
