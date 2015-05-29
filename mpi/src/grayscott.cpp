@@ -331,24 +331,24 @@ void GrayScott::step()
     
     // transpose global blocks (send from uTemp to u_)
     // start at Ny_loc, because we ignore the ghost cells
-    MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
-    MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+    MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
+    MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
     
     // locally transpose blocks
     // loop over blocks TODO parallelize block loop with openmp
-    int ind1, ind2;
-//    int tmp2;
-    for (int b=0; b<Nb_loc; ++b) {
-        for (int i=0; i<Nx_loc; ++i) {
-            for (int j=0; j<i; ++j) {
-                ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
-                ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
-                
-                std::swap(u_[ind1], u_[ind2]);
-                std::swap(v_[ind1], v_[ind2]);
-            }
-        }
-    }
+//    int ind1, ind2;
+////    int tmp2;
+//    for (int b=0; b<Nb_loc; ++b) {
+//        for (int i=0; i<Nx_loc; ++i) {
+//            for (int j=0; j<i; ++j) {
+//                ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
+//                ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
+//                
+//                std::swap(u_[ind1], u_[ind2]);
+//                std::swap(v_[ind1], v_[ind2]);
+//            }
+//        }
+//    }
     
     
     
@@ -451,22 +451,22 @@ void GrayScott::step()
     
     // transpose global blocks (send from uTemp to u_)
     // start at Ny_loc, because we ignore the ghost cells
-    MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
-    MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+    MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
+    MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
     
     // locally transpose blocks
     // loop over blocks TODO parallelize block loop with openmp
-    for (int b=0; b<Nb_loc; ++b) {
-        for (int i=0; i<Nx_loc; ++i) {
-            for (int j=0; j<i; ++j) {
-                ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
-                ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
-                
-                std::swap(u_[ind1], u_[ind2]);
-                std::swap(v_[ind1], v_[ind2]);
-            }
-        }
-    }
+//    for (int b=0; b<Nb_loc; ++b) {
+//        for (int i=0; i<Nx_loc; ++i) {
+//            for (int j=0; j<i; ++j) {
+//                ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
+//                ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
+//                
+//                std::swap(u_[ind1], u_[ind2]);
+//                std::swap(v_[ind1], v_[ind2]);
+//            }
+//        }
+//    }
     
     
     
