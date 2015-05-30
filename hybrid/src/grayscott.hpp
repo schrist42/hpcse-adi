@@ -46,7 +46,7 @@ public:
      * @param k         model parameter
      * @param nSteps    number of steps in the simulation
      */
-    GrayScott(int N, double rmin, double rmax, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname, world_info w, unsigned int nthreads);
+    GrayScott(int N, double rmin, double rmax, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname, world_info w, bool localtranspose, unsigned int nthreads);
     
     /**
      * Destructor
@@ -232,6 +232,10 @@ private:
     MPI_Datatype bottom_boundary, top_boundary, block_resized_send, block_resized_recv;
     
     MPI_Comm cart_comm;
+    
+    
+    // locally tranpose blocks or use datatype for transpose
+    bool localtranspose_;
     
     
     /**

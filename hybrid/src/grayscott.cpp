@@ -20,7 +20,7 @@
 #define TAG 0
 
 
-GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname, world_info w, unsigned int nthreads)
+GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname, world_info w, bool localtranspose, unsigned int nthreads)
     : N_(N)
     , Ntot_(N*N)
 //    , L_(L)
@@ -42,6 +42,7 @@ GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, doub
     , world(w)
     , rmin_(rmin)
     , rmax_(rmax)
+    , localtranspose_(localtranspose)
     , nthreads_(nthreads)
 {
     if (world.rank == 0) {
@@ -339,34 +340,36 @@ void GrayScott::step()
     
     // transpose global blocks (send from uTemp to u_)
     // start at Ny_loc, because we ignore the ghost cells
-    MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
-    MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
     
-    // locally transpose blocks
-    // loop over blocks
-    
-//    int tmp2;
-    #pragma omp parallel num_threads(nthreads_)// for private(ind1) private(ind2)
-    {
-    int ind1, ind2;
-    #pragma omp for
-    for (int b=0; b<Nb_loc; ++b) {
-        for (int i=0; i<Nx_loc; ++i) {
-            for (int j=0; j<i; ++j) {
-                ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
-                ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
-                
-                std::swap(u_[ind1], u_[ind2]);
-                std::swap(v_[ind1], v_[ind2]);
+    if (localtranspose_) {
+        MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+        MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+        
+        // locally transpose blocks
+        #pragma omp parallel num_threads(nthreads_)// for private(ind1) private(ind2)
+        {
+        int ind1, ind2;
+        #pragma omp for
+        for (int b=0; b<Nb_loc; ++b) {
+            for (int i=0; i<Nx_loc; ++i) {
+                for (int j=0; j<i; ++j) {
+                    ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
+                    ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
+                    
+                    std::swap(u_[ind1], u_[ind2]);
+                    std::swap(v_[ind1], v_[ind2]);
+                }
             }
         }
+        } // omp parallel
     }
-    } // omp parallel
+    else {
+        MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
+        MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
+    }
     
-    
-    
-    
-    
+
+
     // exchange new boundaries
     if (world.coord_x % 2 == 0) { // first send top, then bottom
         
@@ -470,27 +473,33 @@ void GrayScott::step()
     
     // transpose global blocks (send from uTemp to u_)
     // start at Ny_loc, because we ignore the ghost cells
-    MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
-    MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
     
-    // locally transpose blocks
-    // loop over blocks TODO parallelize block loop with openmp
-    #pragma omp parallel num_threads(nthreads_)
-    {
-    int ind1, ind2;
-    #pragma omp for
-    for (int b=0; b<Nb_loc; ++b) {
-        for (int i=0; i<Nx_loc; ++i) {
-            for (int j=0; j<i; ++j) {
-                ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
-                ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
-                
-                std::swap(u_[ind1], u_[ind2]);
-                std::swap(v_[ind1], v_[ind2]);
+    if (localtranspose_) {
+        MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+        MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+        
+        // locally transpose blocks
+        #pragma omp parallel num_threads(nthreads_)// for private(ind1) private(ind2)
+        {
+        int ind1, ind2;
+        #pragma omp for
+        for (int b=0; b<Nb_loc; ++b) {
+            for (int i=0; i<Nx_loc; ++i) {
+                for (int j=0; j<i; ++j) {
+                    ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
+                    ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
+                    
+                    std::swap(u_[ind1], u_[ind2]);
+                    std::swap(v_[ind1], v_[ind2]);
+                }
             }
         }
+        } // omp parallel
     }
-    } // omp parallel
+    else {
+        MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
+        MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
+    }
     
     
     

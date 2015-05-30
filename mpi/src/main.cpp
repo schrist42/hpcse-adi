@@ -18,7 +18,8 @@ bool process_command_line(int argc, char** argv,
                           double& F,
                           double& k,
                           int&    nSteps,
-                          std::string& pngName)
+                          std::string& pngName,
+                          bool&   localtranspose)
 {
 	// Define and parse the program options
 	namespace po = boost::program_options; 
@@ -36,7 +37,8 @@ bool process_command_line(int argc, char** argv,
 			(",F",       po::value<double>(&F)->default_value(0.007,"0.007"), "Model parameter 1"                    )
 			(",k",       po::value<double>(&k)->default_value(0.046,"0.046"), "Model parameter 2"                    )
 			("nsteps,s", po::value<int>(&nSteps)->default_value(5000),        "Number of steps"                      )
-			("pngname",  po::value<std::string>(&pngName)->default_value("alpha"), "Name for output png"             );
+			("pngname",  po::value<std::string>(&pngName)->default_value("alpha"), "Name for output png"             )
+			("localtranspose",                                                "Set to ocally transpose blocks"       );
 
 		po::store(po::command_line_parser(argc, argv).options(desc).run(), vm);
 
@@ -61,9 +63,9 @@ bool process_command_line(int argc, char** argv,
 	
 	
 	// parse options without value
-//	if (vm.count("visualize")) {
-//		visualize = true;
-//	}
+	if (vm.count("localtranspose")) {
+		localtranspose = true;
+	}
 
 	return true; // everything worked correctly
 }
@@ -81,9 +83,10 @@ int main(int argc, char* argv[])
     double k;
     int    nSteps;
 	std::string pngname;
+	bool   localtranspose;
 	
 	// set/read parameters
-	bool result = process_command_line(argc, argv, N, L, dt, Du, Dv, F, k, nSteps, pngname);
+	bool result = process_command_line(argc, argv, N, L, dt, Du, Dv, F, k, nSteps, pngname, localtranspose);
 	if (!result)
 	    return 1;
 	
@@ -117,7 +120,7 @@ int main(int argc, char* argv[])
     assert(N % world.dims_x == 0);
     
     
-    GrayScott* simulation = new GrayScott(N, -1., 1., dt, Du, Dv, F, k, nSteps, pngname, world);
+    GrayScott* simulation = new GrayScott(N, -1., 1., dt, Du, Dv, F, k, nSteps, pngname, world, localtranspose);
     
     MPI_Barrier(MPI_COMM_WORLD);
 

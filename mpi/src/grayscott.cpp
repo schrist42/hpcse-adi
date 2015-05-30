@@ -20,7 +20,7 @@
 #define TAG 0
 
 
-GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname, world_info w)
+GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname, world_info w, bool localtranspose)
     : N_(N)
     , Ntot_(N*N)
 //    , L_(L)
@@ -42,6 +42,7 @@ GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, doub
     , world(w)
     , rmin_(rmin)
     , rmax_(rmax)
+    , localtranspose_(localtranspose)
 {
     if (world.rank == 0) {
         // create directory to save output to
@@ -52,9 +53,9 @@ GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, doub
         timeinfo = localtime(&rawtime);
         strftime(buffer,80,"%d-%m-%Y_%H-%M-%S",timeinfo);
         std::string timeString(buffer);
-	
+    
         dirPath_ = "data/" + timeString + "/";
-	
+    
         boost::filesystem::path dir(dirPath_);
 //        boost::filesystem::create_directory(dir);
     }
@@ -170,7 +171,7 @@ GrayScott::~GrayScott()
 
 void GrayScott::run()
 {
-	// timer init and start
+    // timer init and start
 
     double start = MPI_Wtime();
     
@@ -179,7 +180,7 @@ void GrayScott::run()
     }
     
     // timer end and output of time
-	double end = MPI_Wtime();
+    double end = MPI_Wtime();
     double elapsed = end-start;
     
     if (world.rank == 0) {
@@ -326,29 +327,32 @@ void GrayScott::step()
     
     // transpose matrix
     
-    // TODO either send-datatype also for recieve and then local transpose, or recv-datatype
-    // -> test which faster
-    
     // transpose global blocks (send from uTemp to u_)
     // start at Ny_loc, because we ignore the ghost cells
-    MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
-    MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
     
-    // locally transpose blocks
-    // loop over blocks TODO parallelize block loop with openmp
-//    int ind1, ind2;
-////    int tmp2;
-//    for (int b=0; b<Nb_loc; ++b) {
-//        for (int i=0; i<Nx_loc; ++i) {
-//            for (int j=0; j<i; ++j) {
-//                ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
-//                ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
-//                
-//                std::swap(u_[ind1], u_[ind2]);
-//                std::swap(v_[ind1], v_[ind2]);
-//            }
-//        }
-//    }
+    if (localtranspose_) {
+        MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+        MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+        
+        // locally transpose blocks
+        // loop over blocks TODO parallelize block loop with openmp
+        int ind1, ind2;
+        for (int b=0; b<Nb_loc; ++b) {
+            for (int i=0; i<Nx_loc; ++i) {
+                for (int j=0; j<i; ++j) {
+                    ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
+                    ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
+                    
+                    std::swap(u_[ind1], u_[ind2]);
+                    std::swap(v_[ind1], v_[ind2]);
+                }
+            }
+        }
+    }
+    else {
+        MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
+        MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
+    }
     
     
     
@@ -451,22 +455,30 @@ void GrayScott::step()
     
     // transpose global blocks (send from uTemp to u_)
     // start at Ny_loc, because we ignore the ghost cells
-    MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
-    MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
     
-    // locally transpose blocks
-    // loop over blocks TODO parallelize block loop with openmp
-//    for (int b=0; b<Nb_loc; ++b) {
-//        for (int i=0; i<Nx_loc; ++i) {
-//            for (int j=0; j<i; ++j) {
-//                ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
-//                ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
-//                
-//                std::swap(u_[ind1], u_[ind2]);
-//                std::swap(v_[ind1], v_[ind2]);
-//            }
-//        }
-//    }
+    if (localtranspose_) {
+        MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+        MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+        
+        // locally transpose blocks
+        // loop over blocks TODO parallelize block loop with openmp
+        int ind1, ind2;
+        for (int b=0; b<Nb_loc; ++b) {
+            for (int i=0; i<Nx_loc; ++i) {
+                for (int j=0; j<i; ++j) {
+                    ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
+                    ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
+                    
+                    std::swap(u_[ind1], u_[ind2]);
+                    std::swap(v_[ind1], v_[ind2]);
+                }
+            }
+        }
+    }
+    else {
+        MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
+        MPI_Alltoall(&vTemp[Ny_loc], 1, block_resized_send, &v_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
+    }
     
     
     
@@ -546,7 +558,7 @@ void GrayScott::initialize_fields()
 
 
 void GrayScott::save_fields()
-{	
+{   
     char stepString[10];
     std::sprintf(stepString, "%05d_", currStep_);
     
