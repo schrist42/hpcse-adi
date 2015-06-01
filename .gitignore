@@ -35,7 +35,7 @@
 */images/
 
 # Executable from this project
-src/serial/main
-src/hybrid/main
-src/omp/main
-src/mpi/main
+serial/src/main
+omp/src/main
+mpi/src/main
+hybrid/src/main
