@@ -16,7 +16,6 @@ bool process_command_line(int argc, char** argv,
                           double& Dv,
                           double& F,
                           double& k,
-                          int&    nRep,
                           int&    nSteps,
                           bool&   visualize,
                           std::string& pngName,
@@ -38,7 +37,6 @@ bool process_command_line(int argc, char** argv,
 			("dv,v",     po::value<double>(&Dv)->default_value(1e-5,"1e-5"),  "Diffusion coefficient for v"          ) 	
 			(",F",       po::value<double>(&F)->default_value(0.007,"0.007"), "Model parameter 1"                    )
 			(",k",       po::value<double>(&k)->default_value(0.046,"0.046"), "Model parameter 2"                    )
-			("nrep,r",   po::value<int>(&nRep)->default_value(1),             "Number of repetitions for benchmark"  )
 			("nsteps,s", po::value<int>(&nSteps)->default_value(1000),        "Number of steps"                      )
 			("pngname",  po::value<std::string>(&pngName)->default_value("alpha"), "Name for output png"             )
 			("nthreads,t", po::value<unsigned int>(&nThreads)->default_value(2,"2"), "Number of threads"             )
@@ -88,19 +86,18 @@ int main(int argc, char* argv[])
     double Dv;
     double F;
     double k;
-    int    nRep;
     int    nSteps;
 	bool   visualize = false;
 	std::string pngname;
 	unsigned int nThreads;
 	bool   benchmark = false;
 	
-	bool result = process_command_line(argc, argv, N, L, dt, Du, Dv, F, k, nRep, nSteps, visualize, pngname, nThreads, benchmark);
+	bool result = process_command_line(argc, argv, N, L, dt, Du, Dv, F, k, nSteps, visualize, pngname, nThreads, benchmark);
 	if (!result)
 	    return 1;
 	    
 
-    GrayScott* simulation = new GrayScott(N, L, dt, Du, Dv, F, k, nRep, nSteps, pngname, nThreads);
+    GrayScott* simulation = new GrayScott(N, L, dt, Du, Dv, F, k, nSteps, pngname, nThreads);
     
     if (benchmark) {
         simulation->benchmark();

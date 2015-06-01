@@ -46,7 +46,7 @@ public:
      * @param k         model parameter
      * @param nSteps    number of steps in the simulation
      */
-    GrayScott(int N, double rmin, double rmax, double dt, double Du, double Dv, double F, double k, int nRep, int nSteps, std::string pngname, world_info w, bool localtranspose);
+    GrayScott(int N, double rmin, double rmax, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname, world_info w, bool localtranspose);
     
     /**
      * Destructor
@@ -57,11 +57,8 @@ public:
      * Run the simulation.
      */
     void run();
-    
     /**
-     * Benchmark the simulation.
-     * 
-     * Run multiple times and compute error.
+     * Run the benchmark.
      */
     void benchmark();
     
@@ -143,10 +140,6 @@ private:
     const double dt_;
     
     
-    /**
-     * Number of repetitions for benchmark
-     */
-    const int nRep_;
     /**
      * Number of simulation steps
      */
