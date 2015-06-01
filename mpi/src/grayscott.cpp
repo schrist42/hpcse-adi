@@ -20,12 +20,13 @@
 #define TAG 0
 
 
-GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname, world_info w, bool localtranspose)
+GrayScott::GrayScott(int N, double rmin, double rmax, double dt, double Du, double Dv, double F, double k, int nRep, int nSteps, std::string pngname, world_info w, bool localtranspose)
     : N_(N)
     , Ntot_(N*N)
 //    , L_(L)
     , dx_((double) (rmax-rmin) / (double) (N-1))
     , dt_(dt)//(dx_*dx_ / (2.*std::max(Du,Dv)))
+    , nRep_(nRep)
     , nSteps_(nSteps)
     , currStep_(0)
     , Du_(Du)
@@ -197,6 +198,54 @@ void GrayScott::run()
     
     save_png();
 }
+
+
+
+void GrayScott::benchmark()
+{
+    
+    double avg_time = 0.;
+    double avg_squared_time = 0.;
+    
+    
+    for (int j=0; j<nRep_; ++j) {
+        
+        // timer init and start
+
+        double start = MPI_Wtime();
+        
+        for (int i=0; i<nSteps_; ++i) {
+            step();
+        }
+        
+        // timer end and output of time
+        double end = MPI_Wtime();
+        double elapsed = end-start;
+        
+        avg_time += elapsed;
+        avg_squared_time += elapsed*elapsed;
+    }
+    
+    avg_time /= (double)nRep_;
+    avg_squared_time /= (double)nRep_;
+    
+    double err = std::sqrt((avg_squared_time - avg_time*avg_time)/(double)nRep_);
+    
+    if (world.rank == 0) {
+        
+        std::string sep = "_";
+        
+        std::cout
+//        << "performance: " << '\t'
+        << world.size << '\t'
+        << avg_time << '\t'
+        << N_ << '\t'
+        << err << '\t'
+//        << "\n*********\n"
+        << std::endl;
+    }
+}
+
 
 #define UTEMP(x,y) uTemp[((x)+1)*Ny_loc + (y)]
 #define VTEMP(x,y) vTemp[((x)+1)*Ny_loc + (y)]

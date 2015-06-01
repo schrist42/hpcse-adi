@@ -16,10 +16,12 @@ bool process_command_line(int argc, char** argv,
                           double& Dv,
                           double& F,
                           double& k,
+                          int&    nRep,
                           int&    nSteps,
                           bool&   visualize,
                           std::string& pngName,
-			  unsigned int& nThreads)
+                          unsigned int& nThreads,
+                          bool&   benchmark)
 {
 	// Define and parse the program options
 	namespace po = boost::program_options; 
@@ -36,9 +38,11 @@ bool process_command_line(int argc, char** argv,
 			("dv,v",     po::value<double>(&Dv)->default_value(1e-5,"1e-5"),  "Diffusion coefficient for v"          ) 	
 			(",F",       po::value<double>(&F)->default_value(0.007,"0.007"), "Model parameter 1"                    )
 			(",k",       po::value<double>(&k)->default_value(0.046,"0.046"), "Model parameter 2"                    )
+			("nrep,r",   po::value<int>(&nRep)->default_value(1),             "Number of repetitions for benchmark"  )
 			("nsteps,s", po::value<int>(&nSteps)->default_value(1000),        "Number of steps"                      )
-			("pngname",  po::value<std::string>(&pngName)->default_value("alpha"), "Name for output png"                  )
-			("nthreads,t", po::value<unsigned int>(&nThreads)->default_value(2,"2"),   "Number of threads"                      );
+			("pngname",  po::value<std::string>(&pngName)->default_value("alpha"), "Name for output png"             )
+			("nthreads,t", po::value<unsigned int>(&nThreads)->default_value(2,"2"), "Number of threads"             )
+			("benchmark",                                                     "Set to perform benchmark"             );
 
 		po::store(po::command_line_parser(argc, argv).options(desc).run(), vm);
 
@@ -66,6 +70,9 @@ bool process_command_line(int argc, char** argv,
 	if (vm.count("visualize")) {
 		visualize = true;
 	}
+	if (vm.count("benchmark")) {
+		benchmark = true;
+	}
 
 	return true; // everything worked correctly
 }
@@ -81,24 +88,27 @@ int main(int argc, char* argv[])
     double Dv;
     double F;
     double k;
+    int    nRep;
     int    nSteps;
 	bool   visualize = false;
 	std::string pngname;
 	unsigned int nThreads;
-	bool result = process_command_line(argc, argv, N, L, dt, Du, Dv, F, k, nSteps, visualize, pngname, nThreads);
+	bool   benchmark = false;
+	
+	bool result = process_command_line(argc, argv, N, L, dt, Du, Dv, F, k, nRep, nSteps, visualize, pngname, nThreads, benchmark);
 	if (!result)
 	    return 1;
 	    
 
-    GrayScott* simulation = new GrayScott(N, L, dt, Du, Dv, F, k, nSteps, pngname, nThreads);
+    GrayScott* simulation = new GrayScott(N, L, dt, Du, Dv, F, k, nRep, nSteps, pngname, nThreads);
     
-    if (visualize) {
-        GSViewer viewer(argc, argv);
-        viewer.visualize(simulation);
+    if (benchmark) {
+        simulation->benchmark();
     }
     else {
         simulation->run();
-    } 
+    }
+
     delete simulation;
     
     return 0;

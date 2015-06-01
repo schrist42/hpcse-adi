@@ -16,12 +16,13 @@
 #define V(x,y) v_[(x) + (y)*N_]
 
 
-GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nSteps, std::string pngname, unsigned int nthreads)
+GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F, double k, int nRep, int nSteps, std::string pngname, unsigned int nthreads)
     : N_(N)
     , Ntot_(N*N)
 //    , L_(L)
     , dx_((double) L / (double) N)
     , dt_(dt)//(dx_*dx_ / (2.*std::max(Du,Dv)))
+    , nRep_(nRep)
     , nSteps_(nSteps)
     , currStep_(0)
     , Du_(Du)
@@ -85,9 +86,54 @@ void GrayScott::run()
     std::cout << "\n";
     std::cout << "exec time: " << '\t' << elapsed << std::endl;
     std::cout << "\n";
+    std::cout << "size: " << '\t' << N_ << std::endl;
+    std::cout << "\n";
     
 //    save_fields();
     save_png();
+}
+
+
+void GrayScott::benchmark()
+{
+    
+    double avg_time = 0.;
+    double avg_squared_time = 0.;
+    
+    
+    for (int j=0; j<nRep_; ++j) {
+	    // timer init and start
+	    std::chrono::time_point<std::chrono::high_resolution_clock> start, end;
+	    start = std::chrono::high_resolution_clock::now();
+        
+        for (int i=0; i<nSteps_; ++i) {
+            step();
+        }
+
+      	// timer end and output of time
+	    end = std::chrono::high_resolution_clock::now();
+	    double elapsed = std::chrono::duration<double>(end-start).count();    
+	    
+	    avg_time += elapsed;
+        avg_squared_time += elapsed*elapsed;
+    }
+    
+    avg_time /= (double)nRep_;
+    avg_squared_time /= (double)nRep_;
+    
+    double err = std::sqrt((avg_squared_time - avg_time*avg_time)/(double)nRep_);
+    
+    
+    #pragma omp parallel num_threads(nthreads_)
+    #pragma omp single
+    std::cout << "# omp threads = " << omp_get_num_threads() << std::endl;    
+    std::cout << "\n";
+    std::cout << "exec time: " << '\t' << avg_time << std::endl;
+    std::cout << "\n";
+    std::cout << "size: " << '\t' << N_ << std::endl;
+    std::cout << "\n";
+    std::cout << "error: " << '\t' << err << std::endl;
+    std::cout << "\n";
 }
 
 

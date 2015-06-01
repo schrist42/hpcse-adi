@@ -4,9 +4,9 @@ import sys
 
 # get filename
 if len(sys.argv) < 2:
-	filename = raw_input('Data-file name: ')
+        filename = raw_input('Data-file name: ')
 else:
-	filename = sys.argv[1]
+        filename = sys.argv[1]
 
 
 # load data
@@ -17,7 +17,7 @@ plt.plot(data[:,0], data[:,1], '-o')#, label='%d mpi-tasks, N = %d' % (data[i*co
 
 # annotate with size
 for i in range(0,len(data)):
-	plt.annotate('%d' % data[i,2], xy=(data[i,0],data[i,1]))
+        plt.annotate('%d' % data[i,2], xy=(data[i,0],data[i,1]))
 
 size = filename.split('_')[-1].split('.',1)[0]
 
