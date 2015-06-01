@@ -4,9 +4,9 @@ import sys
 
 # get filename
 if len(sys.argv) < 2:
-	filename = raw_input('Data-file name: ')
+    filename = raw_input('Data-file name: ')
 else:
-	filename = sys.argv[1]
+    filename = sys.argv[1]
 
 #filename2 = 'daint_mpi_datatype.dat'
 
@@ -22,7 +22,7 @@ for i in range(0,len(data)/count):
 
 # annotate with size
 #for i in range(0,len(data)):
-#	plt.annotate('%d' % data[i,3], xy=(data[i,1],data[i,2]))
+#    plt.annotate('%d' % data[i,3], xy=(data[i,1],data[i,2]))
 
 size = filename.split('_')[-1].split('.')[0]
 
