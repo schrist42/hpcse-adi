@@ -2,7 +2,6 @@
 #include <boost/program_options.hpp>
 
 #include "grayscott.hpp"
-#include "gsviewer.hpp"
 
 
 //GrayScott *simulation;
@@ -17,7 +16,6 @@ bool process_command_line(int argc, char** argv,
                           double& F,
                           double& k,
                           int&    nSteps,
-                          bool&   visualize,
                           std::string& pngName,
                           unsigned int& nThreads,
                           bool&   benchmark)
@@ -65,9 +63,6 @@ bool process_command_line(int argc, char** argv,
 	
 	
 	// parse options without value
-	if (vm.count("visualize")) {
-		visualize = true;
-	}
 	if (vm.count("benchmark")) {
 		benchmark = true;
 	}
@@ -87,12 +82,11 @@ int main(int argc, char* argv[])
     double F;
     double k;
     int    nSteps;
-	bool   visualize = false;
 	std::string pngname;
 	unsigned int nThreads;
 	bool   benchmark = false;
 	
-	bool result = process_command_line(argc, argv, N, L, dt, Du, Dv, F, k, nSteps, visualize, pngname, nThreads, benchmark);
+	bool result = process_command_line(argc, argv, N, L, dt, Du, Dv, F, k, nSteps, pngname, nThreads, benchmark);
 	if (!result)
 	    return 1;
 	    
