@@ -12,13 +12,19 @@ else:
 
 
 # load data
-data = np.loadtxt(filename) # number of mpi tasks, number of omp threads, time, size
+data = np.loadtxt(filename) # number of mpi tasks, number of omp threads, time, size, error
 #data2 = np.loadtxt(filename2)
 
 count = len(data[(data[:,0]==2),:])
 
-for i in range(0,len(data)/count):
-    plt.plot(data[i*count:(i+1)*count,1], data[i*count:(i+1)*count,2], '-o', label='%d mpi-tasks, N = %d' % (data[i*count,0], data[i*count,3]))
+if len(data[0]) > 4:
+    for i in range(0,len(data)/count):
+#        plt.plot(data[i*count:(i+1)*count,1], data[i*count:(i+1)*count,2], '-o', label='%d mpi-tasks, N = %d' % (data[i*count,0], data[i*count,3]))
+        plt.errorbar(data[i*count:(i+1)*count,1], data[i*count:(i+1)*count,2], yerr=data[i*count:(i+1)*count,4], label='%d mpi-tasks, N = %d' % (data[i*count,0], data[i*count,3]))
+else:
+    for i in range(0,len(data)/count):
+        plt.plot(data[i*count:(i+1)*count,1], data[i*count:(i+1)*count,2], '-o', label='%d mpi-tasks, N = %d' % (data[i*count,0], data[i*count,3]))
+#        plt.errorbar(data[i*count:(i+1)*count,1], data[i*count:(i+1)*count,2], yerr=data[i*count:(i+1)*count,4], label='%d mpi-tasks, N = %d' % (data[i*count,0], data[i*count,3]))
 
 # annotate with size
 #for i in range(0,len(data)):

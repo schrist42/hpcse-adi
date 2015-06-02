@@ -10,10 +10,12 @@ else:
 
 
 # load data
-data = np.loadtxt(filename) # number of mpi tasks, time, size
+data = np.loadtxt(filename) # number of mpi tasks, time, size, error
 
-
-plt.plot(data[:,0], data[:,1], '-o')#, label='%d mpi-tasks, N = %d' % (data[i*count,0], data[i*count,3]))
+if len(data[0]) > 3:
+    plt.errorbar(data[:,0], data[:,1], yerr=data[:,3])#, label='%d mpi-tasks, N = %d' % (data[i*count,0], data[i*count,3]))
+else:
+    plt.plot(data[:,0], data[:,1])#, label='%d mpi-tasks, N = %d' % (data[i*count,0], data[i*count,3]))
 
 # annotate with size
 for i in range(0,len(data)):
