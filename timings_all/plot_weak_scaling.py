@@ -9,12 +9,12 @@ else:
         filename = sys.argv[1]
 
 
-filename = filename.split('/',1)[1]
+if filename.startswith('weak_scaling/'):
+    filename = filename.split('/',1)[1]
 filename = 'weak_scaling/' + filename
-filename = filename.split('.')[0:-1] # remove ending
+filename = filename.split('.dat',1)[0] # remove ending
 
-parallel_type = filename.split('_',1)[0]
-
+parallel_type = filename.split('/')[1].split('_')[0]
 
 # load data
 data = np.loadtxt(filename + '.dat') # number of mpi tasks, time, size, error
