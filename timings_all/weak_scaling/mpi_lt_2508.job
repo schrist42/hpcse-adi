@@ -1,0 +1,17 @@
+#!/bin/bash -l
+
+#SBATCH --ntasks=6
+#SBATCH --time=02:00:00
+
+echo "executes on nodes:"
+echo $SLUM_JOB_NODELIST
+
+echo "output (if any follows:)"
+
+if [ ! -z $1 ]; then
+	if [ ! -d "$1" ]; then
+		mkdir "$1"
+	fi
+fi 
+
+aprun -B /users/stud06/hpcse-adi/mpi/src/main -N 2508 --dt 1 --nsteps 10000 --localtranspose --benchmark

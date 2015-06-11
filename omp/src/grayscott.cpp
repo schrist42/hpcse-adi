@@ -47,7 +47,7 @@ GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F,
 	dirPath_ = "data/" + timeString + "/";
 	
 	boost::filesystem::path dir(dirPath_);
-	boost::filesystem::create_directory(dir);
+//	boost::filesystem::create_directory(dir);
     
     initialize_fields();
 }
@@ -55,10 +55,10 @@ GrayScott::GrayScott(int N, double L, double dt, double Du, double Dv, double F,
 
 GrayScott::~GrayScott()
 {
-    boost::filesystem::path dir(dirPath_);
-    if (boost::filesystem::exists(dir) && boost::filesystem::is_empty(dir)) {
-        boost::filesystem::remove(dir);
-    }
+//    boost::filesystem::path dir(dirPath_);
+//    if (boost::filesystem::exists(dir) && boost::filesystem::is_empty(dir)) {
+//        boost::filesystem::remove(dir);
+//    }
 }
 
 
@@ -89,7 +89,7 @@ void GrayScott::run()
     std::cout << "\n";
     
 //    save_fields();
-    save_png();
+//    save_png();
 }
 
 
@@ -125,14 +125,10 @@ void GrayScott::benchmark()
     
     #pragma omp parallel num_threads(nthreads_)
     #pragma omp single
-    std::cout << "# omp threads = " << omp_get_num_threads() << std::endl;    
-    std::cout << "\n";
-    std::cout << "exec time: " << '\t' << avg_time << std::endl;
-    std::cout << "\n";
-    std::cout << "size: " << '\t' << N_ << std::endl;
-    std::cout << "\n";
-    std::cout << "error: " << '\t' << err << std::endl;
-    std::cout << "\n";
+    std::cout << omp_get_num_threads() << "\t";
+    std::cout << avg_time << "\t";
+    std::cout << N_ << "\t";
+    std::cout << err << "\n";
 }
 
 
