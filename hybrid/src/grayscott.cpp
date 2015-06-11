@@ -230,16 +230,14 @@ void GrayScott::benchmark()
     
     if (world.rank == 0) {
         
-        std::string sep = "_";
+        //std::string sep = "_";
         
         std::cout
-//        << "performance: " << '\t'
         << world.size << '\t'
         << nthreads_ << '\t'
         << avg_time << '\t'
         << N_ << '\t'
         << err << '\t'
-//        << "\n*********\n"
         << std::endl;
     }
 }
