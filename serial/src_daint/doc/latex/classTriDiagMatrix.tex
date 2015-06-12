@@ -1,0 +1,97 @@
+\hypertarget{classTriDiagMatrix}{\section{Tri\-Diag\-Matrix Class Reference}
+\label{classTriDiagMatrix}\index{Tri\-Diag\-Matrix@{Tri\-Diag\-Matrix}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTriDiagMatrix_a089010de74d434cd0c9ca33f9421b898}{Tri\-Diag\-Matrix} ()
+\item 
+\hyperlink{classTriDiagMatrix_a566110e41f5c7d507ad1bff5e4d3b741}{Tri\-Diag\-Matrix} (int N, double l, double m, double u)
+\item 
+int \hyperlink{classTriDiagMatrix_aa53da203fa736ccceed43a0951b19f9b}{size} () const 
+\item 
+std\-::vector$<$ double $>$ \hyperlink{group__getdiagonals_ga1fc79c48a0e508670d9cb446bdb89ac0}{get\-L} () const 
+\item 
+std\-::vector$<$ double $>$ \hyperlink{group__getdiagonals_gaef21cbb3555650842cc666112732110e}{get\-M} () const 
+\item 
+std\-::vector$<$ double $>$ \hyperlink{group__getdiagonals_ga23e779914d8691b0b9012c4f45e036ca}{get\-U} () const 
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\-::ostream \& \hyperlink{classTriDiagMatrix_aa1a851ed9f0913d84926e28860597ac3}{operator$<$$<$} (std\-::ostream \&os, const \hyperlink{classTriDiagMatrix}{Tri\-Diag\-Matrix} \&matrix)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classTriDiagMatrix_a089010de74d434cd0c9ca33f9421b898}{\index{Tri\-Diag\-Matrix@{Tri\-Diag\-Matrix}!Tri\-Diag\-Matrix@{Tri\-Diag\-Matrix}}
+\index{Tri\-Diag\-Matrix@{Tri\-Diag\-Matrix}!TriDiagMatrix@{Tri\-Diag\-Matrix}}
+\subsubsection[{Tri\-Diag\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Tri\-Diag\-Matrix\-::\-Tri\-Diag\-Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classTriDiagMatrix_a089010de74d434cd0c9ca33f9421b898}
+Default constructor \hypertarget{classTriDiagMatrix_a566110e41f5c7d507ad1bff5e4d3b741}{\index{Tri\-Diag\-Matrix@{Tri\-Diag\-Matrix}!Tri\-Diag\-Matrix@{Tri\-Diag\-Matrix}}
+\index{Tri\-Diag\-Matrix@{Tri\-Diag\-Matrix}!TriDiagMatrix@{Tri\-Diag\-Matrix}}
+\subsubsection[{Tri\-Diag\-Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Tri\-Diag\-Matrix\-::\-Tri\-Diag\-Matrix (
+\begin{DoxyParamCaption}
+\item[{int}]{N, }
+\item[{double}]{l, }
+\item[{double}]{m, }
+\item[{double}]{u}
+\end{DoxyParamCaption}
+)}}\label{classTriDiagMatrix_a566110e41f5c7d507ad1bff5e4d3b741}
+Construct an object of the type \hyperlink{classTriDiagMatrix}{Tri\-Diag\-Matrix}
+
+
+\begin{DoxyParams}{Parameters}
+{\em N} & size of the matrix \\
+\hline
+{\em l} & value on the lower diagonal \\
+\hline
+{\em m} & value on the middle diagonal \\
+\hline
+{\em u} & value on the upper diagonal \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classTriDiagMatrix_aa53da203fa736ccceed43a0951b19f9b}{\index{Tri\-Diag\-Matrix@{Tri\-Diag\-Matrix}!size@{size}}
+\index{size@{size}!TriDiagMatrix@{Tri\-Diag\-Matrix}}
+\subsubsection[{size}]{\setlength{\rightskip}{0pt plus 5cm}int Tri\-Diag\-Matrix\-::size (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classTriDiagMatrix_aa53da203fa736ccceed43a0951b19f9b}
+Return the size of the matrix in one dimension.
+
+\begin{DoxyReturn}{Returns}
+the matrix size in one dimension 
+\end{DoxyReturn}
+
+
+\subsection{Friends And Related Function Documentation}
+\hypertarget{classTriDiagMatrix_aa1a851ed9f0913d84926e28860597ac3}{\index{Tri\-Diag\-Matrix@{Tri\-Diag\-Matrix}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!TriDiagMatrix@{Tri\-Diag\-Matrix}}
+\subsubsection[{operator$<$$<$}]{\setlength{\rightskip}{0pt plus 5cm}std\-::ostream\& operator$<$$<$ (
+\begin{DoxyParamCaption}
+\item[{std\-::ostream \&}]{os, }
+\item[{const {\bf Tri\-Diag\-Matrix} \&}]{matrix}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [friend]}}}\label{classTriDiagMatrix_aa1a851ed9f0913d84926e28860597ac3}
+Print the matrix to the stream os.
+
+
+\begin{DoxyParams}{Parameters}
+{\em os} & stream to print the matrix to \\
+\hline
+{\em matrix} & matrix \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+tridiagmatrix.\-hpp\item 
+tridiagmatrix.\-cpp\end{DoxyCompactItemize}

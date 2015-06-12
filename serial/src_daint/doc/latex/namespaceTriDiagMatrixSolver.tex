@@ -1,0 +1,37 @@
+\hypertarget{namespaceTriDiagMatrixSolver}{\section{Tri\-Diag\-Matrix\-Solver Namespace Reference}
+\label{namespaceTriDiagMatrixSolver}\index{Tri\-Diag\-Matrix\-Solver@{Tri\-Diag\-Matrix\-Solver}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{namespaceTriDiagMatrixSolver_ae675587a7df31415821f563eb5615d0d}{solve} (const \hyperlink{classTriDiagMatrix}{Tri\-Diag\-Matrix} \&mat, const std\-::vector$<$ double $>$ \&rhs, double $\ast$result, unsigned int inc)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Solver for a tridiagonal matrix system. 
+
+\subsection{Function Documentation}
+\hypertarget{namespaceTriDiagMatrixSolver_ae675587a7df31415821f563eb5615d0d}{\index{Tri\-Diag\-Matrix\-Solver@{Tri\-Diag\-Matrix\-Solver}!solve@{solve}}
+\index{solve@{solve}!TriDiagMatrixSolver@{Tri\-Diag\-Matrix\-Solver}}
+\subsubsection[{solve}]{\setlength{\rightskip}{0pt plus 5cm}void Tri\-Diag\-Matrix\-Solver\-::solve (
+\begin{DoxyParamCaption}
+\item[{const {\bf Tri\-Diag\-Matrix} \&}]{mat, }
+\item[{const std\-::vector$<$ double $>$ \&}]{rhs, }
+\item[{double $\ast$}]{result, }
+\item[{unsigned int}]{inc}
+\end{DoxyParamCaption}
+)}}\label{namespaceTriDiagMatrixSolver_ae675587a7df31415821f563eb5615d0d}
+Solve a tridiagonal matrix system.
+
+
+\begin{DoxyParams}{Parameters}
+{\em mat} & tridiagonal matrix \\
+\hline
+{\em rhs} & right-\/hand side of the system \\
+\hline
+{\em result} & vector for the result, pointer to the first element to store \\
+\hline
+{\em inc} & increment for the elements of the result \\
+\hline
+\end{DoxyParams}

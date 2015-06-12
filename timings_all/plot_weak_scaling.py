@@ -17,7 +17,7 @@ filename = filename.split('.dat',1)[0] # remove ending
 parallel_type = filename.split('/')[1].split('_')[0]
 
 # load data
-data_serial = np.loadtxt('serial/serial.dat') # time, size, error
+data_serial = np.loadtxt('serial/serial_vec.dat') # time, size, error
 t1 = data_serial[0,0]
 data = np.loadtxt(filename + '.dat') # number of omp threads/mpi tasks, time, size, error
 
