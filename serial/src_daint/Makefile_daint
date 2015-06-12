@@ -7,16 +7,17 @@
 CXX         = CC #g++ #clang++
 
 # === Sources ===
-EXE         = main_vectorize
+EXE         = main_vectorize main_novectorize
 SRC_CPP     = $(wildcard *.cpp)
-OBJECTS     = $(patsubst %.cpp,objects/%.o,$(SRC_CPP))
+OBJECTS_VEC     = $(patsubst %.cpp,objects/%_vec.o,$(SRC_CPP))
+OBJECTS_NOVEC     = $(patsubst %.cpp,objects/%_novec.o,$(SRC_CPP))
 
 # === Compiler Flags ===
 WARNINGS    = -Wall
 DEFINES     =  
 DEBUG       =
 INCLUDE     = 
-OPT         = -O3 -ftree-vectorize #-march=native -g
+OPT         = -O3 #-ftree-vectorize #-march=native -g
 CXXSTD      = -std=c++11
 CXXFLAGS    = $(DEBUG) $(INCLUDE) $(CXXSTD) $(OPT) $(WARNINGS) $(DEFINES)
 LDFLAGS     = -lboost_program_options -lboost_filesystem -lboost_system #-lGL -lGLU -lglut
@@ -32,11 +33,22 @@ objects :
 
 
 # Compile c++
-objects/%.o : %.cpp
-	$(CXX) -c $(CXXFLAGS) -o $@ $<
+objects/%_vec.o : %.cpp
+	$(CXX) -c $(CXXFLAGS) -ftree-vectorize -o $@ $<
+
+objects/%_novec.o : %.cpp
+	$(CXX) -c $(CXXFLAGS) -fno-tree-vectorize -o $@ $<
+
 	
-$(EXE) : $(OBJECTS)
-	$(CXX) -o $(EXE) $(CXXFLAGS) $(OBJECTS) $(LDFLAGS)
+#$(EXE) : $(OBJECTS)
+#	$(CXX) -o $(EXE) $(CXXFLAGS) $(OBJECTS) $(LDFLAGS)
+
+main_vectorize : $(OBJECTS_VEC)
+	$(CXX) -o $@ $(CXXFLAGS) -ftree-vectorize $(OBJECTS_VEC) $(LDFLAGS)
+
+
+main_novectorize : $(OBJECTS_NOVEC)
+	$(CXX) -o $@ $(CXXFLAGS) -fno-tree-vectorize $(OBJECTS_NOVEC) $(LDFLAGS)
 
 # === Cleanup ===
 .PHONY: clean
