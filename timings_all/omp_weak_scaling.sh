@@ -29,5 +29,5 @@ do
 	N=$(echo "scale=4;$size*sqrt($threads)"| bc | xargs printf "%1.0f");
 	jobfile $N $threads ${time[$threads/2 -1]}
 	echo "sbatch omp_$N.job"
-	sbatch omp_$N.job
+#	sbatch omp_$N.job
 done
