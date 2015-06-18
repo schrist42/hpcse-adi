@@ -25,14 +25,15 @@ if [ ! -d strong_scaling ]; then
 fi
 cd strong_scaling
 
-for (( tasks = 2; tasks <= $maxtasks; tasks+=2 ))
-do
-#    for (( threads = 2; threads <=$maxthreads; threads+=2 ))
-#    do
-        threads=$maxthreads
+#for (( tasks = 2; tasks <= $maxtasks; tasks+=2 ))
+#do
+    for (( threads = 2; threads <=$maxthreads; threads+=2 ))
+    do
+#        threads=$maxthreads
+        tasks=$maxtasks
 #    	N=$(echo "scale=4;$size*sqrt($tasks)"| bc | xargs printf "%1.0f");
 	    jobfile $size $tasks $threads ${time[$tasks/2 -1]}
 	    echo "sbatch hybrid_lt_${tasks}_${threads}_strong.job"
 	    sbatch hybrid_lt_${tasks}_${threads}_strong.job
-#    done
-done
+    done
+#done
