@@ -1,0 +1,19 @@
+#!/bin/bash -l
+
+#SBATCH --ntasks=4
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=8
+#SBATCH --time=03:45:00
+
+echo "executes on nodes:"
+echo $SLUM_JOB_NODELIST
+
+echo "output (if any follows:)"
+
+if [ ! -z $1 ]; then
+	if [ ! -d "$1" ]; then
+		mkdir "$1"
+	fi
+fi 
+
+aprun -B /users/stud06/hpcse-adi/hybrid/src/main -N 4096 --dt 1 --nsteps 10000 -t 8 --localtranspose --benchmark
