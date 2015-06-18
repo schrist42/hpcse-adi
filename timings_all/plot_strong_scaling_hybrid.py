@@ -14,17 +14,18 @@ if filename.startswith('strong_scaling/'):
 filename = 'strong_scaling/' + filename
 filename = filename.split('.dat',1)[0] # remove ending
 
-parallel_type = filename.split('/')[1].split('_')[0]
+nthreads = 16
+#parallel_type = filename.split('/')[1].split('_')[0]
+size = filename.split('_')[-1]
+ptype_hybrid = filename.split('_')[-2]
 
 # load data
-data_serial = np.loadtxt('serial/serial_vec.dat') # time, size, error
-ind_serial = np.where(data_serial[:,1] == 4096)[0]
+data_serial = np.loadtxt('strong_scaling/omp_strong_scaling_%s.dat' % size) # time, size, error
+ind_serial = np.where(data_serial[:,0] == nthreads)[0]
 #t1 = data_serial.where(data_serial[:,1]=4096)
-t1 = data_serial[ind_serial,0][0]
+t1 = data_serial[ind_serial,1][0]
 
 data = np.loadtxt(filename + '.dat') # number of mpi tasks, number of omp threads, time, size, error
-
-ptype_hybrid = filename.split('_')[-1]
 
 if ptype_hybrid == 'omp':
     if len(data[0]) > 4: # with error
@@ -48,7 +49,7 @@ plt.plot([0,data[-1,0]+1], [0,data[-1,0]+1], label='Linear speedup', color='#BDB
 #size = filename.split('_')[-1].split('.',1)[0]
 
 plt.ylabel(r'Speedup $t_{serial} / t_{parallel}$ per step')
-plt.title('Strong scaling/speedup of %s (different numbers of MPI tasks for 16 OpenMP threads) on Piz Daint' % parallel_type)
+plt.title('Strong scaling/speedup of hybrid version (different numbers of MPI tasks for %d OpenMP threads) on Piz Daint' % nthreads)
 #plt.legend()
 plt.xlim(xmin=0, xmax=data[-1,0]+1) #, xmax=18)
 #plt.ylim(ymax=data[-1,1]+1) #, xmax=18)
