@@ -40,5 +40,5 @@ plt.title('Comparison vectorizing and not vectorizing')
 plt.legend()
 #plt.xlim(xmin=0, xmax=data_vec[-1,0]+1) #, xmax=18)
 
-plt.savefig('serial_vecnovec.pdf')
+plt.savefig('serial/serial_vecnovec.pdf')
 plt.show()
