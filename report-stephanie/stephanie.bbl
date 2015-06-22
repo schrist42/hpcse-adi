@@ -1,0 +1,16 @@
+\begin{thebibliography}{1}
+
+\bibitem{Craig_Sneyd_1988}
+I.J.D. Craig and A.D. Sneyd.
+\newblock An alternating-direction implicit scheme for parabolic equations with
+  mixed derivatives.
+\newblock {\em Computers \& Mathematics with Applications}, 16(4):341–350,
+  1988.
+
+\bibitem{wiki:thomas-alg}
+Wikipedia.
+\newblock Tridiagonal matrix algorithm --- {Wikipedia}{,} the free
+  encyclopedia, 2014.
+\newblock [Online; Version from 9 April 2014].
+
+\end{thebibliography}

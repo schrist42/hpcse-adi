@@ -1,0 +1,318 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+%\usepackage{subcaption} % subfigure
+%\usepackage{url} %
+%\usepackage{enumitem} % description
+\usepackage{listings} % lstlisting
+\usepackage{xcolor} % definecolor
+
+% Paket für die deutsche Sprache
+\usepackage[english]{babel}
+%\usepackage[utf8]{inputenc}
+
+
+
+\graphicspath{{figures/}}
+
+
+%%%%%%%%%%%%%%%% C++ listings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definecolor{listinggray}{gray}{0.9}
+\definecolor{lbcolor}{rgb}{0.9, 0.9, 0.9}
+\definecolor{darkgreen}{rgb}{0.0, 0.2, 0.13}
+\lstset{
+backgroundcolor=\color{lbcolor},
+    tabsize=4,    
+%   rulecolor=,
+    language=[GNU]C++,
+        basicstyle=\scriptsize,
+        upquote=true,
+        aboveskip={1.5\baselineskip},
+        columns=fixed,
+        showstringspaces=false,
+        extendedchars=false,
+        breaklines=true,
+        prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+        frame=single,
+        numbers=left,
+        showtabs=false,
+        showspaces=false,
+        showstringspaces=false,
+        identifierstyle=\ttfamily,
+        keywordstyle=\color[rgb]{0,0,1},
+        commentstyle=\color[rgb]{0.026,0.112,0.095},
+        stringstyle=\color[rgb]{0.627,0.126,0.941},
+        numberstyle=\color[rgb]{0.205, 0.142, 0.73},
+%        \lstdefinestyle{C++}{language=C++,style=numbers}’.
+}
+\lstset{
+    backgroundcolor=\color{lbcolor},
+    tabsize=4,
+  language=C++,
+  captionpos=b,
+  tabsize=3,
+  frame=lines,
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=5pt,
+  breaklines=true,
+  showstringspaces=false,
+  basicstyle=\footnotesize\ttfamily,
+%  identifierstyle=\color{magenta},
+  keywordstyle=\color[rgb]{0,0,1},
+  commentstyle=\color{darkgreen},
+  stringstyle=\color{red}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\title{ADI for Reaction-Diffusion Systems}
+\author{Stephanie Christ}
+\date{August 4, 2015}
+
+\begin{document}
+%\lstset{language=C++}
+
+\maketitle
+
+
+\section{Gray-Scott Reaction-Diffusion System}
+
+Reaction-Diffusion systems describe how the concentration of chemical substances changes in space.
+The interaction of the two chemical species $U$ and $V$ is through chemical reactions, the distribution in space due to diffusion.
+The reaction between the two species can be described by the following chemical terms:
+\begin{align*}
+	U + 2V &\rightarrow 3V \\
+	V &\rightarrow P
+\end{align*}
+By combining the reaction and the diffusion, we obtain differential equations for the concentrations $u$ and $v$.
+
+\begin{align}
+	\frac{\partial u}{\partial t} &= D_u \Delta u - uv^2 + F(1-u) \label{eq:pde-u}\\
+	\frac{\partial v}{\partial t} &= D_v \Delta v + uv^2 - (F+k)v	 \label{eq:pde-v}
+\end{align}
+
+$D_u$ and $D_v$ denote the diffusion coefficients for $u$ and $v$ respectively.
+$F$ and $k$ are constant coefficient which describe at which rate the chemical reactions occur.
+
+The model is in 2 dimensions.
+
+
+
+\section{Numerical Method}
+
+We split our two-dimensional domain in square cells.
+
+To solve the equations for $u$ and $v$ (equations \ref{eq:pde-u} and \ref{eq:pde-v}), we split the reaction and the diffusion parts to solve them separately.
+First, we solve the diffusion and then we add the reaction to the obtained result.
+$u$ and $v$ can both be computed separately in each time step, as their contributions to the other equation is only explicit.
+
+
+\subsection{ADI (Alternating Direction Implicit)}
+
+To solve the diffusion equation $\frac{\partial \rho}{\partial t} = D_\rho \Delta \rho$, we use the ADI method.
+This method has first been proposed by Craig and Sneyd in 1988 \cite{Craig_Sneyd_1988}.
+
+First half-step:
+\begin{equation}
+	\rho_{i,j}^{n+\frac{1}{2}} = \rho_{i,j}^n + \frac{D_\rho \delta t}{2} \left[ \frac{\partial^2 \rho_{i,j}^{n+\frac{1}{2}}}{\partial x^2} + \frac{\partial^2 \rho_{i,j}^n}{\partial y^2} \right]
+	\label{eq:adi-half1}
+\end{equation}
+Second half-step:
+\begin{equation}
+	\rho_{i,j}^{n+1} = \rho_{i,j}^{n+\frac{1}{2}} + \frac{D_\rho \delta t}{2} \left[ \frac{\partial^2 \rho_{i,j}^{n+\frac{1}{2}}}{\partial x^2} + \frac{\partial^2 \rho_{i,j}^{n+1}}{\partial y^2} \right]
+	\label{eq:adi-half2}
+\end{equation}
+We approximate the second derivative using a second order central differences scheme:
+\begin{align}
+	\frac{\partial \rho_{i,j}}{\partial x^2} &= \frac{\rho_{i-1,j} - 2 \rho_{i,j} + \rho_{i+1,j}}{\Delta x^2} \\
+	\frac{\partial \rho_{i,j}}{\partial y^2} &= \frac{\rho_{i,j-1} - 2 \rho_{i,j} + \rho_{i,j+1}}{\Delta y^2}
+\end{align}
+Inserting this into equation \ref{eq:adi-half1} for the first half-step and setting $\Delta x = \Delta y$, we obtain the following equation:
+\begin{equation}
+	\rho_{i,j}^{n+\frac{1}{2}} = \rho_{i,j}^n + \frac{D_\rho \delta t}{2} \left[ \frac{\rho_{i-1,j}^{n+\frac{1}{2}} - 2 \rho_{i,j}^{n+\frac{1}{2}} + \rho_{i+1,j}^{n+\frac{1}{2}}}{\Delta x^2} + \frac{\rho_{i-1,j}^n - 2 \rho_{i,j}^n + \rho_{i+1,j}^n}{\Delta x^2} \right]
+\end{equation}
+We sort the implicit and explicit parts and get the following system:
+\begin{multline}
+	-\frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i-1,j}^{n + \frac{1}{2}} + \left( 1 + \frac{D_\rho \Delta t}{\Delta x^2} \right) \rho_{i,j}^{n + \frac{1}{2}} - \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i+1,j}^{n + \frac{1}{2}} \\
+	= \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i,j-1}^n + \left( 1 - \frac{D_\rho \Delta t}{\Delta x^2} \right) \rho_{i,j}^n - \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i,j+1}^n
+\end{multline}
+This gives us a tridiagonal system with a constant on each diagonal for each row of the domain.
+On the lower and upper diagonals, we have the coefficient $-\frac{D_\rho \Delta t}{2 \Delta x^2}$, on the middle diagonal the coefficient $\left( 1 + \frac{D_\rho \Delta t}{\Delta x^2} \right)$.
+
+Performing analogous calculations for the second half-step \ref{eq:adi-half2} yields
+\begin{multline}
+	-\frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i,j-1}^{n + 1} + \left( 1 + \frac{D_\rho \Delta t}{\Delta x^2} \right) \rho_{i,j}^{n + 1} - \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i,j+1}^{n + 1} \\
+	= \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i-1,j}^{n + \frac{1}{2}} + \left( 1 - \frac{D_\rho \Delta t}{\Delta x^2} \right) \rho_{i,j}^{n + \frac{1}{2}} - \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i+1,j}^{n + \frac{1}{2}}
+\end{multline}
+The second half-step gives a tridiagonal system to solve for each column of the domain.
+
+\paragraph{Thomas Algorithm}
+Tridiagonal systems $Ax = d$ can be solved with the Thomas Algorithm in $\mathcal O(n)$ time.
+\begin{align}
+	Ax &= d \\
+\begin{bmatrix}
+   {b_0} & {c_0} & {   } & {   } & { 0 } \\
+   {a_1} & {b_1} & {c_1} & {   } & {   } \\
+   {   } & {a_2} & {b_2} & \ddots & {   } \\
+   {   } & {   } & \ddots & \ddots & {c_{n-1}}\\
+   { 0 } & {   } & {   } & {a_n} & {b_n}\\
+\end{bmatrix}
+\begin{bmatrix}
+   {x_0 }  \\
+   {x_1 }  \\
+   {x_2 }  \\
+   \vdots   \\
+   {x_n }  \\
+\end{bmatrix}
+&=
+\begin{bmatrix}
+   {d_0 }  \\
+   {d_1 }  \\
+   {d_2 }  \\
+   \vdots   \\
+   {d_n }  \\
+\end{bmatrix}
+\end{align}
+The method first modifies the coefficients in the following way:
+\begin{align}
+	c'_i &=
+\begin{cases}
+\begin{array}{lcl}
+  \cfrac{c_i}{b_i}                  & ; & i = 0 \\
+  \cfrac{c_i}{b_i - a_i c'_{i - 1}} & ; & i = 1, 2, \dots, n-1 \\
+\end{array}
+\end{cases} \\
+d'_i &=
+\begin{cases}
+\begin{array}{lcl}
+  \cfrac{d_i}{b_i}                  & ; & i = 0 \\
+  \cfrac{d_i - a_i d'_{i - 1}}{b_i - a_i c'_{i - 1}} & ; & i = 1, 2 \dots, n. \\
+\end{array}
+\end{cases}
+\end{align}
+Then the solution is obtained by backwards substitution.
+\begin{align}
+	x_n &= d'_n \\
+	x_i &= d'_i - c'_i x_{i + 1} \qquad ; \ i = n - 1, n - 2, \ldots, 0.
+\end{align}
+
+
+\subsection{Reaction Term}
+To add the reaction term to the solution of the diffusion equation, we use a forward Euler scheme.
+$\tilde u^{n+1}$ and $\tilde v^{n+1}$ denote the solution of the diffusion equations before adding the contribution of the reaction term.
+
+\begin{align}
+	u_{i,j}^{n+1} &= \tilde u_{i,j}^{n+1} + \Delta t \left( - \tilde u_{i,j}^{n+1} (\tilde v_{i,j}^{n+1})^2 + F ( 1- \tilde u_{i,j}^{n+1} ) \right) \\
+	v_{i,j}^{n+1} &= \tilde v_{i,j}^{n+1} + \Delta t \left( \tilde u_{i,j}^{n+1} (\tilde v_{i,j}^{n+1})^2 - (F+k) \tilde v_{i,j}^{n+1} \right)
+\end{align}
+
+
+\subsection{Boundary conditions}
+We use reflecting boundary conditions.
+This modifies the tridiagonal matrix system, so that the values on each diagonal aren't constant for the whole diagonal anymore.
+The first value on the upper diagonal, as well as the last value on the lower diagonal, are doubled.
+
+
+
+\section{Implementation}
+
+We save the grid for $u$ and $v$ each in a \verb+std::vector<double>+ in row-wise storage.
+For the tridiagonal matrix, we wrote our own class to simplify the access to the diagonals.
+
+To visualize the result, we used OpenGL for displaying the concentration of $u$ during the computation, and a library called \verb+lodepng+ -- written by Lode Vandevenne -- to save the image after the simulation.
+
+\subsection{Serial version}
+
+We loop over all time steps and apply the numerical scheme described above.
+
+%\begin{minipage}{\linewidth}
+%\begin{lstlisting}[label={lst:loop-time}, caption={Loop over all time steps}]
+%for (int i=0; i<nSteps_; ++i) {
+%	step();
+%}
+%\end{lstlisting}
+%\end{minipage}
+
+
+In each step, we first apply the ADI method to $u$ and $v$ to solve the diffusion part of the problem.
+Then we solve the reaction.
+
+For the ADI-step, we have to treat the boundary rows/columns differently, as the dependencies on the neighbouring cells change (see \ref{lst:adi-serial}.
+To facilitate the access to a grid cell, we have defined macros that let us use the two-dimensional coordinates of the cells.
+The solver for the tridiagonal matrix is an implementation of the Thomas algorithm, see section \ref{sec:thomas}.
+
+
+\begin{lstlisting}[label={lst:adi-serial}, caption={Serial implementation of the first half-step}]
+// perform the first half-step
+// loop over all rows
+
+// j=0
+for (int i=0; i<N_; ++i) {
+    uRhs[i] = U(i,0) + uCoeff * (U(i,1) - U(i,0));
+    vRhs[i] = V(i,0) + vCoeff * (V(i,1) - V(i,0));
+}
+TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,0), 1);
+TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,0), 1);
+
+// inner grid points
+for (int j=1; j<N_-1; ++j) {
+    // create right-hand side of the systems
+    for (int i=0; i<N_; ++i) {
+        uRhs[i] = U(i,j) + uCoeff * (U(i,j+1) - 2.*U(i,j) + U(i, j-1));
+        vRhs[i] = V(i,j) + vCoeff * (V(i,j+1) - 2.*V(i,j) + V(i, j-1));
+    }
+    
+    TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,j), 1);
+    TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,j), 1);
+}
+
+// j=N_-1
+for (int i=0; i<N_; ++i) {
+    uRhs[i] = U(i,N_-1) + uCoeff * (- U(i,N_-1) + U(i,N_-2));
+    vRhs[i] = V(i,N_-1) + vCoeff * (- V(i,N_-1) + V(i,N_-2));
+}
+TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,N_-1), 1);
+TriDiagMatrixSolver::solve(N_, matV1_, vRhs, &VHALF(0,N_-1), 1);
+\end{lstlisting}
+
+The second half-step is implemented analogously to the first half-step, but with the loop over the columns \verb+i+ instead of the rows \verb+j+.
+
+For the reaction, we used a simple loop over all grid cells and add the reaction term to $u$ and $v$.
+
+
+
+\subsection{Thomas Algorithm}\label{sec:thomas}
+For the implementation of the Thomas Algorithm, we used the version of wikipedia from April 2014 \cite{wiki:thomas-alg}.
+We modified it so that we can pass the whole grid as an argument.
+Since the access to the grid is row-/column-wise argument \verb+result+ is a pointer to the first element we want to access.
+The increment \verb+inc+ is for the distinction between row-wise and column-wise access and is either $1$ or $N$ (the size of the grid in one dimension).
+
+\begin{lstlisting}[label={lst:thomas-dec}, caption={Declaration of our implementation of the Thomas algorithm}]
+namespace TriDiagMatrixSolver
+{
+    /**
+     * Solve a tridiagonal matrix system.
+     * 
+     * @param n         number of elements in the result
+     * @param mat       tridiagonal matrix
+     * @param rhs       right-hand side of the system
+     * @param result    vector for the result, pointer to the first element
+     * @param inc       increment for the elements of the result
+     */
+    void solve(unsigned int n, const TriDiagMatrix& mat, const std::vector<double>& rhs, double *result, const unsigned int inc);
+};
+\end{lstlisting}
+
+
+
+
+\clearpage
+\bibliographystyle{plain}
+\bibliography{refs}
+
+
+\end{document}
