@@ -75,6 +75,9 @@ void GrayScott::run()
         //if (i == 0) {
 //            save_fields();
         // }
+        if (!(i%10000)) {
+            std::cout << "Step " << i+1 << " done!\n";
+        }
     }
     	// timer end and output of time
 	end = std::chrono::high_resolution_clock::now();
@@ -89,7 +92,7 @@ void GrayScott::run()
     std::cout << "\n";
     
 //    save_fields();
-//    save_png();
+    save_png();
 }
 
 
@@ -167,7 +170,7 @@ void GrayScott::step()
     
     // inner grid points
 
-  #pragma omp parallel num_threads(nthreads_)
+    #pragma omp parallel num_threads(nthreads_)
     { // PARALLEL REGION BEGIN
     // right hand sides for u and for v
     std::vector<double> puRhs(N_);

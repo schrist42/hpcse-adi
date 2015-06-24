@@ -189,8 +189,8 @@ void GrayScott::step()
     
     // i=0
     for (int j=0; j<N_; ++j) {
-        uRhs[j] = U(0,j) + uCoeff * (U(1,j) - U(0,j));
-        vRhs[j] = V(0,j) + vCoeff * (V(1,j) - V(0,j));
+        uRhs[j] = UHALF(0,j) + uCoeff * (UHALF(1,j) - UHALF(0,j));
+        vRhs[j] = VHALF(0,j) + vCoeff * (VHALF(1,j) - VHALF(0,j));
     }
     TriDiagMatrixSolver::solve(N_, matU2_, uRhs, &U(0,0), N_);
     TriDiagMatrixSolver::solve(N_, matV2_, vRhs, &V(0,0), N_);
@@ -209,8 +209,8 @@ void GrayScott::step()
     
     // i=N_-1
     for (int j=0; j<N_; ++j) {
-        uRhs[j] = U(N_-1,j) + uCoeff * (- U(N_-1,j) + U(N_-2,j));
-        vRhs[j] = V(N_-1,j) + vCoeff * (- V(N_-1,j) + V(N_-2,j));
+        uRhs[j] = UHALF(N_-1,j) + uCoeff * (- UHALF(N_-1,j) + UHALF(N_-2,j));
+        vRhs[j] = VHALF(N_-1,j) + vCoeff * (- VHALF(N_-1,j) + VHALF(N_-2,j));
     }
     TriDiagMatrixSolver::solve(N_, matU2_, uRhs, &U(N_-1,0), N_);
     TriDiagMatrixSolver::solve(N_, matV2_, vRhs, &V(N_-1,0), N_);

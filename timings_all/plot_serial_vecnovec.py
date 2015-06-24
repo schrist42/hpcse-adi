@@ -20,13 +20,14 @@ import sys
 data_vec = np.loadtxt('serial/serial_vec.dat') # time, size, error
 data_novec = np.loadtxt('serial/serial_novec.dat') # time, size, error
 
+fig1, ax1 = plt.subplots()
 
 if len(data_vec[0]) > 2: # with error
-    plt.errorbar(data_vec[:,1], data_vec[:,0], yerr=data_vec[:,2], label='vectorized (-ftree-vectorize)')
-    plt.errorbar(data_novec[:,1], data_novec[:,0], yerr=data_novec[:,2], label='not vectorized (-fno-tree-vectorize)')
+    ax1.errorbar(data_vec[:,1], data_vec[:,0], yerr=data_vec[:,2], label='vectorized (-ftree-vectorize)')
+    ax1.errorbar(data_novec[:,1], data_novec[:,0], yerr=data_novec[:,2], label='not vectorized (-fno-tree-vectorize)')
 else: # without error
-    plt.plot(data_vec[:,1], data_vec[:,0], label='vectorized (-ftree-vectorize)')
-    plt.plot(data_novec[:,1], data_novec[:,0], label='not vectorized (-fno-tree-vectorize)')
+    ax1.plot(data_vec[:,1], data_vec[:,0], label='vectorized (-ftree-vectorize)')
+    ax1.plot(data_novec[:,1], data_novec[:,0], label='not vectorized (-fno-tree-vectorize)')
 
 # annotate with size
 #for i in range(0,len(data)):
@@ -34,11 +35,27 @@ else: # without error
 
 #size = filename.split('_')[-1].split('.',1)[0]
 
-plt.xlabel('size')
-plt.ylabel('time per step')
-plt.title('Comparison vectorizing and not vectorizing')
-plt.legend()
-#plt.xlim(xmin=0, xmax=data_vec[-1,0]+1) #, xmax=18)
+logx = np.log(data_vec[:,1])
+logy = np.log(data_vec[:,0])
+coeffs = np.polyfit(logx,logy,deg=1)
+print "Scaling for serial version: %f" % coeffs[0]
+
+
+
+ax1.set_xscale('log')
+ax1.set_yscale('log')
+ax1.set_xlabel('Size')
+ax1.set_ylabel('Time per step')
+ax1.set_title('System size scaling of serial version')
+ax1.legend(loc='upper left')
+ax1.set_xticks(data_vec[:,1])
+
+labels = [''] * len(ax1.get_xticklabels())
+labels[0] = int(data_vec[0,1])
+labels[-1] = int(data_vec[-1,1])
+
+ax1.set_xticklabels(labels)
+plt.xlim(xmax=max(data_vec[:,1])) #, xmax=18)
 
 plt.savefig('serial/serial_vecnovec.pdf')
 plt.show()
