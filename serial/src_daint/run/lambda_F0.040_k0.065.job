@@ -1,0 +1,11 @@
+#!/bin/bash -l
+
+#SBATCH --ntasks=1
+#SBATCH --time=10:00:00
+
+echo "executes on nodes:"
+echo $SLUM_JOB_NODELIST
+
+echo "output (if any follows:)" 
+
+aprun -B /users/stud06/hpcse-adi/serial/src_daint/main_vectorize -N 1024 --dt 1 --nsteps 100000 --pngname lambda -F 0.040 -k 0.065
