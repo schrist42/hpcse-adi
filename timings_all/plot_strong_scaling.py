@@ -42,8 +42,8 @@ plt.plot([0,data[-1,0]+1], [0,data[-1,0]+1], label='Linear speedup', color='#BDB
 
 #size = filename.split('_')[-1].split('.',1)[0]
 
-plt.ylabel(r'Speedup $t_{serial} / t_{parallel}$ per step')
-plt.title('Strong scaling/speedup of %s on Piz Daint, N = %s' % (parallel_type, size))
+plt.ylabel(r'Speedup $t_{serial} / t_{parallel}$')
+plt.title('Strong scaling of OpenMP version, N = %s' % (size))
 #plt.legend()
 plt.xlim(xmin=0, xmax=data[-1,0]+1) #, xmax=18)
 #plt.ylim(ymax=data[-1,1]+1) #, xmax=18)

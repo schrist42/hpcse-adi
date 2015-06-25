@@ -44,8 +44,8 @@ else: # without error
     
     
 # annotate with size
-for i in range(0,len(data1)):
-    plt.annotate('%d' % data1[i,3], xy=(data1[i,0],t1/data1[i,2]))
+#for i in range(0,len(data1)):
+#    plt.annotate('%d' % data1[i,3], xy=(data1[i,0],t1/data2[i,2]))
 
 
 
@@ -55,8 +55,8 @@ plt.plot([0,data1[-1,0]+1], [0,data1[-1,0]+1], label='Linear speedup', color='#B
 
 
 
-plt.ylabel(r'Speedup $t_{1} / t_{parallel}$ per step')
-plt.title('Strong scaling/speedup of hybrid version (different numbers of MPI tasks) on Piz Daint (N = 4096)')
+plt.ylabel(r'Speedup $t_{1} / t_{parallel}$')
+plt.title('MPI strong scaling of hybrid version (N = 4096)')
 plt.legend()
 plt.xlim(xmin=0, xmax=data1[-1,0]+1)
 
@@ -65,5 +65,5 @@ plt.xlabel('Number of tasks')
 
 
 
-plt.savefig('hybrid_strong_scaling_mpi_4096.pdf')
+plt.savefig('strong_scaling/hybrid_strong_scaling_mpi_4096.pdf')
 plt.show()

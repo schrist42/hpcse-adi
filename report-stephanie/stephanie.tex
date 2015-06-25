@@ -565,25 +565,103 @@ We also added a \verb+#pragma omp parallel for+ clause to the local transposing 
 
 \subsection{Patterns}
 We compared our resulting patterns with the patterns Pearson showed in his paper \cite{pearson_1993}.
+Most patterns are close to the ones Pearson got, the pattern $\iota$ differs most.
+However, these differences are likely due to having slightly different parameters than Pearson, as we had to read them out of the parameter space.
+
+\begin{figure}
+	\centering
+	\captionsetup{format=hang}
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{alpha_k_0.046_F_0.007_step_100000}.png}
+		\caption{Pattern $\alpha$\\$F=0.007$\\$k=0.046$}
+		\label{fig:pattern-alpha}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{beta_k_0.046_F_0.020_step_100000}.png}
+		\caption{Pattern $\beta$\\$F=0.020$\\$k=0.046$}
+		\label{fig:pattern-beta}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{gamma_k_0.055_F_0.024_step_100000}.png}
+		\caption{Pattern $\gamma$\\$F=0.024$\\$k=0.055$}
+		\label{fig:pattern-gamma}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{delta_k_0.055_F_0.030_step_100000}.png}
+		\caption{Pattern $\delta$\\$F=0.030$\\$k=0.055$}
+		\label{fig:pattern-delta}
+	\end{subfigure}
+	
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{epsilon_k_0.055_F_0.019_step_100000}.png}
+		\caption{Pattern $\epsilon$\\$F=0.019$\\$k=0.055$}
+		\label{fig:pattern-epsilon}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{xi_k_0.061_F_0.024_step_100000}.png}
+		\caption{Pattern $\zeta$\\$F=0.024$\\$k=0.061$}
+		\label{fig:pattern-zeta}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{eta_k_0.063_F_0.035_step_100000}.png}
+		\caption{Pattern $\eta$\\$F=0.035$\\$k=0.063$}
+		\label{fig:pattern-eta}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{theta_k_0.060_F_0.042_step_100000}.png}
+		\caption{Pattern $\theta$\\$F=0.042$\\$k=0.060$}
+		\label{fig:pattern-theta}
+	\end{subfigure}
+	
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{iota_k_0.060_F_0.050_step_100000}.png}
+		\caption{Pattern $\iota$\\$F=0.050$\\$k=0.060$}
+		\label{fig:pattern-iota}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{kappa_k_0.063_F_0.050_step_100000}.png}
+		\caption{Pattern $\kappa$\\$F=0.050$\\$k=0.063$}
+		\label{fig:pattern-kappa}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{lambda_k_0.065_F_0.040_step_100000}.png}
+		\caption{Pattern $\lambda$\\$F=0.040$\\$k=0.065$}
+		\label{fig:pattern-lambda}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.2\textwidth}
+		\includegraphics[width=\textwidth]{patterns/{mu_k_0.065_F_0.050_step_100000}.png}
+		\caption{Pattern $\mu$\\$F=0.050$\\$k=0.065$}
+		\label{fig:pattern-mu}
+	\end{subfigure}
+	\caption{Patterns after $10^5$ steps}
+	\label{fig:patterns}
+\end{figure}
 
 
 \subsection{Serial version}
 For the serial version, we ran it with and without compiler vectorization.
-With vectorization, we compiled using \verb|g++ -std=c++11 -ftree-vectorize ...|, without we used \verb|g++ -std=c++11 -fno-tree-vectorize ...|.
+With vectorization, we compiled using \verb|g++ -ftree-vectorize ...|, without we used \verb|g++ -fno-tree-vectorize ...|.
 The comparison of the system size scaling of these two version can be seen in figure \ref{fig:serial-vecnovec}.
+It is clearly visible, that it doesn't make a difference whether the compiler vectorizes the code or not.
+We fitted a line with python \verb|numpy.polyfit| and obtained a scaling exponent of $2.2$.
+
 \begin{figure}
 	\centering
-	\includegraphics[width=0.8\textwidth]{serial_vecnovec.pdf}
+	\includegraphics[width=0.9\textwidth]{serial_vecnovec_2.pdf}
 	\caption{System size scaling of the serial version with and without compiler vectorization}
 	\label{fig:serial-vecnovec}
 \end{figure}
-It is clearly visible, that it doesn't make a difference whether the compiler vectorizes the code or not.
 
 \subsection{OpenMP version}
-
-
-
-
 
 
 
