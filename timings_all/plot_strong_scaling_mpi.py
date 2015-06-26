@@ -43,7 +43,7 @@ plt.plot([0,data1[-1,0]+1], [0,data1[-1,0]+1], label='Linear speedup', color='#B
 #size = filename.split('_')[-1].split('.',1)[0]
 
 plt.ylabel(r'Speedup $t_1 / t_n$')
-plt.title('Strong scaling of MPI version, transposing using different data types')
+plt.title('Strong scaling of MPI version\n(transposing using different data types)')
 plt.xlabel('Number of tasks')
 plt.legend()
 plt.xlim(xmin=0, xmax=data1[-1,0]+1) #, xmax=18)

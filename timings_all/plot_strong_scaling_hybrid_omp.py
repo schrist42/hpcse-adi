@@ -54,7 +54,7 @@ plt.plot([0,data1[-1,1]+1], [0,data1[-1,1]+1], label='Linear speedup', color='#B
 
 
 plt.ylabel(r'Speedup $t_{1} / t_{n}$')
-plt.title('OpenMP strong scaling of hybrid version (N = 4096, transposing with data types)')
+plt.title('OpenMP strong scaling of hybrid version\n(N = 4096, transposing with data types)')
 plt.legend()
 plt.xlim(xmin=0, xmax=data1[-1,1]+1)
 plt.ylim(ymax=2)
