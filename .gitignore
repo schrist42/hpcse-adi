@@ -39,3 +39,5 @@ serial/src/main
 omp/src/main
 mpi/src/main
 hybrid/src/main
+
+*.job
