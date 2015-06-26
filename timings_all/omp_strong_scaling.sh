@@ -2,12 +2,12 @@
 
 set -e
 
-size=1024
+size=512
 max=16
 dt=1
-steps=10000
+steps=1000
 
-time=(03:15:00 03:00:00 02:45:00 02:30:00 02:15:00 02:00:00 01:45:00 01:30:00)
+time=(06:15:00 06:00:00 05:45:00 05:30:00 05:15:00 05:00:00 04:45:00 04:30:00)
 
 function jobfile {
     if (("$2" > "8")); then
@@ -24,9 +24,14 @@ if [ ! -d strong_scaling ]; then
 fi
 cd strong_scaling
 
+jobfile $size 1 06:30:00
+echo "sbatch omp_1_${size}_strong.job"
+sbatch omp_1_${size}_strong.job
+
 for (( threads = 2; threads <= $max; threads+=2 ))
 do
 	jobfile $size $threads ${time[$threads/2 -1]}
 	echo "sbatch omp_${threads}_${size}_strong.job"
 	sbatch omp_${threads}_${size}_strong.job
 done
+

@@ -4,7 +4,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=14
 #SBATCH --ntasks-per-core=2
-#SBATCH --time=01:45:00
+#SBATCH --time=04:45:00
 
 echo "executes on nodes:"
 echo $SLUM_JOB_NODELIST
@@ -18,4 +18,4 @@ if [ ! -z $1 ]; then
 fi 
 
 export OMP_NUM_THREADS=14
-aprun -B /users/stud06/hpcse-adi/omp/src/main -N 1024 --dt 1 --nsteps 10000 -t 14 --benchmark
+aprun -B /users/stud06/hpcse-adi/omp/src/main -N 1024 --dt 1 --nsteps 1000 -t 14 --benchmark

@@ -5,7 +5,7 @@ set -e
 size=1024
 max=16
 dt=1
-steps=10000
+steps=1000
 
 time=(01:30:00 01:45:00 02:00:00 02:15:00 02:30:00 02:45:00 03:00:00 03:15:00 )
 
@@ -24,10 +24,16 @@ if [ ! -d weak_scaling ]; then
 fi
 cd weak_scaling
 
+threads=1
+N=$(echo "scale=4;$size*sqrt($threads)"| bc | xargs printf "%1.0f");
+jobfile $N $threads 01:15:00
+echo "sbatch omp_$N.job"
+sbatch omp_$N.job
+
 for (( threads = 2; threads <= $max; threads+=2 ))
 do
 	N=$(echo "scale=4;$size*sqrt($threads)"| bc | xargs printf "%1.0f");
 	jobfile $N $threads ${time[$threads/2 -1]}
 	echo "sbatch omp_$N.job"
-#	sbatch omp_$N.job
+	sbatch omp_$N.job
 done

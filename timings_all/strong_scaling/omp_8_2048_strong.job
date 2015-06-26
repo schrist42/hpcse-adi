@@ -17,4 +17,4 @@ if [ ! -z $1 ]; then
 fi 
 
 export OMP_NUM_THREADS=8
-aprun -B /users/stud06/hpcse-adi/omp/src/main -N 1024 --dt 1 --nsteps 1000 -t 8 --benchmark
+aprun -B /users/stud06/hpcse-adi/omp/src/main -N 2048 --dt 1 --nsteps 1000 -t 8 --benchmark
