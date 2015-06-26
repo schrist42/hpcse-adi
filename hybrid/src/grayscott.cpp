@@ -551,7 +551,7 @@ void GrayScott::step()
     #pragma omp parallel num_threads(nthreads_)
     {
     double uind, vind;
-    #pragma omp for
+    #pragma omp for collapse(2)
     for (int j=0; j<Ny_loc; ++j) {
         for (int i=0; i<Nx_loc; ++i) {
 //            const int ind = (i+1)*Ny_loc + j;
