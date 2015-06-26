@@ -17,35 +17,33 @@ import sys
 #nthreads = 16
 size = 4096
 
-# load data
-data_serial = np.loadtxt('strong_scaling/omp_strong_scaling_4096.dat') # threads, time, size, error
 
-ind_serial = np.where(data_serial[:,0] == 8)[0]
-t1 = data_serial[ind_serial,1][0]
+filename1 = 'strong_scaling/hybrid_data_8_strong_scaling_mpi_4096.dat'
+filename2 = 'strong_scaling/hybrid_data_16_strong_scaling_mpi_4096.dat'
 
-ind_serial = np.where(data_serial[:,0] == 16)[0]
-t2 = data_serial[ind_serial,1][0]
+data1 = np.loadtxt(filename1) # number of mpi tasks, number of omp threads, time, size, error
+data2 = np.loadtxt(filename2) # number of mpi tasks, number of omp threads, time, size, error
 
-
-data1 = np.loadtxt('strong_scaling/hybrid_lt_8_strong_scaling_mpi_4096.dat') # number of mpi tasks, number of omp threads, time, size, error
-data2 = np.loadtxt('strong_scaling/hybrid_lt_16_strong_scaling_mpi_4096.dat') # number of mpi tasks, number of omp threads, time, size, error
+# not actually serial, but with 1 mpi task
+serial1 = data1[0,2]
+serial2 = data2[0,2]
 
 
 if len(data1[0]) > 4: # with error
-    plt.errorbar(data1[:,0], t1/data1[:,2], yerr=data1[:,4], label='8 OpenMP threads')
+    plt.errorbar(data1[:,0], serial1/data1[:,2], yerr=data1[:,4], label='8 OpenMP threads')
 else: # without error
-    plt.plot(data1[:,0], t1/data1[:,2], label='8 OpenMP threads')
+    plt.plot(data1[:,0], serial1/data1[:,2], label='8 OpenMP threads')
 
 
 if len(data2[0]) > 4: # with error
-    plt.errorbar(data2[:,0], t2/data2[:,2], yerr=data2[:,4], label='16 OpenMP threads')
+    plt.errorbar(data2[:,0], serial2/data2[:,2], yerr=data2[:,4], label='16 OpenMP threads')
 else: # without error
-    plt.plot(data2[:,0], t2/data2[:,2], label='16 OpenMP threads')
+    plt.plot(data2[:,0], serial2/data2[:,2], label='16 OpenMP threads')
     
     
 # annotate with size
 #for i in range(0,len(data1)):
-#    plt.annotate('%d' % data1[i,3], xy=(data1[i,0],t1/data2[i,2]))
+#    plt.annotate('%d' % data1[i,3], xy=(data1[i,0],serial1/data2[i,2]))
 
 
 
@@ -55,8 +53,8 @@ plt.plot([0,data1[-1,0]+1], [0,data1[-1,0]+1], label='Linear speedup', color='#B
 
 
 
-plt.ylabel(r'Speedup $t_{1} / t_{parallel}$')
-plt.title('MPI strong scaling of hybrid version (N = 4096)')
+plt.ylabel(r'Speedup $t_{1} / t_{n}$')
+plt.title('MPI strong scaling of hybrid version (N = 4096, transposing with data types)')
 plt.legend()
 plt.xlim(xmin=0, xmax=data1[-1,0]+1)
 

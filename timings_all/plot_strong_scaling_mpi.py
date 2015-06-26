@@ -4,6 +4,7 @@ import sys
 
 
 
+# load data
 filename1 = 'strong_scaling/mpi_data_strong_scaling_512.dat'
 filename2 = 'strong_scaling/mpi_data_strong_scaling_1024.dat'
 filename3 = 'strong_scaling/mpi_data_strong_scaling_2048.dat'
@@ -15,7 +16,7 @@ data2 = np.loadtxt(filename2)
 data3 = np.loadtxt(filename3)
 data4 = np.loadtxt(filename4)
 
-# load data
+# not actually serial data, but with one mpi task
 serial1 = data1[0,1]
 serial2 = data2[0,1]
 serial3 = data3[0,1]
@@ -41,7 +42,7 @@ plt.plot([0,data1[-1,0]+1], [0,data1[-1,0]+1], label='Linear speedup', color='#B
 
 #size = filename.split('_')[-1].split('.',1)[0]
 
-plt.ylabel(r'Speedup $t_{serial} / t_{parallel}$')
+plt.ylabel(r'Speedup $t_1 / t_n$')
 plt.title('Strong scaling of MPI version, transposing using different data types')
 plt.xlabel('Number of tasks')
 plt.legend()

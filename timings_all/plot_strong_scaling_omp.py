@@ -4,6 +4,7 @@ import sys
 
 
 
+# load data
 filename1 = 'strong_scaling/omp_strong_scaling_512.dat'
 filename2 = 'strong_scaling/omp_strong_scaling_1024.dat'
 filename3 = 'strong_scaling/omp_strong_scaling_2048.dat'
@@ -15,13 +16,14 @@ data2 = np.loadtxt(filename2)
 data3 = np.loadtxt(filename3)
 data4 = np.loadtxt(filename4)
 
-# load data
+# not actually serial data, but omp version with one thread
 serial1 = data1[0,1]
 serial2 = data2[0,1]
 serial3 = data3[0,1]
 serial4 = data4[0,1]
 
 
+# plot
 if len(data1[0]) > 3: # with error
     plt.errorbar(data1[:,0], serial1/data1[:,1], yerr=data1[:,3], label='N = 512')
     plt.errorbar(data2[:,0], serial2/data2[:,1], yerr=data2[:,3], label='N = 1024')
@@ -41,7 +43,7 @@ plt.plot([0,data1[-1,0]+1], [0,data1[-1,0]+1], label='Linear speedup', color='#B
 
 #size = filename.split('_')[-1].split('.',1)[0]
 
-plt.ylabel(r'Speedup $t_{serial} / t_{parallel}$')
+plt.ylabel(r'Speedup $t_1 / t_n$')
 plt.title('Strong scaling of OpenMP version')
 plt.xlabel('Number of threads')
 plt.legend()
