@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import sys
 
 # get filename
@@ -17,8 +18,8 @@ import sys
 #parallel_type = filename.split('/')[1].split('_')[0]
 
 # load data
-data_lt = np.loadtxt('mpi/mpi_lt.dat') # tasks, time, size, error
-data_datatype = np.loadtxt('mpi/mpi_datatype.dat') # tasks, time, size, error
+data_lt = np.loadtxt('mpi/mpi_lt_32_size.dat') # tasks, time, size, error
+data_datatype = np.loadtxt('mpi/mpi_data_32_size.dat') # tasks, time, size, error
 
 fig1, ax1 = plt.subplots()
 
@@ -47,19 +48,32 @@ print "Scaling for data types: %f" % coeffs[0]
 
 ax1.set_xlabel('Size')
 ax1.set_ylabel('Time per step')
-ax1.set_title('System size scaling of MPI version')
+ax1.set_title('System size scaling of MPI version\n(32 processes)')
 ax1.legend(loc='upper left')
 ax1.set_xscale('log')
 ax1.set_yscale('log')
 #ax1.set_xticks([], minor=False)
-ax1.set_xticks(data_lt[:,2], minor=False) #[data_lt[0,2], data_lt[-1,2]])
+#ax1.set_xticks(data_lt[:,2], minor=False) #[data_lt[0,2], data_lt[-1,2]])
+#
+#labels = [''] * len(ax1.get_xticklabels())
+#labels[0] = int(data_lt[0,2])
+#labels[-1] = int(data_lt[-1,2])
+#
+#ax1.set_xticklabels(labels)
 
-labels = [''] * len(ax1.get_xticklabels())
-labels[0] = int(data_lt[0,2])
-labels[-1] = int(data_lt[-1,2])
 
-ax1.set_xticklabels(labels)
+labels = [''] * len(data_lt[:,2])
+labels[0] = '%d' % int(data_lt[0,2])
+labels[1] = '%d' % int(data_lt[1,2])
+labels[2] = '%d' % int(data_lt[2,2])
+labels[4] = '%d' % int(data_lt[4,2])
+labels[-1] = '%d' % int(data_lt[-1,2])
+
+ax1.xaxis.set_major_locator(ticker.FixedLocator(data_lt[:,2]))
+ax1.xaxis.set_major_formatter(ticker.FixedFormatter(labels))
+ax1.xaxis.set_minor_locator(ticker.NullLocator())
+
 ax1.set_xlim(xmin=0, xmax=max(data_lt[:,2]))
 
-plt.savefig('mpi/mpi_transpose.pdf')
+plt.savefig('mpi/mpi_transpose_32.pdf')
 plt.show()
