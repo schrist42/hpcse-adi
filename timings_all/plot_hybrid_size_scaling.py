@@ -51,7 +51,7 @@ ax1.set_xscale('log')
 ax1.set_yscale('log')
 ax1.set_xlabel('System size')
 ax1.set_ylabel('Time per step')
-ax1.set_title('System size scaling of hybrid version\n(32 MPI tasks, 8 OpenMP threads)')
+ax1.set_title('System size scaling of hybrid version\n(32 MPI processes, 8 OpenMP threads)')
 ax1.legend(loc='upper left')
 
 labels = [''] * len(data1[:,3])
