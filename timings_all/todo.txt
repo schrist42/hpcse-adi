@@ -5,6 +5,7 @@ OpenMP
 [x] N=2048, threads=1,2,4,6,8,10,12,14,16 (strong scaling) -> 1081577 to 1081585
 [x] N=4096, threads=1,2,4,6,8,10,12,14,16 (strong scaling) -> 1081568 to 1081576
 [x] weak scaling -> 1081612 to 1081620
+[x] N=1024,1448,2048,2508,2896,3238,3547,3831,4096, threads=8 (size scaling omp) -> 1085316 to 1085324
 
 MPI
 ===
@@ -12,16 +13,16 @@ MPI
 [x] N=1024, tasks=1,2,4,8,16,32,64,128,256 (strong scaling) -> 1080055 to 1080063
 [x] N=2048, tasks=1,2,4,8,16,32,64,128,256 (strong scaling) -> 1080066 to 1080074
 [x] N=4096, tasks=1,2,4,8,16,32,64,128,256 (strong scaling) -> 1080023 to 1080033
-[x] N=1024,1448,2048,2508,2896,3238,3547,3831,4096, tasks=32, localtranspose (size scaling mpi-localtranspose) -> running 1084671 to 1084679 
-[x] N=1024,1448,2048,2508,2896,3238,3547,3831,4096, tasks=32, datatypes (size scaling mpi-datatypes) -> running 1084661 to 1084669 
+[x] N=1024,1448,2048,2508,2896,3238,3547,3831,4096, tasks=32, localtranspose (size scaling mpi-localtranspose) -> 1084671 to 1084679 
+[x] N=1024,1448,2048,2508,2896,3238,3547,3831,4096, tasks=32, datatypes (size scaling mpi-datatypes) -> 1084661 to 1084669 
 
 Hybrid
 ======
 [x] N=4096, threads=8, tasks=1,2,4,8,16,32,64,128,256 (strong scaling hybrid-mpi) -> 1081631 to 1081639
 [x] N=4096, threads=16, tasks=1,2,4,8,16,32,64,128,256 (strong scaling hybrid-mpi) -> 1081622 to 1081630
 [x] N=4096, threads=1,2,4,6,8,10,12,14,16, tasks=32 (strong scaling hybrid-omp) -> 1081664 to 1081672
-[x] N=1024,1448,2048,2508,2896,3238,3547,3831,4096, threads=8, tasks=32, localtranspose (size scaling hybrid-localtranspose) -> running 1082944 to 1082953
-[x] N=1024,1448,2048,2508,2896,3238,3547,3831,4096, threads=8, tasks=32, datatypes (size scaling hybrid-datatypes) -> running 1082909 to 1082917
+[x] N=1024,1448,2048,2508,2896,3238,3547,3831,4096, threads=8, tasks=32, localtranspose (size scaling hybrid-localtranspose) -> 1082944 to 1082953
+[x] N=1024,1448,2048,2508,2896,3238,3547,3831,4096, threads=8, tasks=32, datatypes (size scaling hybrid-datatypes) -> 1082909 to 1082917
 [x] N=512, threads=8, tasks=1,2,4,8,16,32,64,128,256 (strong scaling hybrid-mpi) -> 1084591 to 1084599
 [x] N=1024, threads=8, tasks=1,2,4,8,16,32,64,128,256 (strong scaling hybrid-mpi) -> 1084600 to 1084608
 [x] N=2048, threads=8, tasks=1,2,4,8,16,32,64,128,256 (strong scaling hybrid-mpi) ->1084609 to 1084617
