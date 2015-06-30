@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.ticker as ticker
 import sys
 
 # get filename
@@ -34,40 +35,52 @@ serial2 = data2[0,2]
 serial3 = data3[0,2]
 serial4 = data4[0,2]
 
+fig1, ax1 = plt.subplots()
 
 if len(data1[0]) > 4: # with error
-    plt.errorbar(data1[:,0], serial1/data1[:,2], yerr=data1[:,4], label='N = 512')
-    plt.errorbar(data2[:,0], serial2/data2[:,2], yerr=data2[:,4], label='N = 1024')
-    plt.errorbar(data3[:,0], serial3/data3[:,2], yerr=data3[:,4], label='N = 2048')
-    plt.errorbar(data4[:,0], serial4/data4[:,2], yerr=data4[:,4], label='N = 4096')
+    ax1.errorbar(data1[:,0], serial1/data1[:,2], yerr=data1[:,4], label='N = 512')
+    ax1.errorbar(data2[:,0], serial2/data2[:,2], yerr=data2[:,4], label='N = 1024')
+    ax1.errorbar(data3[:,0], serial3/data3[:,2], yerr=data3[:,4], label='N = 2048')
+    ax1.errorbar(data4[:,0], serial4/data4[:,2], yerr=data4[:,4], label='N = 4096')
 else: # without error
-    plt.plot(data1[:,0], serial1/data1[:,2], label='8 OpenMP threads')
+    ax1.plot(data1[:,0], serial1/data1[:,2], label='8 OpenMP threads')
 
 
 #if len(data2[0]) > 4: # with error
-#    plt.errorbar(data2[:,0], serial2/data2[:,2], yerr=data2[:,4], label='16 OpenMP threads')
+#    ax1.errorbar(data2[:,0], serial2/data2[:,2], yerr=data2[:,4], label='16 OpenMP threads')
 #else: # without error
-#    plt.plot(data2[:,0], serial2/data2[:,2], label='16 OpenMP threads')
+#    ax1.plot(data2[:,0], serial2/data2[:,2], label='16 OpenMP threads')
     
     
 # annotate with size
 #for i in range(0,len(data1)):
-#    plt.annotate('%d' % data1[i,3], xy=(data1[i,0],serial1/data2[i,2]))
+#    ax1.annotate('%d' % data1[i,3], xy=(data1[i,0],serial1/data2[i,2]))
 
 
 
 
 # plot linear speedup line
-plt.plot([0,data1[-1,0]+1], [0,data1[-1,0]+1], label='Linear speedup', color='#BDBDBD', linestyle='--')
+ax1.plot([0,data1[-1,0]+1], [0,data1[-1,0]+1], label='Linear speedup', color='#BDBDBD', linestyle='--')
 
 
 
-plt.ylabel(r'Speedup $t_{1} / t_{n}$')
-plt.title('MPI strong scaling of hybrid version\n(8 OpenMP threads, transposing with data types)')
+ax1.set_ylabel(r'Speedup $t_{1} / t_{n}$')
+ax1.set_title('MPI strong scaling of hybrid version\n(8 OpenMP threads, transposing with data types)')
 plt.legend()
-plt.xlim(xmin=0, xmax=data1[-1,0])
+ax1.set_xlim(xmin=0, xmax=data1[-1,0])
 
-plt.xlabel('Number of processes')
+ax1.set_xlabel('Number of processes')
+
+labels = [''] * len(data1[:,0])
+labels[0] = '%d' % int(data1[0,0])
+labels[-4] = '%d' % int(data1[-4,0])
+labels[-3] = '%d' % int(data1[-3,0])
+labels[-2] = '%d' % int(data1[-2,0])
+labels[-1] = '%d' % int(data1[-1,0])
+
+ax1.xaxis.set_major_locator(ticker.FixedLocator(data1[:,0]))
+ax1.xaxis.set_major_formatter(ticker.FixedFormatter(labels))
+ax1.xaxis.set_minor_locator(ticker.NullLocator())
 
 
 

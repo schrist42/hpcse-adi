@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.6.12)  25 JUN 2015 11:05
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.6.12)  28 JUN 2015 17:38
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -293,6 +293,27 @@ Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1358.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1359.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1360.
 )
+(/usr/share/texlive/texmf-dist/tex/latex/tools/afterpage.sty
+Package: afterpage 1995/10/27 v1.08 After-Page Package (DPC)
+\AP@output=\toks21
+\AP@partial=\box30
+\AP@footins=\box31
+)
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+\Gm@cnth=\count121
+\Gm@cntv=\count122
+\c@Gm@tempcnt=\count123
+\Gm@bindingoffset=\dimen129
+\Gm@wd@mp=\dimen130
+\Gm@odd@mp=\dimen131
+\Gm@even@mp=\dimen132
+\Gm@layoutwidth=\dimen133
+\Gm@layoutheight=\dimen134
+\Gm@layouthoffset=\dimen135
+\Gm@layoutvoffset=\dimen136
+\Gm@dimlist=\toks22
+)
 (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.sty
 Package: babel 2013/12/03 3.9h The Babel package
 
@@ -301,8 +322,8 @@ Language: english 2012/08/20 v3.3p English support from the babel system
 
 (/usr/share/texlive/texmf-dist/tex/generic/babel/babel.def
 File: babel.def 2013/12/03 3.9h Babel common definitions
-\babel@savecnt=\count121
-\U@D=\dimen129
+\babel@savecnt=\count124
+\U@D=\dimen137
 )
 \l@canadian = a dialect from \language\l@american 
 \l@australian = a dialect from \language\l@british 
@@ -322,33 +343,33 @@ File: lstmisc.sty 2013/08/26 1.5b (Carsten Heinz)
 ) (./stephanie.aux)
 \openout1 = `stephanie.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 81.
-LaTeX Font Info:    ... okay on input line 81.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
  (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count122
-\scratchdimen=\dimen130
-\scratchbox=\box30
-\nofMPsegments=\count123
-\nofMParguments=\count124
-\everyMPshowfont=\toks21
-\MPscratchCnt=\count125
-\MPscratchDim=\dimen131
-\MPnumerator=\count126
-\makeMPintoPDFobject=\count127
-\everyMPtoPDFconversion=\toks22
+\scratchcounter=\count125
+\scratchdimen=\dimen138
+\scratchbox=\box32
+\nofMPsegments=\count126
+\nofMParguments=\count127
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count128
+\MPscratchDim=\dimen139
+\MPnumerator=\count129
+\makeMPintoPDFobject=\count130
+\everyMPtoPDFconversion=\toks24
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -364,8 +385,8 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-\AtBeginShipoutBox=\box31
-Package hyperref Info: Link coloring OFF on input line 81.
+\AtBeginShipoutBox=\box33
+Package hyperref Info: Link coloring OFF on input line 83.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -373,11 +394,11 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count128
+\c@section@level=\count131
 )
-LaTeX Info: Redefining \ref on input line 81.
-LaTeX Info: Redefining \pageref on input line 81.
-LaTeX Info: Redefining \nameref on input line 81.
+LaTeX Info: Redefining \ref on input line 83.
+LaTeX Info: Redefining \pageref on input line 83.
+LaTeX Info: Redefining \nameref on input line 83.
 
 (./stephanie.out) (./stephanie.out)
 \@outlinefile=\write3
@@ -386,186 +407,277 @@ LaTeX Info: Redefining \nameref on input line 81.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count129
- [1
+\c@lstlisting=\count132
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3]
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(55.0pt, 489.50787pt, 53.0pt)
+* v-part:(T,H,B)=(50.0pt, 735.04684pt, 60.0pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=489.50787pt
+* \textheight=735.04684pt
+* \oddsidemargin=-17.26999pt
+* \evensidemargin=-17.26999pt
+* \topmargin=-59.26999pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=57.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 254.
- [4] [5]
-<figures/domain_decomposition.png, id=197, 274.02374pt x 252.19218pt>
+nput line 276.
+ [3] [4] [5]
+<figures/domain_decomposition.png, id=288, 274.02374pt x 252.19218pt>
 File: figures/domain_decomposition.png Graphic file (type png)
 
 <use figures/domain_decomposition.png>
-Package pdftex.def Info: figures/domain_decomposition.png used on input line 36
-2.
-(pdftex.def)             Requested size: 168.68875pt x 155.24895pt.
+Package pdftex.def Info: figures/domain_decomposition.png used on input line 47
+6.
+(pdftex.def)             Requested size: 167.54309pt x 154.19325pt.
 
-Overfull \hbox (13.4398pt too wide) in paragraph at lines 362--363
-[][] 
- []
-
-<figures/ghostcells.png, id=198, 351.56343pt x 243.91125pt>
+<figures/ghostcells.png, id=289, 351.56343pt x 243.91125pt>
 File: figures/ghostcells.png Graphic file (type png)
 
 <use figures/ghostcells.png>
-Package pdftex.def Info: figures/ghostcells.png used on input line 368.
-(pdftex.def)             Requested size: 223.77136pt x 155.24895pt.
+Package pdftex.def Info: figures/ghostcells.png used on input line 476.
+(pdftex.def)             Requested size: 222.24786pt x 154.19325pt.
 
-Overfull \hbox (68.52242pt too wide) in paragraph at lines 368--369
-[][] 
+Overfull \hbox (1.97083pt too wide) in paragraph at lines 476--476
+ [][] 
  []
 
-[6 <./figures/domain_decomposition.png> <./figures/ghostcells.png>] [7]
-[8]
-<figures/domain_decomposition_transpose.png, id=299, 401.5pt x 364.36125pt>
+<figures/domain_decomposition_transpose.png, id=292, 401.5pt x 364.36125pt>
 File: figures/domain_decomposition_transpose.png Graphic file (type png)
 
 <use figures/domain_decomposition_transpose.png>
 Package pdftex.def Info: figures/domain_decomposition_transpose.png used on inp
-ut line 457.
-(pdftex.def)             Requested size: 155.24895pt x 140.88829pt.
+ut line 476.
+(pdftex.def)             Requested size: 169.90926pt x 154.19325pt.
 
-<figures/domain_decomposition_transpose_after.png, id=301, 405.515pt x 364.3612
+<figures/domain_decomposition_transpose_after.png, id=294, 405.515pt x 364.3612
 5pt>
 File: figures/domain_decomposition_transpose_after.png Graphic file (type png)
  <use figures/domain_decomposition_transpose_after.png>
 Package pdftex.def Info: figures/domain_decomposition_transpose_after.png used 
-on input line 463.
-(pdftex.def)             Requested size: 155.24895pt x 139.49281pt.
-
-
-LaTeX Warning: Reference `sec:time-serial-transpose' on page 9 undefined on inp
-ut line 476.
-
-[9 <./figures/domain_decomposition_transpose.png> <./figures/domain_decompositi
-on_transpose_after.png>] [10] [11]
-<figures/patterns/alpha_k_0.046_F_0.007_step_100000.png, id=388, 1027.84pt x 10
+on input line 476.
+(pdftex.def)             Requested size: 171.60835pt x 154.19325pt.
+ [6 <./figures/domain_decomposition.png> <./figures/ghostcells.png> <./figures/
+domain_decomposition_transpose.png> <./figures/domain_decomposition_transpose_a
+fter.png>] [7]
+<figures/patterns/alpha_k_0.046_F_0.007_step_100000.png, id=345, 1027.84pt x 10
 27.84pt>
 File: figures/patterns/alpha_k_0.046_F_0.007_step_100000.png Graphic file (type
  png)
  <use figures/patterns/alpha_k_0.046_F_0.007_step_100000.png>
 Package pdftex.def Info: figures/patterns/alpha_k_0.046_F_0.007_step_100000.png
- used on input line 575.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+ used on input line 541.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/patterns/beta_k_0.046_F_0.020_step_100000.png, id=389, 1027.84pt x 102
+<figures/patterns/beta_k_0.046_F_0.020_step_100000.png, id=346, 1027.84pt x 102
 7.84pt>
 File: figures/patterns/beta_k_0.046_F_0.020_step_100000.png Graphic file (type 
 png)
  <use figures/patterns/beta_k_0.046_F_0.020_step_100000.png>
 Package pdftex.def Info: figures/patterns/beta_k_0.046_F_0.020_step_100000.png 
-used on input line 581.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+used on input line 548.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/patterns/gamma_k_0.055_F_0.024_step_100000.png, id=390, 1027.84pt x 10
+<figures/patterns/gamma_k_0.055_F_0.024_step_100000.png, id=347, 1027.84pt x 10
 27.84pt>
 File: figures/patterns/gamma_k_0.055_F_0.024_step_100000.png Graphic file (type
  png)
  <use figures/patterns/gamma_k_0.055_F_0.024_step_100000.png>
 Package pdftex.def Info: figures/patterns/gamma_k_0.055_F_0.024_step_100000.png
- used on input line 587.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+ used on input line 555.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/patterns/delta_k_0.055_F_0.030_step_100000.png, id=391, 1027.84pt x 10
+<figures/patterns/delta_k_0.055_F_0.030_step_100000.png, id=348, 1027.84pt x 10
 27.84pt>
 File: figures/patterns/delta_k_0.055_F_0.030_step_100000.png Graphic file (type
  png)
  <use figures/patterns/delta_k_0.055_F_0.030_step_100000.png>
 Package pdftex.def Info: figures/patterns/delta_k_0.055_F_0.030_step_100000.png
- used on input line 593.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+ used on input line 562.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/patterns/epsilon_k_0.055_F_0.019_step_100000.png, id=392, 1027.84pt x 
+<figures/patterns/epsilon_k_0.055_F_0.019_step_100000.png, id=349, 1027.84pt x 
 1027.84pt>
 File: figures/patterns/epsilon_k_0.055_F_0.019_step_100000.png Graphic file (ty
 pe png)
  <use figures/patterns/epsilon_k_0.055_F_0.019_step_100000.png>
 Package pdftex.def Info: figures/patterns/epsilon_k_0.055_F_0.019_step_100000.p
-ng used on input line 599.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+ng used on input line 569.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/patterns/xi_k_0.061_F_0.024_step_100000.png, id=393, 1027.84pt x 1027.
+<figures/patterns/xi_k_0.061_F_0.024_step_100000.png, id=350, 1027.84pt x 1027.
 84pt>
 File: figures/patterns/xi_k_0.061_F_0.024_step_100000.png Graphic file (type pn
 g)
  <use figures/patterns/xi_k_0.061_F_0.024_step_100000.png>
 Package pdftex.def Info: figures/patterns/xi_k_0.061_F_0.024_step_100000.png us
-ed on input line 605.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+ed on input line 576.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/patterns/eta_k_0.063_F_0.035_step_100000.png, id=394, 1027.84pt x 1027
+<figures/patterns/eta_k_0.063_F_0.035_step_100000.png, id=351, 1027.84pt x 1027
 .84pt>
 File: figures/patterns/eta_k_0.063_F_0.035_step_100000.png Graphic file (type p
 ng)
  <use figures/patterns/eta_k_0.063_F_0.035_step_100000.png>
 Package pdftex.def Info: figures/patterns/eta_k_0.063_F_0.035_step_100000.png u
-sed on input line 611.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+sed on input line 583.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/patterns/theta_k_0.060_F_0.042_step_100000.png, id=395, 1027.84pt x 10
+<figures/patterns/theta_k_0.060_F_0.042_step_100000.png, id=352, 1027.84pt x 10
 27.84pt>
 File: figures/patterns/theta_k_0.060_F_0.042_step_100000.png Graphic file (type
  png)
  <use figures/patterns/theta_k_0.060_F_0.042_step_100000.png>
 Package pdftex.def Info: figures/patterns/theta_k_0.060_F_0.042_step_100000.png
- used on input line 617.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+ used on input line 590.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/patterns/iota_k_0.060_F_0.050_step_100000.png, id=396, 1027.84pt x 102
+<figures/patterns/iota_k_0.060_F_0.050_step_100000.png, id=353, 1027.84pt x 102
 7.84pt>
 File: figures/patterns/iota_k_0.060_F_0.050_step_100000.png Graphic file (type 
 png)
  <use figures/patterns/iota_k_0.060_F_0.050_step_100000.png>
 Package pdftex.def Info: figures/patterns/iota_k_0.060_F_0.050_step_100000.png 
-used on input line 623.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+used on input line 597.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/patterns/kappa_k_0.063_F_0.050_step_100000.png, id=397, 1027.84pt x 10
+<figures/patterns/kappa_k_0.063_F_0.050_step_100000.png, id=354, 1027.84pt x 10
 27.84pt>
 File: figures/patterns/kappa_k_0.063_F_0.050_step_100000.png Graphic file (type
  png)
  <use figures/patterns/kappa_k_0.063_F_0.050_step_100000.png>
 Package pdftex.def Info: figures/patterns/kappa_k_0.063_F_0.050_step_100000.png
- used on input line 629.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+ used on input line 604.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/patterns/lambda_k_0.065_F_0.040_step_100000.png, id=398, 1027.84pt x 1
+<figures/patterns/lambda_k_0.065_F_0.040_step_100000.png, id=355, 1027.84pt x 1
 027.84pt>
 File: figures/patterns/lambda_k_0.065_F_0.040_step_100000.png Graphic file (typ
 e png)
  <use figures/patterns/lambda_k_0.065_F_0.040_step_100000.png>
 Package pdftex.def Info: figures/patterns/lambda_k_0.065_F_0.040_step_100000.pn
-g used on input line 635.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+g used on input line 611.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/patterns/mu_k_0.065_F_0.050_step_100000.png, id=399, 1027.84pt x 1027.
+<figures/patterns/mu_k_0.065_F_0.050_step_100000.png, id=356, 1027.84pt x 1027.
 84pt>
 File: figures/patterns/mu_k_0.065_F_0.050_step_100000.png Graphic file (type pn
 g)
  <use figures/patterns/mu_k_0.065_F_0.050_step_100000.png>
 Package pdftex.def Info: figures/patterns/mu_k_0.065_F_0.050_step_100000.png us
-ed on input line 641.
-(pdftex.def)             Requested size: 68.99895pt x 68.99196pt.
+ed on input line 618.
+(pdftex.def)             Requested size: 73.42319pt x 73.41472pt.
 
-<figures/serial_vecnovec_2.pdf, id=401, 578.16pt x 433.62pt>
+<figures/serial_vecnovec_2.pdf, id=358, 578.16pt x 433.62pt>
 File: figures/serial_vecnovec_2.pdf Graphic file (type pdf)
 
 <use figures/serial_vecnovec_2.pdf>
-Package pdftex.def Info: figures/serial_vecnovec_2.pdf used on input line 659.
-(pdftex.def)             Requested size: 310.4979pt x 232.87433pt.
- [12 <./figures/patterns/alpha_k_0.046_F_0.007_step_100000.png (PNG copy)> <./f
-igures/patterns/beta_k_0.046_F_0.020_step_100000.png (PNG copy)> <./figures/pat
-terns/gamma_k_0.055_F_0.024_step_100000.png (PNG copy)> <./figures/patterns/del
-ta_k_0.055_F_0.030_step_100000.png (PNG copy)> <./figures/patterns/epsilon_k_0.
-055_F_0.019_step_100000.png (PNG copy)> <./figures/patterns/xi_k_0.061_F_0.024_
-step_100000.png (PNG copy)> <./figures/patterns/eta_k_0.063_F_0.035_step_100000
-.png (PNG copy)> <./figures/patterns/theta_k_0.060_F_0.042_step_100000.png (PNG
- copy)> <./figures/patterns/iota_k_0.060_F_0.050_step_100000.png (PNG copy)> <.
-/figures/patterns/kappa_k_0.063_F_0.050_step_100000.png (PNG copy)> <./figures/
-patterns/lambda_k_0.065_F_0.040_step_100000.png (PNG copy)> <./figures/patterns
-/mu_k_0.065_F_0.050_step_100000.png (PNG copy)>] [13 <./figures/serial_vecnovec
-_2.pdf>] (./stephanie.bbl
+Package pdftex.def Info: figures/serial_vecnovec_2.pdf used on input line 636.
+(pdftex.def)             Requested size: 293.7077pt x 220.2765pt.
+
+<figures/omp_strong_scaling.pdf, id=360, 578.16pt x 433.62pt>
+File: figures/omp_strong_scaling.pdf Graphic file (type pdf)
+
+<use figures/omp_strong_scaling.pdf>
+Package pdftex.def Info: figures/omp_strong_scaling.pdf used on input line 653.
+
+(pdftex.def)             Requested size: 293.7077pt x 220.2765pt.
+ [8 <./figures/patterns/alpha_k_0.046_F_0.007_step_100000.png (PNG copy)> <./fi
+gures/patterns/beta_k_0.046_F_0.020_step_100000.png (PNG copy)> <./figures/patt
+erns/gamma_k_0.055_F_0.024_step_100000.png (PNG copy)> <./figures/patterns/delt
+a_k_0.055_F_0.030_step_100000.png (PNG copy)> <./figures/patterns/epsilon_k_0.0
+55_F_0.019_step_100000.png (PNG copy)> <./figures/patterns/xi_k_0.061_F_0.024_s
+tep_100000.png (PNG copy)> <./figures/patterns/eta_k_0.063_F_0.035_step_100000.
+png (PNG copy)> <./figures/patterns/theta_k_0.060_F_0.042_step_100000.png (PNG 
+copy)> <./figures/patterns/iota_k_0.060_F_0.050_step_100000.png (PNG copy)> <./
+figures/patterns/kappa_k_0.063_F_0.050_step_100000.png (PNG copy)> <./figures/p
+atterns/lambda_k_0.065_F_0.040_step_100000.png (PNG copy)> <./figures/patterns/
+mu_k_0.065_F_0.050_step_100000.png (PNG copy)>] [9 <./figures/serial_vecnovec_2
+.pdf> <./figures/omp_strong_scaling.pdf
+
+pdfTeX warning: pdflatex (file ./figures/omp_strong_scaling.pdf): PDF inclusion
+: multiple pdfs with page group included in a single page
+>] <figures/mpi_data_strong_scaling_vs_1proc.pdf, id=546, 578.16pt x 433.62pt>
+File: figures/mpi_data_strong_scaling_vs_1proc.pdf Graphic file (type pdf)
+
+<use figures/mpi_data_strong_scaling_vs_1proc.pdf>
+Package pdftex.def Info: figures/mpi_data_strong_scaling_vs_1proc.pdf used on i
+nput line 671.
+(pdftex.def)             Requested size: 293.7077pt x 220.2765pt.
+
+<figures/hybrid_size_scaling.pdf, id=548, 578.16pt x 433.62pt>
+File: figures/hybrid_size_scaling.pdf Graphic file (type pdf)
+
+<use figures/hybrid_size_scaling.pdf>
+Package pdftex.def Info: figures/hybrid_size_scaling.pdf used on input line 688
+.
+(pdftex.def)             Requested size: 293.7077pt x 220.2765pt.
+
+<figures/hybrid_strong_scaling_mpi_4096.pdf, id=553, 578.16pt x 433.62pt>
+File: figures/hybrid_strong_scaling_mpi_4096.pdf Graphic file (type pdf)
+
+<use figures/hybrid_strong_scaling_mpi_4096.pdf>
+Package pdftex.def Info: figures/hybrid_strong_scaling_mpi_4096.pdf used on inp
+ut line 715.
+(pdftex.def)             Requested size: 220.27704pt x 165.20738pt.
+
+Underfull \hbox (badness 1253) in paragraph at lines 716--716
+[]\OT1/cmr/m/n/9 (a) |Com-par-i-son of strong scal-ing with 8 and 16
+ []
+
+<figures/hybrid_strong_scaling_mpi_sizes.pdf, id=554, 578.16pt x 433.62pt>
+File: figures/hybrid_strong_scaling_mpi_sizes.pdf Graphic file (type pdf)
+
+<use figures/hybrid_strong_scaling_mpi_sizes.pdf>
+Package pdftex.def Info: figures/hybrid_strong_scaling_mpi_sizes.pdf used on in
+put line 721.
+(pdftex.def)             Requested size: 220.27704pt x 165.20738pt.
+ [10 <./figures/mpi_data_strong_scaling_vs_1proc.pdf>] [11 <./figures/hybrid_si
+ze_scaling.pdf> <./figures/hybrid_strong_scaling_mpi_4096.pdf
+
+pdfTeX warning: pdflatex (file ./figures/hybrid_strong_scaling_mpi_4096.pdf): P
+DF inclusion: multiple pdfs with page group included in a single page
+> <./figures/hybrid_strong_scaling_mpi_sizes.pdf
+
+pdfTeX warning: pdflatex (file ./figures/hybrid_strong_scaling_mpi_sizes.pdf): 
+PDF inclusion: multiple pdfs with page group included in a single page
+>] [12
+
+]
+<figures/hybrid_strong_scaling_omp_4096.pdf, id=992, 578.16pt x 433.62pt>
+File: figures/hybrid_strong_scaling_omp_4096.pdf Graphic file (type pdf)
+
+<use figures/hybrid_strong_scaling_omp_4096.pdf>
+Package pdftex.def Info: figures/hybrid_strong_scaling_omp_4096.pdf used on inp
+ut line 815.
+(pdftex.def)             Requested size: 293.7077pt x 220.2765pt.
+ [13 <./figures/hybrid_strong_scaling_omp_4096.pdf>] (./stephanie.bbl
 Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
@@ -573,31 +685,26 @@ Missing character: There is no â in font cmr10!
 Missing character: There is no € in font cmr10!
 Missing character: There is no “ in font cmr10!
 )
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 676.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 827.
  [14
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 676.
-
-(./stephanie.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 676.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 676.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 827.
+ (./stephanie.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 827.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 827.
 Package rerunfilecheck Info: File `stephanie.out' has not changed.
-(rerunfilecheck)             Checksum: 6C2F09F8B74C7FAB3975BB401EDA1381;1100.
-
-
-LaTeX Warning: There were undefined references.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 676.
+(rerunfilecheck)             Checksum: 4AACCB21572AEA3439C859773AAAC3B5;1734.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 827.
  ) 
 Here is how much of TeX's memory you used:
- 9431 strings out of 494935
- 141744 string characters out of 6178122
- 518265 words of memory out of 5000000
- 12302 multiletter control sequences out of 15000+600000
+ 9951 strings out of 494935
+ 150348 string characters out of 6178122
+ 480190 words of memory out of 5000000
+ 12793 multiletter control sequences out of 15000+600000
  10842 words of font info for 40 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 42i,21n,67p,282b,1107s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,21n,67p,315b,1109s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
@@ -619,10 +726,10 @@ blic/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
 sfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 tt8.pfb>
-Output written on stephanie.pdf (14 pages, 6761302 bytes).
+Output written on stephanie.pdf (14 pages, 6916915 bytes).
 PDF statistics:
- 617 PDF objects out of 1000 (max. 8388607)
- 495 compressed objects within 5 object streams
- 251 named destinations out of 1000 (max. 500000)
- 222 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1211 PDF objects out of 1440 (max. 8388607)
+ 628 compressed objects within 7 object streams
+ 266 named destinations out of 1000 (max. 500000)
+ 324 words of extra memory for PDF output out of 10000 (max. 10000000)
 

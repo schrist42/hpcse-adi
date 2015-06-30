@@ -42,9 +42,15 @@ poly = np.poly1d(coeffs)
 
 yfit = lambda x: np.exp(poly(np.log(x)))
 
-#print "Scaling for serial version: %f" % coeffs[0]
+print "Scaling for data type version: %f" % coeffs[0]
 #fitlabel = r'$\alpha =$%f' % coeffs[0]
 #ax1.plot(data1[:,1], yfit(data1[:,1]), label=fitlabel)
+
+logx = np.log(data2[:,3])
+logy = np.log(data2[:,2])
+coeffs = np.polyfit(logx,logy,deg=1)
+poly = np.poly1d(coeffs)
+print "Scaling for localtranspose version: %f" % coeffs[0]
 
 
 ax1.set_xscale('log')

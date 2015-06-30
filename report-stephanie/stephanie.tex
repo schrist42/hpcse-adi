@@ -8,6 +8,8 @@
 %\usepackage{enumitem} % description
 \usepackage{listings} % lstlisting
 \usepackage{xcolor} % definecolor
+\usepackage{afterpage} % afterpage for footnotes in captions on right page
+\usepackage[a4paper,top=50pt,bottom=60pt,left=55pt,right=53pt]{geometry} % better sized margins
 
 % Paket für die deutsche Sprache
 \usepackage[english]{babel}
@@ -140,19 +142,21 @@ Inserting this into equation \ref{eq:adi-half1} for the first half-step and sett
 	\rho_{i,j}^{n+\frac{1}{2}} = \rho_{i,j}^n + \frac{D_\rho \delta t}{2} \left[ \frac{\rho_{i-1,j}^{n+\frac{1}{2}} - 2 \rho_{i,j}^{n+\frac{1}{2}} + \rho_{i+1,j}^{n+\frac{1}{2}}}{\Delta x^2} + \frac{\rho_{i-1,j}^n - 2 \rho_{i,j}^n + \rho_{i+1,j}^n}{\Delta x^2} \right]
 \end{equation}
 We sort the implicit and explicit parts and get the following system:
-\begin{multline}
-	-\frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i-1,j}^{n + \frac{1}{2}} + \left( 1 + \frac{D_\rho \Delta t}{\Delta x^2} \right) \rho_{i,j}^{n + \frac{1}{2}} - \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i+1,j}^{n + \frac{1}{2}} \\
+\begin{equation}
+	-\frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i-1,j}^{n + \frac{1}{2}} + \left( 1 + \frac{D_\rho \Delta t}{\Delta x^2} \right) \rho_{i,j}^{n + \frac{1}{2}} - \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i+1,j}^{n + \frac{1}{2}} 
 	= \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i,j-1}^n + \left( 1 - \frac{D_\rho \Delta t}{\Delta x^2} \right) \rho_{i,j}^n - \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i,j+1}^n
-\end{multline}
+\end{equation}
 This gives us a tridiagonal system with a constant on each diagonal for each row of the domain.
 On the lower and upper diagonals, we have the coefficient $-\frac{D_\rho \Delta t}{2 \Delta x^2}$, on the middle diagonal the coefficient $\left( 1 + \frac{D_\rho \Delta t}{\Delta x^2} \right)$.
 
 Performing analogous calculations for the second half-step \ref{eq:adi-half2} yields
-\begin{multline}
-	-\frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i,j-1}^{n + 1} + \left( 1 + \frac{D_\rho \Delta t}{\Delta x^2} \right) \rho_{i,j}^{n + 1} - \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i,j+1}^{n + 1} \\
+\begin{equation}
+	-\frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i,j-1}^{n + 1} + \left( 1 + \frac{D_\rho \Delta t}{\Delta x^2} \right) \rho_{i,j}^{n + 1} - \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i,j+1}^{n + 1} 
 	= \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i-1,j}^{n + \frac{1}{2}} + \left( 1 - \frac{D_\rho \Delta t}{\Delta x^2} \right) \rho_{i,j}^{n + \frac{1}{2}} - \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i+1,j}^{n + \frac{1}{2}}
-\end{multline}
+\end{equation}
 The second half-step gives a tridiagonal system to solve for each column of the domain.
+The tridiagonal matrix of this step is identical to the one from the first half step, as our grid is square and $\Delta y = \Delta x$.
+
 
 \subsubsection{Thomas Algorithm}
 The Thomas Algorithm -- named after Llewellyn Thomas -- is an algorithm to solve tridiagonal systems $Ax = d$ in $\mathcal O(n)$ time.
@@ -202,7 +206,7 @@ d'_i &=
 Then the solution is obtained by backwards substitution.
 \begin{align}
 	x_n &= d'_n \\
-	x_i &= d'_i - c'_i x_{i + 1} \qquad ; \ i = n - 1, n - 2, \ldots, 0.
+	x_i &= d'_i - c'_i\, x_{i + 1} \qquad ; \ i = n - 1, n - 2, \ldots, 0.
 \end{align}
 
 
@@ -218,17 +222,36 @@ $\tilde u^{n+1}$ and $\tilde v^{n+1}$ denote the solution of the diffusion equat
 
 \subsection{Boundary conditions}
 We use reflecting boundary conditions.
-This modifies the tridiagonal matrix system, so that the values on each diagonal aren't constant for the whole diagonal anymore.
-The first value on the upper diagonal, as well as the last value on the lower diagonal, are doubled.
+This modifies the tridiagonal matrix system such that the values on each diagonal are not a constant.
+The first value on the upper diagonal $c_0$ and the last value on the lower diagonal $a_n$ are doubled.
+This stems from the fact that the term outside of the domain is reflected inwards, e.g. $a_0$ is reflected onto and thus added to $c_0$.
+Since the lower and upper diagonal in this problem contain the same values, $a_0 + c_0 = 2 c_0$.
+The same reasoning holds for $a_n$.
+
+Our final matrix for both the first and the second half step looks the following way:
+\begin{equation}
+\begin{bmatrix}
+   {b} & {2c} & {   } & {   } & { 0 } \\
+   {a} & {b} & {c} & {   } & {   } \\
+   {   } & {a} & {b} & \ddots & {   } \\
+   {   } & {   } & \ddots & \ddots & {c}\\
+   { 0 } & {   } & {   } & {2a} & {b}\\
+\end{bmatrix}
+\end{equation}
+with
+\begin{equation}
+	a = -\frac{D_\rho \Delta t}{2 \Delta x^2} \qquad b = 1 + \frac{D_\rho \Delta t}{\Delta x^2} \qquad c = -\frac{D_\rho \Delta t}{2 \Delta x^2}
+\end{equation}
 
 
 
 \section{Implementation}
 
 We save the grid for $u$ and $v$ each in a \verb+std::vector<double>+ in row-wise storage.
-For the tridiagonal matrix, we wrote our own class to simplify the access to the diagonals.
+For the tridiagonal matrix, we wrote our own class where we store the three diagonals also each in a \verb+std::vector<double>+.
+The class is mainly to simplify the access to the diagonals and to be able to pass the matrix as one object to the solver.
 
-To visualize the result, we used OpenGL for displaying the concentration of $u$ during the computation, and LodePNG\footnote{http://lodev.org/lodepng/} -- a PNG image encoder and decoder by Lode Vandevenne -- to save the image after the simulation.
+To visualize the result, we used OpenGL for displaying the changing concentration of $u$ during the computation and LodePNG\footnote{http://lodev.org/lodepng/} -- a PNG image encoder and decoder by Lode Vandevenne -- to save the image after the simulation.
 
 \subsection{Serial version}
 
@@ -246,10 +269,9 @@ We loop over all time steps and apply the numerical scheme described above.
 In each step, we first apply the ADI method to $u$ and $v$ to solve the diffusion part of the problem.
 Then we solve the reaction.
 
-For the ADI-step, we have to treat the boundary rows/columns differently, as the dependencies on the neighbouring cells change (see \ref{lst:adi-serial}.
-To facilitate the access to a grid cell, we have defined macros that let us use the two-dimensional coordinates of the cells.
-The solver for the tridiagonal matrix is an implementation of the Thomas algorithm, see section \ref{sec:thomas}.
-
+For the ADI step, we have to treat the boundary rows/columns differently, as the dependencies on the neighbouring cells change (see listing~\ref{lst:adi-serial}).
+To facilitate the access to a grid cell, we have defined macros that calculate the index of the cell in the vector from the two-dimensional coordinates of the cell.
+The solver for the tridiagonal matrix is an implementation of the Thomas algorithm, see section~\ref{sec:thomas}.
 
 \begin{lstlisting}[label={lst:adi-serial}, caption={Serial implementation of the first half-step (the computations for $v$ are omitted as they are analogue to the computation for $u$)}, float]
 // loop over all rows
@@ -277,11 +299,12 @@ for (int i=0; i<N_; ++i) {
 TriDiagMatrixSolver::solve(N_, matU1_, uRhs, &UHALF(0,N_-1), 1);
 \end{lstlisting}
 
-The second half-step is implemented analogously to the first half-step, but with the outermost loop over the columns \verb+i+ instead of the rows \verb+j+.
+%The second half-step is implemented analogously to the first half-step, but with the outermost loop over the columns~\verb+i+ instead of the rows~\verb+j+.
+The second half-step is implemented analogously to the first half-step, but with~\verb+i+ and~\verb+j+ switched as loop variables.
 
-For the reaction, we used a simple loop over all grid cells and add the reaction term to $u$ and $v$ (see listing \ref{lst:reaction}).
+For the reaction, we used a simple loop over all grid cells and add the reaction term to $u$ and $v$ (see listing~\ref{lst:reaction}).
 
-\begin{lstlisting}[label={lst:reaction}, caption={Reaction, serial implementaion}]
+\begin{lstlisting}[label={lst:reaction}, caption={Reaction, serial implementaion}, float]
 double tmp;
 for (int i=0; i<N_; ++i) {
     for (int j=0; j<N_; ++j) {
@@ -295,11 +318,11 @@ for (int i=0; i<N_; ++i) {
 
 
 \subsection{Thomas Algorithm}\label{sec:thomas}
-For the implementation of the Thomas Algorithm, we used the version on wikipedia from April 2014 \cite{wiki:thomas-alg}.
-We modified it so that we can pass the whole grid as an argument.
-Since the access to the grid is row-/column-wise, the argument \verb+result+ is a pointer to the first element we want to access.
+For the implementation of the Thomas Algorithm, we used the version on wikipedia from April 2014\footnote{\url{https://en.wikipedia.org/w/index.php?title=Tridiagonal_matrix_algorithm&oldid=603501573}} %\cite{wiki:thomas-alg}.
+We modified it so that we can pass the whole grid as an argument (see listing~\ref{lst:thomas-dec} for the declaration of the function).
+Since the access to the grid is to only one row/column for each tridiagonal system we need to solve, the argument \verb+result+ is a pointer to the first element we want to access.
 The increment \verb+inc+ is the increment we need to access the next element in the result.
-It is different for row-wise and column-wise access (e.g. first or second half-step), either $1$ or $N$ (the size of the grid in one dimension).
+It has different values for row-wise and column-wise access (e.g. first or second half-step), either $1$ or $N$ (the size of the grid in one dimension).
 
 \begin{lstlisting}[label={lst:thomas-dec}, caption={Declaration of our implementation of the Thomas algorithm}, float]
 namespace TriDiagMatrixSolver
@@ -322,8 +345,8 @@ namespace TriDiagMatrixSolver
 
 \subsubsection{OpenMP}
 First, we parallelized our code using OpenMP.
-In the diffusion part, we parallelized the outer \verb+for+-loop (over \verb+j+ in the listing \ref{lst:adi-serial}), since there are only read-dependencies between different \verb+j+.
-The parallelization is according to listing \ref{lst:adi-omp}.
+In the diffusion part, we parallelized the outer \verb+for+-loop (over \verb+j+ in the listing~\ref{lst:adi-serial}), since there are only read-dependencies between different \verb+j+.
+The parallelization is according to listing~\ref{lst:adi-omp}.
 
 \begin{lstlisting}[label={lst:adi-omp}, caption={Parallel OpenMP region}, float]
 #pragma omp parallel num_threads(nthreads_)
@@ -343,37 +366,52 @@ for (int j=1; j<N_-1; ++j) {
 The boundary computations aren't parallelized.
 We do not need to declare anything private, because each thread declares its own right-hand side, and all other variables have either read-only access or are accessed in different regions by each thread.
 
-In the reaction part, we also parallelized the outer loop with a \\
-\verb+#pragma omp parallel for+
+In the reaction part, we also parallelized both loops together with \\
+\verb+#pragma omp parallel for collapse(2)+.
 
 \subsubsection{MPI}
-\paragraph{Domain decomposition}
 For the MPI version, we decompose the domain and distribute it between the processes.
-This was done in blocks of rows, see figure \ref{fig:domain-decomp}.
+
+First, the diffusion equation is solved.
+A half-step is executed in the following way: First, the boundary cells are communicated between the processes.
+Then, each processor solves the diffusion for its part of the grid.
+Lastly, the grid is transposed.
+After transposing the grid, the second half-step is identical to the first half-step.
+The second step transposes the grid back after the computations.
+
+The reaction part of the simulation isn't changed from the serial implementation, except that the double loop in lines 2-3 in listing~\ref{lst:reaction} is only over the local grid, such that each process computes the reaction for its section of the gris.
+
+\paragraph{Domain decomposition}\label{sec:domain-decomp}
+
+This was done in blocks of rows, see figure~\ref{fig:domain-decomp}.
 To be able to distribute the rows equally, we changed the size of the domain to a multiple of the number of processors.
-As the first and last row need to access the values from the rows above/below, we add ghost rows (see figure \ref{fig:domain-decomp-ghost}).
+As the first and last row need to access the values from the rows above/below, we add ghost rows (see figure~\ref{fig:domain-decomp-ghost}).
 The ghost rows don't get written to, but read, and need to be exchanged between processes before the computations.
 The grid is initialized on the different processes, so that each process has a vector of size $N \times (N_{loc}+2)$ for its part of the grid.
 The first and last row are for the ghost cells, so the processes only initialize $N \times N_{loc}$ elements.
+See listing~\ref{lst:adi-mpi} in section\ref{sec:lst-adi-mpi} for the implementation.
 
+\afterpage{
 \begin{figure}
 	\centering
 	\begin{subfigure}{0.45\textwidth}
-		\includegraphics[height=\textwidth]{domain_decomposition.png}
+		\centering
+		\includegraphics[height=0.7\textwidth]{domain_decomposition.png}
 		\caption{Domain decomposition}
 		\label{fig:domain-decomp}
 	\end{subfigure}
 	\quad
 	\begin{subfigure}{0.45\textwidth}
-		\includegraphics[height=\textwidth]{ghostcells.png}
+		\centering
+		\includegraphics[height=0.7\textwidth]{ghostcells.png}
 		\caption{Ghost cells (for red)}
 		\label{fig:domain-decomp-ghost}
 	\end{subfigure}
 	\caption{Domain decomposition for 4 MPI processes\protect\footnotemark}
 	\label{fig:domain-decomp-mpi}
 \end{figure}
-
 \footnotetext{Figures from HPCSE slides}
+}
 
 \begin{lstlisting}[label={lst:mpi-communication}, caption={Communication of the ghost cells}, float]
 MPI_Request request[8];
@@ -397,7 +435,304 @@ else {
 }
 \end{lstlisting}
 
-\begin{lstlisting}[label={lst:adi-mpi}, caption={First half-step parallelized with MPI}, float]
+\paragraph{Communication}\label{sec:communication}
+The ghost cells are sent/received by the processes as shown in listing~\ref{lst:mpi-communication}.
+We used nonblocking communication, because that lets us update the local inner grid cells (independent of ghost cells), while we wait on the ghost cells to arrive.
+After updating the inner grid cells, we need to wait for the boundaries to arrive, then we can continue to update the boundary cells.
+We distinguish between rows that are only local boundaries, and those that are also global boundaries (first and last row), because they need to handle the reflecting boundary conditions correctly.
+
+\paragraph{Transposing the grid}\label{sec:transposing}
+After the first half-step, we need to transpose the grid, so that instead of the columns like in the serial version, we can work again on rows that are distributed between processes.
+For the transposing, we have implemented two different versions.
+Both versions first split the rows into blocks, such that each processor has a row of blocks.
+See figure~\ref{fig:domain-decomp-block} for a visualization of the blocks (all colours are split into blocks analogue to the green blocks that are shown).
+\afterpage{
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[height=0.7\textwidth]{domain_decomposition_transpose.png}
+		\caption{Row of blocks before transposing (for green)}
+		\label{fig:domain-decomp-block-before}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.45\textwidth}
+		\centering
+		\includegraphics[height=0.7\textwidth]{domain_decomposition_transpose_after.png}
+		\caption{Row (now column) of blocks after transposing}
+		\label{fig:domain-decomp-block-after}
+	\end{subfigure}
+	\caption{Domain decomposition for MPI transpose\protect\footnotemark}
+	\label{fig:domain-decomp-block}
+\end{figure}
+\footnotetext{Figures adapted from HPCSE slides}
+}
+The processes send the blocks to another process using \verb+MPI_Alltoall+.
+The first version then transposes each block locally (see listing~\ref{lst:mpi-transpose-local}).
+The second version uses a different receive data type than send data type in \verb+MPI_Alltoall+.
+The receiving data type is ordered in a way that is the transpose of the send data type (see listing~\ref{lst:mpi-transpose-datatype} in section~\ref{sec:lst-datatypes-transpose}).
+This lets us skip the local transposing of the blocks, as the received data is already stored transposed.
+We compare the performance of these two versions in section~\ref{sec:mpi-scaling}.
+
+\begin{lstlisting}[label={lst:mpi-transpose-local}, caption={Transposing the grid using MPI Alltoall and local transpose}, float]
+MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
+        
+// locally transpose blocks
+int ind1, ind2;
+// loop over blocks
+for (int b=0; b<Nb_loc; ++b) {
+    for (int i=0; i<Nx_loc; ++i) {
+        for (int j=0; j<i; ++j) {
+            ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
+            ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
+                    
+            std::swap(u_[ind1], u_[ind2]);
+        }
+    }
+}
+\end{lstlisting}
+\begin{lstlisting}[label={lst:mpi-transpose-datatype}, caption={Transposing the grid using MPI Alltoall and different send/receive datatypes}, float]
+MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
+\end{lstlisting}
+
+
+\paragraph{MPI Data types}
+We defined four different MPI data types.
+Two are for the ghost cells (top and bottom rows), they are both identical and only defined twice for code readability (see listing~\ref{lst:datatypes-ghost}).
+These data types are contiguous vectors.
+The other two are to transpose the grid (see listing~\ref{lst:datatypes-transpose}).
+They are square blocks that split the blocks of rows each processor has.
+\verb+block_send+ and \verb+block_recv+ already contain the data we need to send/receive in the correct form, however for \verb+MPI_Alltoall+ the data needs to be contiguous, which we achieve with \verb+MPI_Type_create_resized+.
+
+%\noindent\begin{minipage}{\linewidth} % prevents page break in listing
+\begin{lstlisting}[label={lst:datatypes-ghost}, caption={MPI data types for ghost cells}, float]
+// build contiguous (rows) vectors for boundaries
+MPI_Type_contiguous(Ny_loc, MPI_DOUBLE, &bottom_boundary);
+MPI_Type_commit(&bottom_boundary);
+
+MPI_Type_contiguous(Ny_loc, MPI_DOUBLE, &top_boundary);
+MPI_Type_commit(&top_boundary);
+\end{lstlisting}
+%\end{minipage}
+
+
+
+
+
+
+\subsubsection{Hybrid OpenMP + MPI}
+The hybrid version of the algorithm is very close to the MPI version.
+We parallelized the update of the inner grid cells as we did in the pure OpenMP version.
+We also added a \verb+#pragma omp parallel for+ clause to the local transposing of the blocks (if applicable) and the reaction part of the simulation.
+
+
+\section{Results}
+
+\subsection{Patterns}
+We compared our resulting patterns with the patterns Pearson showed in his paper~\cite{pearson_1993}.
+Most patterns are close to the ones Pearson got, the pattern~$\iota$ differs most.
+However, these differences are likely due to having slightly different parameters than Pearson, as we had to read them out of the parameter space.
+
+\begin{figure}
+	\centering
+	\captionsetup{format=hang}
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{alpha_k_0.046_F_0.007_step_100000}.png}
+		\caption{Pattern $\alpha$\\$F=0.007$\\$k=0.046$}
+		\label{fig:pattern-alpha}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{beta_k_0.046_F_0.020_step_100000}.png}
+		\caption{Pattern $\beta$\\$F=0.020$\\$k=0.046$}
+		\label{fig:pattern-beta}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{gamma_k_0.055_F_0.024_step_100000}.png}
+		\caption{Pattern $\gamma$\\$F=0.024$\\$k=0.055$}
+		\label{fig:pattern-gamma}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{delta_k_0.055_F_0.030_step_100000}.png}
+		\caption{Pattern $\delta$\\$F=0.030$\\$k=0.055$}
+		\label{fig:pattern-delta}
+	\end{subfigure}
+	
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{epsilon_k_0.055_F_0.019_step_100000}.png}
+		\caption{Pattern $\epsilon$\\$F=0.019$\\$k=0.055$}
+		\label{fig:pattern-epsilon}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{xi_k_0.061_F_0.024_step_100000}.png}
+		\caption{Pattern $\zeta$\\$F=0.024$\\$k=0.061$}
+		\label{fig:pattern-zeta}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{eta_k_0.063_F_0.035_step_100000}.png}
+		\caption{Pattern $\eta$\\$F=0.035$\\$k=0.063$}
+		\label{fig:pattern-eta}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{theta_k_0.060_F_0.042_step_100000}.png}
+		\caption{Pattern $\theta$\\$F=0.042$\\$k=0.060$}
+		\label{fig:pattern-theta}
+	\end{subfigure}
+	
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{iota_k_0.060_F_0.050_step_100000}.png}
+		\caption{Pattern $\iota$\\$F=0.050$\\$k=0.060$}
+		\label{fig:pattern-iota}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{kappa_k_0.063_F_0.050_step_100000}.png}
+		\caption{Pattern $\kappa$\\$F=0.050$\\$k=0.063$}
+		\label{fig:pattern-kappa}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{lambda_k_0.065_F_0.040_step_100000}.png}
+		\caption{Pattern $\lambda$\\$F=0.040$\\$k=0.065$}
+		\label{fig:pattern-lambda}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.15\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{patterns/{mu_k_0.065_F_0.050_step_100000}.png}
+		\caption{Pattern $\mu$\\$F=0.050$\\$k=0.065$}
+		\label{fig:pattern-mu}
+	\end{subfigure}
+	\caption{Patterns after $10^5$ steps}
+	\label{fig:patterns}
+\end{figure}
+
+
+\subsection{Serial version}
+For the serial version, we ran it with and without compiler vectorization.
+With vectorization, we compiled using \verb|g++ -ftree-vectorize ...|, without we used \verb|g++ -fno-tree-vectorize ...|.
+The comparison of the system size scaling of these two version can be seen in figure \ref{fig:serial-vecnovec}.
+It is clearly visible, that it doesn't make a difference whether the compiler vectorizes the code or not.
+We fitted a line with python's \verb|numpy.polyfit| and obtained a scaling exponent of $2.2$.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\textwidth]{serial_vecnovec_2.pdf}
+	\caption{System size scaling of the serial version with and without compiler vectorization}
+	\label{fig:serial-vecnovec}
+\end{figure}
+
+
+\subsection{OpenMP version}
+%For the system size scaling of the OpenMP version, we obtained a scaling exponent of~$2.3$ (see figure \ref{fig:omp-size-scaling}).
+%The reason is that we didn't allocate the grids NUMA (Non-Uniform Memory Access)-aware.
+
+If we look at the strong scaling plot for the pure OpenMP implementation (figure~\ref{fig:omp-strong-scaling}, speedup with respect to the same implementation run with one thread), we can see that -- depending on the system size -- the algorithm scales up to 6 or 8 threads.
+The reason for that is that we only have available 8 physical cores, after that we enabled hyperthreading to go up to 16 threads.
+It is clear that hyperthreading isn't of use here.
+Also for the up to 6 or 8 threads, it doesn't scale well.
+This might be due to the fact that we allocate the grids NUMA (Non-Uniform Memory Access)-aware.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\textwidth]{omp_strong_scaling.pdf}
+	\caption{Strong scaling of the OpenMP version}
+	\label{fig:omp-strong-scaling}
+\end{figure}
+
+%The weak scaling for the OpenMP version can be found in figure~\ref{fig:omp-weak-scaling}.
+
+
+\subsection{MPI version}\label{sec:mpi-scaling}
+The scaling plot for pure MPI parallelization can be seen in figure~\ref{fig:mpi-strong-scaling-data}.
+Speedup has been calculated for different system sizes with respect to the runtime of the MPI implementation run with one task.
+We can see that the larger the system is, the longer it scales.
+This is expected, as with more processes, the communication overhead gets larger and quickly overpowers the time saved by parallelism in small systems.
+If we, for example, work on a $512 \times 512$ grid with 256 processes, each task will only work on a $2 \times 512 = 2 \times N$ grid.
+In this example, \verb|MPI_Alltoall| needs to send and receive $128 \cdot 128$ blocks of size $2 \times 2$.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\textwidth]{mpi_data_strong_scaling_vs_1proc.pdf}
+	\caption{Strong scaling of the MPI version, using different data types for transposing the grid}
+	\label{fig:mpi-strong-scaling-data}
+\end{figure}
+
+
+\subsection{Hybrid version}
+For the hybrid version, we can scaling with respect to system size, OpenMP threads and MPI processes.
+
+\subsubsection{System size scaling}
+We compare the size scaling of the hybrid version for the two different ways to transpose the grid.
+The simulation has been ran with 8 OpenMP threads and 32 MPI processes.
+As can be seen in figure~\ref{fig:hybrid-size-scaling}, both version scale similarly.
+For the version which locally transposes the blocks, we got a scaling exponent of 2.4, for the other version with the different data types, we got 2.2.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.6\textwidth]{hybrid_size_scaling.pdf}
+	\caption{System size scaling scaling of the hybrid version, $N=4096$, with 8 OpenMP threads and 32 MPI processes}
+	\label{fig:hybrid-size-scaling}
+\end{figure}
+
+
+\subsubsection{OpenMP scaling}
+For the OpenMP scaling, we ran the hybrid version with 32 MPI processes.
+As the OpenMP version doesn't scale well with the number of threads, neither does the hybrid version (see figure~\ref{fig:hybrid-strong-scaling-omp}).
+The reasoning is the same as for the OpenMP version.
+
+
+\subsubsection{MPI scaling}
+The scaling plot for strong scaling with respect to the number of MPI processes can be seen in figure~\ref{fig:hybrid-strong-scaling-mpi-data}.
+Here, the grid has been transposed using different data types.
+The speedup is calculated with respect to the hybrid implementation ran with one MPI process and the same number of OpenMP threads as the other data points (8 or 16).
+
+In figure~\ref{fig:hybrid-strong-scaling-mpi-data-threads} we can see that up to 64 processes, the versions with 8 and with 16 threads scale exactly the same.
+This shows that hyperthreading (16 threads) doesn't make sense on this architecture.
+With 8 threads, it scales up to 128 MPI processes, with 16, it doesn't scale anymore after 64 processes.
+The reason for this is that at 128 processes, each process has to solve the ADI-steps for only 32 rows, and splitting such a small number between 16 threads doesn't make it any faster, since the overhead is too big.
+
+Figure~\ref{fig:hybrid-strong-scaling-mpi-data-sizes} compares the scaling for different system sizes. We can see that the larger the system is, the better it scales.
+The reasoning is the same as for the MPI version.
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.45\textwidth}
+		\includegraphics[width=\textwidth]{hybrid_strong_scaling_mpi_4096.pdf}
+		\caption{Comparison of strong scaling with 8 and 16 OpenMP threads, $N=4086$}
+		\label{fig:hybrid-strong-scaling-mpi-data-threads}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.45\textwidth}
+		\includegraphics[width=\textwidth]{hybrid_strong_scaling_mpi_sizes.pdf}
+		\caption{Comparison of strong scaling of different system sizes, with 8 OpenMP threads}
+		\label{fig:hybrid-strong-scaling-mpi-data-sizes}
+	\end{subfigure}
+	\caption{MPI strong scaling of the hybrid version, using different data types for transposing the grid}
+	\label{fig:hybrid-strong-scaling-mpi-data}
+\end{figure}
+
+
+\clearpage
+
+\section{Appendix}
+
+\subsection{First half-step using MPI}\label{sec:lst-adi-mpi}
+\begin{lstlisting}[label={lst:adi-mpi}, caption={First half-step parallelized with MPI}]
 // send/receive ghost cells (non-blocking)
 
 // update inner grid points (see listing 1)
@@ -440,87 +775,8 @@ else {
 }
 \end{lstlisting}
 
-\paragraph{Communication}
-The ghost cells are sent/received by the processes as shown in listing \ref{lst:mpi-communication}.
-We used nonblocking communication, because that lets us update the local inner grid cells (independent of ghost cells), while we wait on the ghost cells to arrive.
-After updating the inner grid cells, we need to wait for the boundaries to arrive, then we can continue to update the boundary cells.
-We distinguish between rows that are only local boundaries, and those that are also global boundaries (first and last row), because they need to handle the reflecting boundary conditions correctly.
-
-\paragraph{Transposing the grid}
-After the first half-step, we need to transpose the grid, so that instead of the columns like in the serial version, we can work again on rows that are distributed between processes.
-For the transposing, we have implemented two different versions.
-Both versions first split the rows into blocks, such that each processor has a row of blocks.
-See figure \ref{fig:domain-decomp-block} for a visualization of the blocks (all colours are split into blocks analogue to the green blocks that are shown).
-\begin{figure}
-	\centering
-	\begin{subfigure}{0.45\textwidth}
-		\includegraphics[width=\textwidth]{domain_decomposition_transpose.png}
-		\caption{First row of blocks before transposing}
-		\label{fig:domain-decomp-block-before}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}{0.45\textwidth}
-		\includegraphics[width=\textwidth]{domain_decomposition_transpose_after.png}
-		\caption{First row (now column) of blocks after transposing}
-		\label{fig:domain-decomp-block-after}
-	\end{subfigure}
-	\caption{Domain decomposition for MPI transpose\protect\footnotemark}
-	\label{fig:domain-decomp-block}
-\end{figure}
-\footnotetext{Figures adapted from HPCSE slides}
-The processes send the blocks to another process using \verb+MPI_Alltoall+.
-The first version then transposes each block locally (see listing \ref{lst:mpi-transpose-local}).
-The second version uses a different receive data type than send data type.
-The receiving data type is ordered in a way that is the transpose of the send data type (see listing \ref{lst:mpi-transpose-datatype}).
-This lets us skip the local transpose, as the received data is already transposed.
-We compare the performance of these two versions in section \ref{sec:time-serial-transpose}.
-
-\begin{lstlisting}[label={lst:mpi-transpose-local}, caption={Transposing the grid using MPI Alltoall and local transpose}, float]
-MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_send, MPI_COMM_WORLD);
-        
-// locally transpose blocks
-int ind1, ind2;
-// loop over blocks
-for (int b=0; b<Nb_loc; ++b) {
-    for (int i=0; i<Nx_loc; ++i) {
-        for (int j=0; j<i; ++j) {
-            ind1 = (i+1)*Ny_loc + j + b*Nx_loc; // regular index + offset of block
-            ind2 = (j+1)*Ny_loc + i + b*Nx_loc; // switch i and j
-                    
-            std::swap(u_[ind1], u_[ind2]);
-        }
-    }
-}
-\end{lstlisting}
-\begin{lstlisting}[label={lst:mpi-transpose-datatype}, caption={Transposing the grid using MPI Alltoall and different send/receive datatypes}, float]
-MPI_Alltoall(&uTemp[Ny_loc], 1, block_resized_send, &u_[Ny_loc], 1, block_resized_recv, MPI_COMM_WORLD);
-\end{lstlisting}
-
-After transposing the grid, the second half-step is identical to the first half-step.
-
-The reaction part of the simulation isn't changed from the serial implementation, except that the loop goes only over the local grid.
-
-\paragraph{MPI Data types}
-We defined four different MPI data types.
-Two are for the ghost cells (top and bottom rows), they are both identical and only defined twice for code readability (see listing \ref{lst:datatypes-ghost}).
-These data types are contiguous vectors.
-The other two are to transpose the grid (see listing \ref{lst:datatypes-transpose}).
-They are square blocks that split the blocks of rows each processor has.
-\verb+block_send+ and \verb+block_recv+ already contain the data we need to send/receive in the correct form, however for \verb+MPI_Alltoall+ the data needs to be contiguous, which we achieve with \verb+MPI_Type_create_resized+.
-
-%\noindent\begin{minipage}{\linewidth} % prevents page break in listing
-\begin{lstlisting}[label={lst:datatypes-ghost}, caption={MPI data types for ghost cells}, float]
-// build contiguous (rows) vectors for boundaries
-MPI_Type_contiguous(Ny_loc, MPI_DOUBLE, &bottom_boundary);
-MPI_Type_commit(&bottom_boundary);
-
-MPI_Type_contiguous(Ny_loc, MPI_DOUBLE, &top_boundary);
-MPI_Type_commit(&top_boundary);
-\end{lstlisting}
-%\end{minipage}
-
-
-\begin{lstlisting}[label={lst:datatypes-transpose}, caption={MPI data types for transposing the grid}, float]
+\subsection{Datatypes for MPI transpose}\label{sec:lst-datatypes-transpose}
+\begin{lstlisting}[label={lst:datatypes-transpose}, caption={MPI data types for transposing the grid}]
 MPI_Datatype block_send, block_col, block_recv;
 
 
@@ -553,118 +809,13 @@ MPI_Type_free(&block_recv);
 MPI_Type_commit(&block_resized_recv);
 \end{lstlisting}
 
-
-
-\subsubsection{Hybrid OpenMP + MPI}
-The hybrid version of the algorithm is very close to the MPI version.
-We parallelized the update of the inner grid cells as we did in the pure OpenMP version.
-We also added a \verb+#pragma omp parallel for+ clause to the local transposing of the blocks (if applicable) and the reaction part of the simulation.
-
-
-\section{Results}
-
-\subsection{Patterns}
-We compared our resulting patterns with the patterns Pearson showed in his paper \cite{pearson_1993}.
-Most patterns are close to the ones Pearson got, the pattern $\iota$ differs most.
-However, these differences are likely due to having slightly different parameters than Pearson, as we had to read them out of the parameter space.
-
-\begin{figure}
+\subsection{OpenMP strong scaling of hybrid version}
+\begin{figure}[h]
 	\centering
-	\captionsetup{format=hang}
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{alpha_k_0.046_F_0.007_step_100000}.png}
-		\caption{Pattern $\alpha$\\$F=0.007$\\$k=0.046$}
-		\label{fig:pattern-alpha}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{beta_k_0.046_F_0.020_step_100000}.png}
-		\caption{Pattern $\beta$\\$F=0.020$\\$k=0.046$}
-		\label{fig:pattern-beta}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{gamma_k_0.055_F_0.024_step_100000}.png}
-		\caption{Pattern $\gamma$\\$F=0.024$\\$k=0.055$}
-		\label{fig:pattern-gamma}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{delta_k_0.055_F_0.030_step_100000}.png}
-		\caption{Pattern $\delta$\\$F=0.030$\\$k=0.055$}
-		\label{fig:pattern-delta}
-	\end{subfigure}
-	
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{epsilon_k_0.055_F_0.019_step_100000}.png}
-		\caption{Pattern $\epsilon$\\$F=0.019$\\$k=0.055$}
-		\label{fig:pattern-epsilon}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{xi_k_0.061_F_0.024_step_100000}.png}
-		\caption{Pattern $\zeta$\\$F=0.024$\\$k=0.061$}
-		\label{fig:pattern-zeta}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{eta_k_0.063_F_0.035_step_100000}.png}
-		\caption{Pattern $\eta$\\$F=0.035$\\$k=0.063$}
-		\label{fig:pattern-eta}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{theta_k_0.060_F_0.042_step_100000}.png}
-		\caption{Pattern $\theta$\\$F=0.042$\\$k=0.060$}
-		\label{fig:pattern-theta}
-	\end{subfigure}
-	
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{iota_k_0.060_F_0.050_step_100000}.png}
-		\caption{Pattern $\iota$\\$F=0.050$\\$k=0.060$}
-		\label{fig:pattern-iota}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{kappa_k_0.063_F_0.050_step_100000}.png}
-		\caption{Pattern $\kappa$\\$F=0.050$\\$k=0.063$}
-		\label{fig:pattern-kappa}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{lambda_k_0.065_F_0.040_step_100000}.png}
-		\caption{Pattern $\lambda$\\$F=0.040$\\$k=0.065$}
-		\label{fig:pattern-lambda}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}{0.2\textwidth}
-		\includegraphics[width=\textwidth]{patterns/{mu_k_0.065_F_0.050_step_100000}.png}
-		\caption{Pattern $\mu$\\$F=0.050$\\$k=0.065$}
-		\label{fig:pattern-mu}
-	\end{subfigure}
-	\caption{Patterns after $10^5$ steps}
-	\label{fig:patterns}
+	\includegraphics[width=0.6\textwidth]{hybrid_strong_scaling_omp_4096.pdf}
+	\caption{OpenMP strong scaling of the Hybrid version, $N = 4096$, 32 MPI processes, using different data types for transposing the grid}
+	\label{fig:hybrid-strong-scaling-omp}
 \end{figure}
-
-
-\subsection{Serial version}
-For the serial version, we ran it with and without compiler vectorization.
-With vectorization, we compiled using \verb|g++ -ftree-vectorize ...|, without we used \verb|g++ -fno-tree-vectorize ...|.
-The comparison of the system size scaling of these two version can be seen in figure \ref{fig:serial-vecnovec}.
-It is clearly visible, that it doesn't make a difference whether the compiler vectorizes the code or not.
-We fitted a line with python \verb|numpy.polyfit| and obtained a scaling exponent of $2.2$.
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\textwidth]{serial_vecnovec_2.pdf}
-	\caption{System size scaling of the serial version with and without compiler vectorization}
-	\label{fig:serial-vecnovec}
-\end{figure}
-
-\subsection{OpenMP version}
-
-
-
 
 
 

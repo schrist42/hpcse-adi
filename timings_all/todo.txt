@@ -1,3 +1,7 @@
+Serial
+=====
+[ ] N=512 vectorized -> running 1085947
+
 OpenMP
 ======
 [x] N=512, threads=1,2,4,6,8,10,12,14,16 (strong scaling) -> 1081596 to 1081604
