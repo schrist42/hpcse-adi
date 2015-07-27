@@ -60,7 +60,7 @@ ax1.set_title('MPI strong scaling of hybrid version\n(N = 4096, transposing with
 plt.legend()
 ax1.set_xlim(xmin=0, xmax=data1[-1,0]+1)
 
-ax1.set_xlabel('Number of tasks')
+ax1.set_xlabel('Number of processes')
 
 labels = [''] * len(data1[:,0])
 labels[0] = '%d' % int(data1[0,0])

@@ -1,5 +1,6 @@
 \documentclass[a4paper]{article}
 
+
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{hyperref}
@@ -87,7 +88,7 @@
 
 \section{Gray-Scott Reaction-Diffusion System}
 
-Reaction-Diffusion systems describe how the concentration of chemical substances changes in space.
+Reaction-Diffusion systems describe how the concentrations of chemical substances change in space.
 The interaction of the two chemical species $U$ and $V$ is through chemical reactions, the distribution in space due to diffusion.
 The reaction between the two species can be described by the following chemical terms:
 \begin{align*}
@@ -102,7 +103,7 @@ By combining the reaction and the diffusion, we obtain differential equations fo
 \end{align}
 
 $D_u$ and $D_v$ denote the diffusion coefficients for $u$ and $v$ respectively.
-$F$ and $k$ are constant coefficient which describe at which rate the chemical reactions occur.
+$F$ and $k$ are constant coefficients which describe the rate at which the chemical reactions occur.
 
 The model is in 2 dimensions.
 
@@ -110,17 +111,22 @@ The model is in 2 dimensions.
 
 \section{Numerical Method}
 
-We split our two-dimensional domain in square cells.
+%We split our two-dimensional domain in square cells.
+We discretize the two-dimensional domain regularly in both dimensions, so that we obtain a square grid on which we perform the computation.
 
 To solve the equations for $u$ and $v$ (equations \ref{eq:pde-u} and \ref{eq:pde-v}), we split the reaction and the diffusion parts to solve them separately.
 First, we solve the diffusion and then we add the reaction to the obtained result.
-$u$ and $v$ can both be computed separately in each time step, as their contributions to the other equation is only explicit.
+The diffusion of $u$ and $v$ can both be computed separately in each time step, as their contributions to the other equation is only explicitly in the reaction term.
 
 
 \subsection{Alternating Direction Implicit (ADI) method}
 
 To solve the diffusion equation $\frac{\partial \rho}{\partial t} = D_\rho \Delta \rho$, we use the ADI method.
 This method has first been proposed by Craig and Sneyd in 1988 \cite{Craig_Sneyd_1988}.
+It is a finite different method which is unconditionally stable and second order in both time and space.
+The idea is to split each time step into two half-steps, one of which is implicit in x-direction and explicit in y-direction, for the other, the roles are switched.
+This leads us to tridiagonal matrix systems that are solvable in  $\mathcal{O}(n)$.
+The algorithm is as follows:
 
 First half-step:
 \begin{equation}
@@ -155,12 +161,13 @@ Performing analogous calculations for the second half-step \ref{eq:adi-half2} yi
 	= \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i-1,j}^{n + \frac{1}{2}} + \left( 1 - \frac{D_\rho \Delta t}{\Delta x^2} \right) \rho_{i,j}^{n + \frac{1}{2}} - \frac{D_\rho \Delta t}{2 \Delta x^2} \rho_{i+1,j}^{n + \frac{1}{2}}
 \end{equation}
 The second half-step gives a tridiagonal system to solve for each column of the domain.
-The tridiagonal matrix of this step is identical to the one from the first half step, as our grid is square and $\Delta y = \Delta x$.
+The tridiagonal matrix of this step is identical to the one from the first half step, as our grid is square with $\Delta y = \Delta x$.
 
 
 \subsubsection{Thomas Algorithm}
 The Thomas Algorithm -- named after Llewellyn Thomas -- is an algorithm to solve tridiagonal systems $Ax = d$ in $\mathcal O(n)$ time.
 It is a form of Gaussian Elimination.
+The system wa want to solve is the following:
 \begin{align}
 	Ax &= d \\
 \begin{bmatrix}
@@ -251,7 +258,7 @@ We save the grid for $u$ and $v$ each in a \verb+std::vector<double>+ in row-wis
 For the tridiagonal matrix, we wrote our own class where we store the three diagonals also each in a \verb+std::vector<double>+.
 The class is mainly to simplify the access to the diagonals and to be able to pass the matrix as one object to the solver.
 
-To visualize the result, we used OpenGL for displaying the changing concentration of $u$ during the computation and LodePNG\footnote{http://lodev.org/lodepng/} -- a PNG image encoder and decoder by Lode Vandevenne -- to save the image after the simulation.
+To visualize the result, we used OpenGL for displaying the changing concentration of $u$ during the computation and LodePNG\footnote{\url{http://lodev.org/lodepng}} -- a PNG image encoder and decoder by Lode Vandevenne -- to save the image after the simulation.
 
 \subsection{Serial version}
 
@@ -379,7 +386,8 @@ Lastly, the grid is transposed.
 After transposing the grid, the second half-step is identical to the first half-step.
 The second step transposes the grid back after the computations.
 
-The reaction part of the simulation isn't changed from the serial implementation, except that the double loop in lines 2-3 in listing~\ref{lst:reaction} is only over the local grid, such that each process computes the reaction for its section of the gris.
+The reaction part of the simulation isn't changed from the serial implementation, except that the double loop in lines 2-3 in listing~\ref{lst:reaction} is only over the local grid, such that each process computes the reaction for its section of the grid.
+
 
 \paragraph{Domain decomposition}\label{sec:domain-decomp}
 
@@ -389,7 +397,8 @@ As the first and last row need to access the values from the rows above/below, w
 The ghost rows don't get written to, but read, and need to be exchanged between processes before the computations.
 The grid is initialized on the different processes, so that each process has a vector of size $N \times (N_{loc}+2)$ for its part of the grid.
 The first and last row are for the ghost cells, so the processes only initialize $N \times N_{loc}$ elements.
-See listing~\ref{lst:adi-mpi} in section\ref{sec:lst-adi-mpi} for the implementation.
+See listing~\ref{lst:adi-mpi} in section\ref{sec:lst-adi-mpi} for the implementation of the first half-step.
+
 
 \afterpage{
 \begin{figure}
@@ -442,7 +451,7 @@ After updating the inner grid cells, we need to wait for the boundaries to arriv
 We distinguish between rows that are only local boundaries, and those that are also global boundaries (first and last row), because they need to handle the reflecting boundary conditions correctly.
 
 \paragraph{Transposing the grid}\label{sec:transposing}
-After the first half-step, we need to transpose the grid, so that instead of the columns like in the serial version, we can work again on rows that are distributed between processes.
+After the first half-step, we need to transpose the grid, so that instead of the columns -- like in the serial version -- we can work again on rows that are distributed between processes.
 For the transposing, we have implemented two different versions.
 Both versions first split the rows into blocks, such that each processor has a row of blocks.
 See figure~\ref{fig:domain-decomp-block} for a visualization of the blocks (all colours are split into blocks analogue to the green blocks that are shown).
@@ -628,7 +637,7 @@ However, these differences are likely due to having slightly different parameter
 For the serial version, we ran it with and without compiler vectorization.
 With vectorization, we compiled using \verb|g++ -ftree-vectorize ...|, without we used \verb|g++ -fno-tree-vectorize ...|.
 The comparison of the system size scaling of these two version can be seen in figure \ref{fig:serial-vecnovec}.
-It is clearly visible, that it doesn't make a difference whether the compiler vectorizes the code or not.
+It is clearly visible that it doesn't make a difference whether the compiler vectorizes the code or not.
 We fitted a line with python's \verb|numpy.polyfit| and obtained a scaling exponent of $2.2$.
 
 \begin{figure}
@@ -660,7 +669,7 @@ This might be due to the fact that we allocate the grids NUMA (Non-Uniform Memor
 
 \subsection{MPI version}\label{sec:mpi-scaling}
 The scaling plot for pure MPI parallelization can be seen in figure~\ref{fig:mpi-strong-scaling-data}.
-Speedup has been calculated for different system sizes with respect to the runtime of the MPI implementation run with one task.
+Speedup has been calculated for different system sizes with respect to the runtime of the MPI implementation run with one process.
 We can see that the larger the system is, the longer it scales.
 This is expected, as with more processes, the communication overhead gets larger and quickly overpowers the time saved by parallelism in small systems.
 If we, for example, work on a $512 \times 512$ grid with 256 processes, each task will only work on a $2 \times 512 = 2 \times N$ grid.
@@ -679,7 +688,7 @@ For the hybrid version, we can scaling with respect to system size, OpenMP threa
 
 \subsubsection{System size scaling}
 We compare the size scaling of the hybrid version for the two different ways to transpose the grid.
-The simulation has been ran with 8 OpenMP threads and 32 MPI processes.
+The simulation has been run with 8 OpenMP threads and 32 MPI processes.
 As can be seen in figure~\ref{fig:hybrid-size-scaling}, both version scale similarly.
 For the version which locally transposes the blocks, we got a scaling exponent of 2.4, for the other version with the different data types, we got 2.2.
 
