@@ -1,0 +1,72 @@
+mpi_data_+ 1080066       COMPLETED        24 Jun 19:50          8 
+     batch 1080066.bat+  COMPLETED        24 Jun 19:50          1 
+mpi_data_+ 1080067       COMPLETED        24 Jun 19:50          8 
+     batch 1080067.bat+  COMPLETED        24 Jun 19:50          1 
+mpi_data_+ 1080068       COMPLETED        24 Jun 19:50          8 
+     batch 1080068.bat+  COMPLETED        24 Jun 19:50          1 
+mpi_data_+ 1080069       COMPLETED        24 Jun 19:50          8 
+     batch 1080069.bat+  COMPLETED        24 Jun 19:50          1 
+mpi_data_+ 1080070       COMPLETED        24 Jun 19:35         16 
+     batch 1080070.bat+  COMPLETED        24 Jun 19:35          1 
+mpi_data_+ 1080071       COMPLETED        24 Jun 19:50         32 
+     batch 1080071.bat+  COMPLETED        24 Jun 19:50          1 
+mpi_data_+ 1080072       COMPLETED        24 Jun 19:50         64 
+     batch 1080072.bat+  COMPLETED        24 Jun 19:50          1 
+mpi_data_+ 1080073       COMPLETED        24 Jun 19:50        128 
+     batch 1080073.bat+  COMPLETED        24 Jun 19:50          1 
+mpi_data_+ 1080074       COMPLETED        24 Jun 19:50        256 
+     batch 1080074.bat+  COMPLETED        24 Jun 19:50          1
+
+
+uid: 22246, apid: 4983781, jobid: 1080066, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: taskstats ['utime', 747928000, 'stime', 17604000, 'max_rss', 199016, 'rchar', 13381, 'wchar',
+ 347, 'exitcode:signal', ['0:0'], 'core', 0]
+uid: 22246, apid: 4983781, jobid: 1080066, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: gpustat ['maxmem', 0, 'summem', 0, 'gpusecs', 0]
+uid: 22246, apid: 4983781, jobid: 1080066, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: energy ['energy_used', 66982]
+
+
+uid: 22246, apid: 4983763, jobid: 1080067, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: taskstats ['utime', 586624000, 'stime', 31604000, 'max_rss', 133616, 'rchar', 24584, 'wchar',
+ 603, 'exitcode:signal', ['0:0'], 'core', 0]
+uid: 22246, apid: 4983763, jobid: 1080067, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: gpustat ['maxmem', 0, 'summem', 0, 'gpusecs', 0]
+uid: 22246, apid: 4983763, jobid: 1080067, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: energy ['energy_used', 30434]
+
+
+uid: 22246, apid: 4983779, jobid: 1080068, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: taskstats ['utime', 1205964000, 'stime', 4732000, 'max_rss', 133556, 'rchar', 46830, 'wchar',
+ 1119, 'exitcode:signal', ['0:0'], 'core', 0]
+uid: 22246, apid: 4983779, jobid: 1080068, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: gpustat ['maxmem', 0, 'summem', 0, 'gpusecs', 0]
+uid: 22246, apid: 4983779, jobid: 1080068, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: energy ['energy_used', 36037]
+
+
+uid: 22246, apid: 4983770, jobid: 1080069, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: taskstats ['utime', 1370732000, 'stime', 5148000, 'max_rss', 117208, 'rchar', 91330, 'wchar',
+ 2152, 'exitcode:signal', ['0:0'], 'core', 0]
+uid: 22246, apid: 4983770, jobid: 1080069, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: gpustat ['maxmem', 0, 'summem', 0, 'gpusecs', 0]
+uid: 22246, apid: 4983770, jobid: 1080069, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: energy ['energy_used', 25470]
+
+
+uid: 22246, apid: 4983690, jobid: 1080070, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: taskstats ['utime', 1834180000, 'stime', 3556000, 'max_rss', 114212, 'rchar', 894196, 'wchar'
+, 10928, 'exitcode:signal', ['0:0'], 'core', 0]
+uid: 22246, apid: 4983690, jobid: 1080070, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: gpustat ['maxmem', 0, 'summem', 0, 'gpusecs', 0]
+uid: 22246, apid: 4983690, jobid: 1080070, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: energy ['energy_used', 34324]
+
+
+uid: 22246, apid: 4983773, jobid: 1080071, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: taskstats ['utime', 715628000, 'stime', 3152000, 'max_rss', 110140, 'rchar', 1203790, 'wchar'
+, 21325, 'exitcode:signal', ['0:0'], 'core', 0]
+uid: 22246, apid: 4983773, jobid: 1080071, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: gpustat ['maxmem', 0, 'summem', 0, 'gpusecs', 0]
+uid: 22246, apid: 4983773, jobid: 1080071, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: energy ['energy_used', 13861]
+
+
+uid: 22246, apid: 4983782, jobid: 1080072, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: taskstats ['utime', 841692000, 'stime', 5488000, 'max_rss', 108156, 'rchar', 2587370, 'wchar'
+, 48336, 'exitcode:signal', ['0:0'], 'core', 0]
+uid: 22246, apid: 4983782, jobid: 1080072, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: gpustat ['maxmem', 0, 'summem', 0, 'gpusecs', 0]
+uid: 22246, apid: 4983782, jobid: 1080072, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: energy ['energy_used', 17199]
+
+
+uid: 22246, apid: 4983766, jobid: 1080073, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: taskstats ['utime', 1625068000, 'stime', 9860000, 'max_rss', 107216, 'rchar', 5013598, 'wchar
+', 86186, 'exitcode:signal', ['0:0'], 'core', 0]
+uid: 22246, apid: 4983766, jobid: 1080073, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: gpustat ['maxmem', 0, 'summem', 0, 'gpusecs', 0]
+uid: 22246, apid: 4983766, jobid: 1080073, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: energy ['energy_used', 32931]
+
+
+uid: 22246, apid: 4983762, jobid: 1080074, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: taskstats ['utime', 2551140000, 'stime', 18676000, 'max_rss', 106984, 'rchar', 10120348, 'wch
+ar', 173115, 'exitcode:signal', ['0:0'], 'core', 0]
+uid: 22246, apid: 4983762, jobid: 1080074, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: gpustat ['maxmem', 0, 'summem', 0, 'gpusecs', 0]
+uid: 22246, apid: 4983762, jobid: 1080074, cmdname: /users/stud06/hpcse-adi/mpi/src/main, plugin: energy ['energy_used', 52283]
