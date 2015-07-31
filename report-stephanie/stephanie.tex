@@ -16,6 +16,8 @@
 \usepackage[english]{babel}
 %\usepackage[utf8]{inputenc}
 
+\usepackage[bottom]{footmisc} % force footnotes to the bottom of the page
+
 
 
 \graphicspath{{figures/}}
@@ -656,7 +658,10 @@ If we look at the strong scaling plot for the pure OpenMP implementation (figure
 The reason for that is that we only have available 8 physical cores, after that we enabled hyperthreading to go up to 16 threads.
 It is clear that hyperthreading isn't of use here.
 Also for the up to 6 or 8 threads, it doesn't scale well.
-This might be due to the fact that we allocate the grids NUMA (Non-Uniform Memory Access)-aware.
+This might be due to the fact that we don't allocate the grids NUMA (Non-Uniform Memory Access)-aware.
+To implement the OpenMP NUMA-aware, each thread would need to initialize its part of the memory, as opposed to having one thread initializing the whole memory.
+To be able to do that, the thread which touches the memory first has to decide where in the memory data gets placed.
+This is accomplished by using a custom allocator when one thread allocates the memory before having all threads initialize their part.
 \begin{figure}
 	\centering
 	\includegraphics[width=0.6\textwidth]{omp_strong_scaling.pdf}

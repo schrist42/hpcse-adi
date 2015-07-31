@@ -1,8 +1,8 @@
- #	Computational Statistical Physics, Exercise 1  
+ #	 
  # 	@author Fabian Thuering, 2015 
  #
  #	[DESCRIPTION]
- #	Makefile to build the exercise
+ #	Makefile
  
 CXX         = g++ #clang++
 
