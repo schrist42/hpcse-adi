@@ -11,8 +11,9 @@ fig1, ax1 = plt.subplots()
 ax1.plot(cpus, energy)
 
 ax1.set_title("Energy consumption of MPI version")
-ax1.set_xlabel("Number of CPU's")
+ax1.set_xlabel("Number of processes")
 ax1.set_ylabel("Energy consumption in joules")
+plt.xlim(xmax=256)
 
 labels = [''] * len(cpus)
 labels[-1] = '%d' % int(cpus[-1])
