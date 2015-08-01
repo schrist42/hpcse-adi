@@ -1,0 +1,32 @@
+\begin{thebibliography}{1}
+
+\bibitem{gray1983autocatalytic}
+P~Gray and SK~Scott,
+\newblock ``Autocatalytic reactions in the isothermal, continuous stirred tank
+  reactor: isolas and other forms of multistability,''
+\newblock {\em Chemical Engineering Science}, vol. 38, no. 1, pp. 29--43, 1983.
+
+\bibitem{Craig_Sneyd_1988}
+I.J.D. Craig and A.D. Sneyd,
+\newblock ``An alternating-direction implicit scheme for parabolic equations
+  with mixed derivatives,''
+\newblock {\em Computers \& Mathematics with Applications}, vol. 16, no. 4, pp.
+  341–350, 1988.
+
+\bibitem{Pearson_1993}
+J~E Pearson,
+\newblock ``Complex patterns in a simple system.,''
+\newblock {\em Science (New York, N.Y.)}, vol. 261, no. 5118, pp. 189–192,
+  1993.
+
+\bibitem{wiki:thomas-alg}
+Wikipedia,
+\newblock ``Tridiagonal matrix algorithm --- {Wikipedia}{,} the free
+  encyclopedia,'' 2014,
+\newblock [Online; Version from 9 April 2014].
+
+\bibitem{lodepng}
+Lode Vandevenne,
+\newblock ``Lodepng version 20140624,'' .
+
+\end{thebibliography}

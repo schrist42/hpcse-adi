@@ -1,0 +1,115 @@
+\relax 
+\citation{gray1983autocatalytic}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Gray-Scott Reaction-Diffusion - Model description}{1}}
+\newlabel{chem_reac}{{1}{1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Governing Equations}{1}}
+\newlabel{reac_diff}{{2}{1}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Discretized system}{1}}
+\citation{Craig_Sneyd_1988}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Diffusion - Alternating Direction Implicit (ADI) method}{2}}
+\newlabel{gen_diff}{{3}{2}}
+\newlabel{stab_cond}{{4}{2}}
+\newlabel{adi-half1}{{5}{2}}
+\newlabel{adi-half2}{{6}{2}}
+\newlabel{central_differences}{{7}{3}}
+\newlabel{adi_half1_complete}{{8}{3}}
+\newlabel{adi_half1_separated}{{9}{3}}
+\newlabel{adi_half2_separated}{{10}{3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Thomas Algorithm}{3}}
+\newlabel{gen_tridiag}{{11}{4}}
+\newlabel{forward_modify}{{12}{4}}
+\newlabel{back_subst}{{13}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Reaction - Forward Euler scheme}{4}}
+\newlabel{reaction}{{14}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Initial conditions and constant coefficients}{4}}
+\citation{Pearson_1993}
+\newlabel{initial_cond}{{15}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Boundary conditions}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Implementation}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Serial}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Outline}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}ADI half step implementation}{6}}
+\citation{wiki:thomas-alg}
+\@writefile{lol}{\contentsline {listing}{\numberline {1}{\ignorespaces Implementation of first half-step, second half-step is done analogously except the role of i and j are switched. \relax }}{7}}
+\newlabel{lst:ADI_implementation}{{1}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.3}Thomas algorithm implementation}{7}}
+\@writefile{lol}{\contentsline {listing}{\numberline {2}{\ignorespaces Implementation of Thomas algorithm. \relax }}{8}}
+\newlabel{lst:Thomas_implementation}{{2}{8}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.4}Implementation of reaction}{8}}
+\@writefile{lol}{\contentsline {listing}{\numberline {3}{\ignorespaces Implementation of reaction. \relax }}{8}}
+\newlabel{lst:reaction_implementation}{{3}{8}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}OpenMP implementation}{8}}
+\@writefile{lol}{\contentsline {listing}{\numberline {4}{\ignorespaces Parallelization of the inner grid points in the first ADI half-step with OpenMP (second half-step done analogously). \relax }}{9}}
+\newlabel{lst:omp_halfstep}{{4}{9}}
+\@writefile{lol}{\contentsline {listing}{\numberline {5}{\ignorespaces Parallelization of the reaction with OpenMP \relax }}{9}}
+\newlabel{lst:omp_reaction}{{5}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}MPI implementation}{10}}
+\@writefile{lol}{\contentsline {listing}{\numberline {6}{\ignorespaces Communication of ghost cells before each ADI half-step\relax }}{11}}
+\newlabel{lst:communication}{{6}{11}}
+\@writefile{lol}{\contentsline {listing}{\numberline {7}{\ignorespaces Approach one to transpose the grid based on \texttt  {MPI\_Alltoall} with one send/receive data type and a locally done transpose of each block. \relax }}{12}}
+\newlabel{lst:transpose_local}{{7}{12}}
+\citation{lodepng}
+\citation{Pearson_1993}
+\@writefile{lol}{\contentsline {listing}{\numberline {8}{\ignorespaces . \relax }}{13}}
+\newlabel{lst:transpose_datatypes}{{8}{13}}
+\@writefile{lol}{\contentsline {listing}{\numberline {9}{\ignorespaces . \relax }}{13}}
+\newlabel{lst:transpose_alltoall}{{9}{13}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Hybrid OpenMP + MPI implementation}{13}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results}{13}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Correctness}{13}}
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:pattern-alpha}{{1a}{14}}
+\newlabel{sub@fig:pattern-alpha}{{a}{14}}
+\newlabel{fig:pattern-beta}{{1b}{14}}
+\newlabel{sub@fig:pattern-beta}{{b}{14}}
+\newlabel{fig:pattern-gamma}{{1c}{14}}
+\newlabel{sub@fig:pattern-gamma}{{c}{14}}
+\newlabel{fig:pattern-delta}{{1d}{14}}
+\newlabel{sub@fig:pattern-delta}{{d}{14}}
+\newlabel{fig:pattern-epsilon}{{1e}{14}}
+\newlabel{sub@fig:pattern-epsilon}{{e}{14}}
+\newlabel{fig:pattern-zeta}{{1f}{14}}
+\newlabel{sub@fig:pattern-zeta}{{f}{14}}
+\newlabel{fig:pattern-eta}{{1g}{14}}
+\newlabel{sub@fig:pattern-eta}{{g}{14}}
+\newlabel{fig:pattern-theta}{{1h}{14}}
+\newlabel{sub@fig:pattern-theta}{{h}{14}}
+\newlabel{fig:pattern-iota}{{1i}{14}}
+\newlabel{sub@fig:pattern-iota}{{i}{14}}
+\newlabel{fig:pattern-kappa}{{1j}{14}}
+\newlabel{sub@fig:pattern-kappa}{{j}{14}}
+\newlabel{fig:pattern-lambda}{{1k}{14}}
+\newlabel{sub@fig:pattern-lambda}{{k}{14}}
+\newlabel{fig:pattern-mu}{{1l}{14}}
+\newlabel{sub@fig:pattern-mu}{{l}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Concentration of $u$ visualized after $10^5$ steps\relax }}{14}}
+\newlabel{fig:patterns}{{1}{14}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Performance}{14}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Test environment}{14}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Comparison of the various implementations in regard to their scaling with system size\relax }}{15}}
+\newlabel{fig:system_size_scaling}{{2}{15}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}System size scaling comparison}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Comparison of the two approaches to the transpose after each half-step in the MPI versions with regards to their scaling with system size.\relax }}{16}}
+\newlabel{fig:transpose_system_size_scaling}{{3}{16}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.3}Different transpose approaches}{16}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.4}Strong scaling}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Strong scaling plot of the OpenMP implementation.\relax }}{17}}
+\newlabel{fig:omp_strong_scaling}{{4}{17}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.5}Energy consumption}{17}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Strong scaling plot of the MPI implementation.\relax }}{18}}
+\newlabel{fig:mpi_strong_scaling}{{5}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Strong scaling plot of the Hybrid MPI+OpenMP implementation.\relax }}{18}}
+\newlabel{fig:hybrid_strong_scaling}{{6}{18}}
+\bibstyle{IEEEbib}
+\bibdata{bibl_conf}
+\bibcite{gray1983autocatalytic}{1}
+\bibcite{Craig_Sneyd_1988}{2}
+\bibcite{Pearson_1993}{3}
+\bibcite{wiki:thomas-alg}{4}
+\bibcite{lodepng}{5}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces The Difference the number of OpenMP threads makes in the hybrid version for two example system sizes.\relax }}{19}}
+\newlabel{fig:hybrid_omp_comparison}{{7}{19}}
+\newlabel{table:energy}{{\caption@xref {table:energy}{ on input line 765}}{19}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Energy consumption during strong scaling experiments.\relax }}{19}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Summary}{19}}
