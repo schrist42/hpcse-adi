@@ -18,7 +18,7 @@
 
 \textit{This report is the conclusion to the project of the course High Performance Computing for Science and Engineering taught by P. Koumoutsakos and M. Troyer in the spring semester 2015.}
 
-\section{Introduction}
+%\section{Introduction}
 
 
 \section{Gray-Scott Reaction-Diffusion - Model description} 
@@ -689,7 +689,8 @@ Also shown in each figure are the standard deviations of the measurements as err
 In figure (\ref{fig:system_size_scaling}) we compared how the different implementations scale with the system size.
 For the serial implementation we took these measurements for a non vectorized as well as a version compiled with \texttt{g++ -ftree-vectorize} but we observed no significant difference between the two and therefore the vectorized version was omitted.
 
-Not suprisingly the hybrid MPI + OpenMP version shows the best overall scaling with system size.
+The scaling with system size of all implementation is quite similar.
+Not suprisingly the hybrid MPI + OpenMP version shows the best overall performance.
 However for very large systems the hybrid version approaches the pure MPI version, which could be seen as a hint that the communication between nodes and not how fast each node does its computation becomes the limiting factor.
 
 \begin{figure}
@@ -701,7 +702,7 @@ However for very large systems the hybrid version approaches the pure MPI versio
 \subsubsection{Different transpose approaches}
 
 In figure (\ref{fig:transpose_system_size_scaling}) we looked at the performance of our two different approaches to the transpose.
-We used the MPI version with 32 MPI processes and found that both approaches scale quite similarly.
+We used the MPI version with 32 MPI processes and found that both approaches scale and perform quite similarly.
 
 
 \begin{figure}
@@ -756,23 +757,26 @@ We found that while it can make a difference in smaller systems and when not usi
 
 \subsubsection{Energy consumption}
 
-During one of the strong scaling experiments for the pure MPI version we looked at the energy consumption reported by the Piz Daint system.
-\\
-The results are summarized in table (\ref{table:energy}), as can be expected the energy consumption varies due to how long the simulation takes and on how many nodes are used.
-Of course both of these factors depend on the number of processes used.
-In our case we can see a sharp decline in power consumption in the region we see good speed up in figure (\ref{fig:mpi_strong_scaling}) and then a strong increase in power consumption, when the speed up stagnates.
-
-\begin{table}[h] \label{table:energy}
+\begin{table}[h] 
 \begin{tabular}{| l | l | l | l | l | l | l | l | l | l |}
 \hline
 MPI processes & 1 & 2 & 4 & 8 & 16 & 32 & 64 & 128 & 256 \\ \hline
 Energy [in joule] & 66982 & 30434 & 36037 & 25470 & 34324 & 13861 & 17199 & 32931 & 52283 \\ \hline
 \end{tabular}
 \caption{Energy consumption during strong scaling experiments.}
+\label{fig:energy}
 \end{table}
 
+During one of the strong scaling experiments for the pure MPI version we looked at the energy consumption reported by the Piz Daint system.
+\\
+The results are summarized in table (\ref{fig:energy}), as can be expected the energy consumption varies due to how long the simulation takes and on how many nodes are used.
+Of course both of these factors depend on the number of processes used.
+In our case we can see a sharp decline in power consumption in the region we see good speed up in figure (\ref{fig:mpi_strong_scaling}) and then a strong increase in power consumption, when the speed up stagnates.
 
-\section{Summary}
+
+
+
+%\section{Summary}
 
 %\begin{center}
 %\begin{minted}[linenos]{c++}
